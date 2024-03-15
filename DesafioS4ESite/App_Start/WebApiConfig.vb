@@ -1,7 +1,4 @@
-﻿Imports System
-Imports System.Collections.Generic
-Imports System.Linq
-Imports System.Web.Http
+﻿Imports System.Web.Http
 
 Public Module WebApiConfig
     Public Sub Register(ByVal config As HttpConfiguration)
@@ -15,5 +12,10 @@ Public Module WebApiConfig
             routeTemplate:="api/{controller}/{id}",
             defaults:=New With {.id = RouteParameter.Optional}
         )
+
+        ' Força retornar um Json em não um XML
+        Dim formatters = GlobalConfiguration.Configuration.Formatters
+        formatters.Remove(formatters.XmlFormatter)
+
     End Sub
 End Module

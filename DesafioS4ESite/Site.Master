@@ -48,7 +48,7 @@
                 <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/">Página Inicial</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/About">Sobre</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Empresas">Empresas</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Contact">Contato</a></li>
                     </ul>
                 </div>
@@ -59,7 +59,7 @@
             </asp:ContentPlaceHolder>
             <hr />
             <footer>
-                <p>&copy; <%: DateTime.Now.Year %> - Meu Aplicativo ASP.NET</p>
+               <%-- <p>&copy; <%: DateTime.Now.Year %> - Meu Aplicativo ASP.NET</p>--%>
             </footer>
         </div>
     </form>
