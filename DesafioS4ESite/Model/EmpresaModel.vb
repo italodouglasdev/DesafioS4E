@@ -76,7 +76,7 @@
 
     Public Function Excluir() As (Empresa As EmpresaModel, Retorno As RetornoModel)
 
-        'If Not Me.ValidarSalvar() Then
+        'If Not Me.ValidarExcluir() Then
         '    Return Me
         'End If
 

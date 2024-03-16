@@ -4,7 +4,6 @@ Namespace Controllers
     Public Class EmpresasController
         Inherits ApiController
 
-
         Public Function GetEmpresas(id As Integer) As Object
 
             Dim Consulta = EmpresaModel.Ver(id)
@@ -14,8 +13,6 @@ Namespace Controllers
             Else
                 Return Consulta.Retorno.Mensagem
             End If
-
-
 
         End Function
 
@@ -75,4 +72,5 @@ Namespace Controllers
         End Function
 
     End Class
+
 End Namespace

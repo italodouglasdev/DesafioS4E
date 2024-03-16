@@ -3,39 +3,38 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
     <main>
-        <section class="row" aria-labelledby="aspnetTitle">
-            <h1 id="aspnetTitle">ASP.NET</h1>
-            <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-            <p><a href="http://www.asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
+        <section class="row mb-5" aria-labelledby="aspnetTitle">
+            <h1 id="aspnetTitle">Desafio S4E</h1>
+            <p class="lead">Projeto desenvolvido em WebForms, utilizando VB.Net como lingauagem e Banco de Dados em SQL Server. Também foi integrado ao projeto o Swagger para facilitar a utilização da API, inclusive toda sua documentação.</p>             
+            <p><a href="https://github.com/italodouglasdev/DesafioS4E" target="_blank" class="btn btn-dark btn-md">Repositório GitHub &raquo;</a></p>
         </section>
 
         <div class="row">
             <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-                <h2 id="gettingStartedTitle">Getting started</h2>
+                <h2 id="gettingStartedTitle">Empresas</h2>
                 <p>
-                    ASP.NET Web Forms lets you build dynamic websites using a familiar drag-and-drop, event-driven model.
-                A design surface and hundreds of controls and components let you rapidly build sophisticated, powerful UI-driven sites with data access.
+                    Clique para ter acesso ao cadastro de Empresas, nele é possível realizar consultas, inclusões e alterações.
                 </p>
                 <p>
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301948">Learn more &raquo;</a>
+                    <a class="btn btn-primary" href="/Empresas">Abrir Cadastro</a>
                 </p>
             </section>
             <section class="col-md-4" aria-labelledby="librariesTitle">
-                <h2 id="librariesTitle">Get more libraries</h2>
+                <h2 id="librariesTitle">Associados</h2>
                 <p>
-                    NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.
+                    Clique para ter acesso ao cadastro de Associados, nele é possível realizar consultas, inclusões e alterações.
                 </p>
                 <p>
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301949">Learn more &raquo;</a>
+                    <a class="btn btn-primary" href="/Associados">Abrir Cadastro</a>
                 </p>
             </section>
             <section class="col-md-4" aria-labelledby="hostingTitle">
-                <h2 id="hostingTitle">Web Hosting</h2>
+                <h2 id="hostingTitle">API</h2>
                 <p>
-                    You can easily find a web hosting company that offers the right mix of features and price for your applications.
+                    Clique para ter acesso ao cadastro de Empresas e Associados via API, nele é possível realizar consultas, inclusões e alterações.
                 </p>
                 <p>
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301950">Learn more &raquo;</a>
+                    <a class="btn btn-primary" href="/Swagger">Abrir Swagger</a>
                 </p>
             </section>
         </div>
