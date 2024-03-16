@@ -15,6 +15,9 @@ Public Class AssociadoModel
     Property Nome As String
     Property Cpf As String
     Property DataNascimento As DateTime
+    Property ListaEmpresas As List(Of RelacaoAssociadoEmpresaModel)
+
+
 
     Private Shared Function ConverterParaModelo(AssociadoDb As DesafioS4EDb.Associados) As AssociadoModel
         Return New AssociadoModel(AssociadoDb.Id, AssociadoDb.Nome, AssociadoDb.Cpf, AssociadoDb.DataNascimento)

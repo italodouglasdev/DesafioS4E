@@ -1,4 +1,5 @@
-﻿Imports DesafioS4EDb.SQL
+﻿Imports System.Text
+Imports DesafioS4EDb.SQL
 
 Public Class Empresas
 
@@ -23,9 +24,12 @@ Public Class Empresas
 
     End Function
 
-    Public Shared Function SelectAll() As (ListaEmpresasDb As List(Of Empresas), RetornoDb As RetornoDb)
+    Public Shared Function SelectAll(Optional FiltroCNPJ As String = "", Optional FiltroNome As String = "") As (ListaEmpresasDb As List(Of Empresas), RetornoDb As RetornoDb)
 
-        Dim consulta = Script.GerarSelectAll(New Empresas())
+        Dim Where = GerarClausulaWherePorNomeEOuCNPJ(FiltroCNPJ, FiltroNome)
+
+        Dim consulta = Script.GerarSelectAll(New Empresas(), Where)
+
         Return Comando.ObtenhaLista(Of Empresas)(consulta)
 
     End Function
@@ -47,9 +51,43 @@ Public Class Empresas
     Public Function Delete() As (EmpresaDb As Empresas, RetornoDb As RetornoDb)
 
         Dim consulta = Script.GerarDelete(Me)
+
         Return Comando.Obtenha(Of Empresas)(consulta)
 
     End Function
+
+
+
+    Private Shared Function GerarClausulaWherePorNomeEOuCNPJ(FiltroCNPJ As String, FiltroNome As String) As String
+        Dim Where = New StringBuilder()
+
+        If String.IsNullOrEmpty(FiltroNome) = False Then
+
+            FiltroNome.Replace("'", "´")
+
+            If Where.Length = 0 Then
+                Where.Append($" WHERE ")
+            End If
+
+            Where.Append($"UPPER([Nome]) Like '%{FiltroNome.ToUpper()}%' ")
+        End If
+
+        If String.IsNullOrEmpty(FiltroCNPJ) = False Then
+
+            FiltroCNPJ.Replace("'", "´")
+
+            If Where.Length = 0 Then
+                Where.Append($" WHERE ")
+            Else
+                Where.Append($"AND ")
+            End If
+
+            Where.Append($"[Cnpj] Like '%{FiltroCNPJ}%'")
+        End If
+
+        Return Where.ToString()
+    End Function
+
 
 
 End Class

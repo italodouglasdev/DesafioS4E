@@ -67,6 +67,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmrpesasAssociados.vb" />
     <Compile Include="Associados.vb" />
     <Compile Include="Empresas.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

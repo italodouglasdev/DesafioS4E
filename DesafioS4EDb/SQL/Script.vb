@@ -227,7 +227,7 @@ Namespace SQL
         Friend Shared Function GerarUpdate(ByVal _Objeto As Object) As String
             Dim Id = ObtenhaValorDoId(_Objeto)
 
-            Return $"UPDATE {ObtenhaNomeTabela(_Objeto)} SET {ObtenhaNomesColunasUpdate(_Objeto)} WHERE [Id] = '{Id}'; {GerarSelectPorId(Id, _Objeto)}"
+            Return $"UPDATE {ObtenhaNomeTabela(_Objeto)} SET {ObtenhaNomesColunasUpdate(_Objeto)} WHERE [Id] = '{Id}'; {GerarSelectPorId(_Objeto, Id)}"
         End Function
 
         ''' <summary>
@@ -238,7 +238,7 @@ Namespace SQL
         Friend Shared Function GerarDelete(ByVal _Objeto As Object) As String
             Dim Id = ObtenhaValorDoId(_Objeto)
 
-            Return $"DELETE FROM {ObtenhaNomeTabela(_Objeto)} WHERE [Id] = '{ObtenhaValorDoId(_Objeto)}'; {GerarSelectPorId(Id, _Objeto)}"
+            Return $"DELETE FROM {ObtenhaNomeTabela(_Objeto)} WHERE [Id] = '{ObtenhaValorDoId(_Objeto)}'; {GerarSelectPorId(_Objeto, Id)}"
         End Function
 
     End Class

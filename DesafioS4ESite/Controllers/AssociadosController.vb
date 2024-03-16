@@ -4,20 +4,6 @@ Namespace Controllers
     Public Class AssociadosController
         Inherits ApiController
 
-        Public Function GetAssociados(id As Integer) As Object
-
-            Dim Consulta = AssociadoModel.Ver(id)
-
-            If Consulta.Retorno.Sucesso = True Then
-                Return Consulta.Associado
-            Else
-                Return Consulta.Retorno.Mensagem
-            End If
-
-
-
-        End Function
-
 
         Public Function GetAssociados() As Object
 
@@ -32,8 +18,22 @@ Namespace Controllers
         End Function
 
 
+        Public Function GetAssociado(id As Integer) As Object
 
-        Public Function PostAssociados(Associado As AssociadoModel) As Object
+            Dim Consulta = AssociadoModel.Ver(id)
+
+            If Consulta.Retorno.Sucesso = True Then
+                Return Consulta.Associado
+            Else
+                Return Consulta.Retorno.Mensagem
+            End If
+
+
+
+        End Function
+
+
+        Public Function PostAssociado(Associado As AssociadoModel) As Object
 
             Dim Consulta = Associado.Salvar()
 
@@ -47,7 +47,7 @@ Namespace Controllers
 
 
 
-        Public Function PutAssociados(Associado As AssociadoModel) As Object
+        Public Function PutAssociado(Associado As AssociadoModel) As Object
 
             Dim Consulta = Associado.Salvar()
 
@@ -61,7 +61,7 @@ Namespace Controllers
 
 
 
-        Public Function DeleteAssociados(Associado As AssociadoModel) As Object
+        Public Function DeleteAssociado(Associado As AssociadoModel) As Object
 
             Dim Consulta = Associado.Salvar()
 

@@ -69,7 +69,9 @@ Namespace SQL
 
                 Return (ListaObjetos, New RetornoDb(True, "Operação realizada com sucesso!"))
             Catch ex As Exception
-                Return (ListaObjetos, New RetornoDb(False, ex.Message))
+
+                Return (ListaObjetos, New RetornoDb(False, TratarMensagemExcecao(ex.Message)))
+
             Finally
                 conexaoMSDE.Close()
                 conexaoMSDE.Dispose()
@@ -112,5 +114,24 @@ Namespace SQL
 
             Return objeto
         End Function
+
+
+        Private Shared Function TratarMensagemExcecao(mensagem As String)
+
+            If mensagem.Contains("FK_EmpresasAssociados_Empresas") Then
+                Return "Não foi possível realizar a exclusão da Empresa, pois ela possui vínculo com um ou mais Associados!"
+            End If
+
+            If mensagem.Contains("FK_EmpresasAssociados_Associados") Then
+                Return "Não foi possível realizar a exclusão do Assiciado, pois ela possui vínculo com uma ou mais Empresas!"
+            End If
+
+            Return mensagem
+
+        End Function
+
+
+
+
     End Class
 End Namespace

@@ -257,11 +257,15 @@
     <Compile Include="Default.aspx.designer.vb">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Enumeradores\EnumAcao.vb" />
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ValidadorHelper.vb" />
+    <Compile Include="Model\RelacaoAssociadoEmpresaModel.vb" />
     <Compile Include="Model\AssociadoModel.vb" />
     <Compile Include="Model\EmpresaModel.vb" />
+    <Compile Include="Model\RelacaoEmpresaAssociadoModel.vb" />
     <Compile Include="Model\RetornoModel.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

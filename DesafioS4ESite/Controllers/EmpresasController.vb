@@ -4,69 +4,70 @@ Namespace Controllers
     Public Class EmpresasController
         Inherits ApiController
 
-        Public Function GetEmpresas(id As Integer) As Object
+        Public Function GetEmpresas(Optional FiltroCNPJ As String = "", Optional FiltroNome As String = "") As Object
+
+            Dim Consulta = EmpresaModel.VerTodos(FiltroCNPJ, FiltroNome)
+
+            If Consulta.Retorno.Sucesso = True Then
+                Return Consulta.ListaEmpresas
+            Else
+                Return BadRequest(Consulta.Retorno.Mensagem)
+            End If
+
+        End Function
+
+        Public Function GetEmpresa(id As Integer) As Object
 
             Dim Consulta = EmpresaModel.Ver(id)
 
             If Consulta.Retorno.Sucesso = True Then
                 Return Consulta.Empresa
             Else
-                Return Consulta.Retorno.Mensagem
+                Return BadRequest(Consulta.Retorno.Mensagem)
             End If
 
         End Function
 
 
-        Public Function GetEmpresas() As Object
+        Public Function PostEmpresa(empresa As EmpresaModel) As Object
 
-            Dim Consulta = EmpresaModel.VerTodos()
-
-            If Consulta.Retorno.Sucesso = True Then
-                Return Consulta.ListaEmpresas
-            Else
-                Return Consulta.Retorno.Mensagem
-            End If
-
-        End Function
-
-
-
-        Public Function PostEmpresas(empresa As EmpresaModel) As Object
-
-            Dim Consulta = empresa.Salvar()
+            Dim Consulta = empresa.Cadastrar()
 
             If Consulta.Retorno.Sucesso = True Then
                 Return Consulta.Empresa
             Else
-                Return Consulta.Retorno.Mensagem
+                Return BadRequest(Consulta.Retorno.Mensagem)
             End If
 
         End Function
 
+        Public Function PutEmpresa(empresa As EmpresaModel) As Object
 
-
-        Public Function PutEmpresas(empresa As EmpresaModel) As Object
-
-            Dim Consulta = empresa.Salvar()
+            Dim Consulta = empresa.Atualizar()
 
             If Consulta.Retorno.Sucesso = True Then
                 Return Consulta.Empresa
             Else
-                Return Consulta.Retorno.Mensagem
+                Return BadRequest(Consulta.Retorno.Mensagem)
             End If
 
         End Function
 
+        Public Function DeleteEmpresa(id As Integer) As Object
+
+            Dim Consulta = EmpresaModel.Ver(id)
+
+            If Consulta.Retorno.Sucesso = False Then
+                Return BadRequest(Consulta.Retorno.Mensagem)
+            End If
 
 
-        Public Function DeleteEmpresas(empresa As EmpresaModel) As Object
-
-            Dim Consulta = empresa.Salvar()
+            Consulta = Consulta.Empresa.Excluir()
 
             If Consulta.Retorno.Sucesso = True Then
-                Return Consulta.Empresa
-            Else
                 Return Consulta.Retorno.Mensagem
+            Else
+                Return BadRequest(Consulta.Retorno.Mensagem)
             End If
 
         End Function
