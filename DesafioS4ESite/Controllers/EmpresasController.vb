@@ -4,7 +4,7 @@ Namespace Controllers
     Public Class EmpresasController
         Inherits ApiController
 
-        '<HttpGet>
+
         Public Function GetEmpresas(id As Integer) As Object
 
             Dim Consulta = EmpresaModel.Ver(id)
@@ -19,42 +19,58 @@ Namespace Controllers
 
         End Function
 
-        '<HttpGet>
-        Public Function GetEmpresas() As List(Of EmpresaModel)
+
+        Public Function GetEmpresas() As Object
 
             Dim Consulta = EmpresaModel.VerTodos()
 
-            Return Consulta.ListaEmpresas
+            If Consulta.Retorno.Sucesso = True Then
+                Return Consulta.ListaEmpresas
+            Else
+                Return Consulta.Retorno.Mensagem
+            End If
 
         End Function
 
 
-        '<HttpPost>
-        Public Function PostEmpresas(empresa As EmpresaModel) As EmpresaModel
+
+        Public Function PostEmpresas(empresa As EmpresaModel) As Object
 
             Dim Consulta = empresa.Salvar()
 
-            Return Consulta.Empresa
+            If Consulta.Retorno.Sucesso = True Then
+                Return Consulta.Empresa
+            Else
+                Return Consulta.Retorno.Mensagem
+            End If
 
         End Function
 
 
-        '<HttpPut>
-        Public Function PutEmpresas(empresa As EmpresaModel) As EmpresaModel
+
+        Public Function PutEmpresas(empresa As EmpresaModel) As Object
 
             Dim Consulta = empresa.Salvar()
 
-            Return Consulta.Empresa
+            If Consulta.Retorno.Sucesso = True Then
+                Return Consulta.Empresa
+            Else
+                Return Consulta.Retorno.Mensagem
+            End If
 
         End Function
 
 
-        '<HttpDelete>
-        Public Function DeleteEmpresas(empresa As EmpresaModel) As EmpresaModel
+
+        Public Function DeleteEmpresas(empresa As EmpresaModel) As Object
 
             Dim Consulta = empresa.Salvar()
 
-            Return Consulta.Empresa
+            If Consulta.Retorno.Sucesso = True Then
+                Return Consulta.Empresa
+            Else
+                Return Consulta.Retorno.Mensagem
+            End If
 
         End Function
 

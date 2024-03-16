@@ -1,5 +1,6 @@
 ﻿Imports System.Web.Http
 Imports System.Web.Optimization
+Imports Swashbuckle.Application
 
 Public Class Global_asax
     Inherits HttpApplication
@@ -10,4 +11,5 @@ Public Class Global_asax
         RouteConfig.RegisterRoutes(RouteTable.Routes)
         BundleConfig.RegisterBundles(BundleTable.Bundles)
     End Sub
+
 End Class

@@ -1,4 +1,5 @@
-﻿Imports System.Web.Routing
+﻿Imports System.Web.Http
+Imports System.Web.Routing
 Imports Microsoft.AspNet.FriendlyUrls
 
 Public Module RouteConfig
@@ -6,6 +7,8 @@ Public Module RouteConfig
         Dim settings As FriendlyUrlSettings = New FriendlyUrlSettings() With {
             .AutoRedirectMode = RedirectMode.Permanent
         }
+
         routes.EnableFriendlyUrls(settings)
+
     End Sub
 End Module

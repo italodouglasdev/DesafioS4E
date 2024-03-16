@@ -41,15 +41,13 @@
 
         Dim ConsultaDb = DesafioS4EDb.Empresas.SelectAll()
 
-        Dim retornoModel = New RetornoModel(ConsultaDb.RetornoDb.Sucesso, ConsultaDb.RetornoDb.Mensagem)
-
         Dim listaEmpresasModel = New List(Of EmpresaModel)
 
         For Each empresaDb In ConsultaDb.ListaEmpresasDb
             listaEmpresasModel.Add(ConverterParaModelo(empresaDb))
         Next
 
-        Return (listaEmpresasModel, retornoModel)
+        Return (listaEmpresasModel, New RetornoModel(ConsultaDb.RetornoDb.Sucesso, ConsultaDb.RetornoDb.Mensagem))
 
     End Function
 
