@@ -1,7 +1,7 @@
-﻿
-Imports System.Data.SqlClient
+﻿Imports DesafioS4EDb.SQL
 
 Public Class Empresas
+
     Public Sub New()
     End Sub
 
@@ -14,66 +14,45 @@ Public Class Empresas
     Property Id As Integer
     Property Nome As String
     Property Cnpj As String
-    Property Retorno As Retorno
 
 
-    Public Shared Function Selecionar(Id As Integer) As Empresas
+    Public Shared Function [Select](Id As Integer) As (EmpresaDb As Empresas, RetornoDb As RetornoDb)
 
-        Dim empresa = New Empresas()
-
-        Dim connection As New SqlConnection("Initial Catalog=DesafioS4EDb; User ID=caririfest; Password=Y5hAmR9cJNKmGeY; Data Source=localhost")
-        Dim query As String = $"SELECT Id, Nome, Cnpj FROM Empresas WHERE Id = {Id}"
-        Dim command As New SqlCommand(query, connection)
-
-        Try
-
-            connection.Open()
-
-            Dim reader As SqlDataReader = command.ExecuteReader()
-            reader.Read()
-
-            empresa = New Empresas() With 
-                {
-                    .Id = Convert.ToInt32(reader("Id")),
-                    .Nome = Convert.ToString(reader("Nome")),
-                    .Cnpj = Convert.ToString(reader("Cnpj"))
-                }
-
-            empresa.Retorno = New Retorno(True, "Consulta realizada com sucesso!")
-
-        Catch ex As Exception
-            empresa.Retorno = New Retorno(False, $"Falha ao realizar Consulta! Detalhes: {ex.Message}")
-        Finally
-            connection.Close()
-            connection.Dispose()
-        End Try
-
-        Return empresa
+        Dim consulta = Script.GerarSelectPorId(New Empresas, Id)
+        Return Comando.Obtenha(Of Empresas)(consulta)
 
     End Function
 
-    Public Shared Function ReadEmpresas() As List(Of Empresas)
-        Dim empresas As New List(Of Empresas)()
+    Public Shared Function SelectAll() As (ListaEmpresasDb As List(Of Empresas), RetornoDb As RetornoDb)
 
-        Using connection As New SqlConnection("Initial Catalog=DesafioS4EDb; User ID=caririfest; Password=Y5hAmR9cJNKmGeY; Data Source=localhost")
-            Dim query As String = "SELECT Id, Nome, Cnpj FROM Empresas"
-            Dim command As New SqlCommand(query, connection)
+        Dim consulta = Script.GerarSelectAll(New Empresas())
+        Return Comando.ObtenhaLista(Of Empresas)(consulta)
 
-            connection.Open()
-            Dim reader As SqlDataReader = command.ExecuteReader()
+    End Function
 
-            While reader.Read()
-                Dim empresa As New Empresas() With {
-                    .Id = Convert.ToInt32(reader("Id")),
-                    .Nome = reader("Nome").ToString(),
-                    .Cnpj = reader("Cnpj").ToString()
-                }
-                empresas.Add(empresa)
-            End While
-        End Using
+    Public Function Insert() As (EmpresaDb As Empresas, RetornoDb As RetornoDb)
 
-        Return empresas
+        Dim consulta = Script.GerarInsert(Me)
+        Return Comando.Obtenha(Of Empresas)(consulta)
+
+    End Function
+
+    Public Function Update() As (EmpresaDb As Empresas, RetornoDb As RetornoDb)
+
+        Dim consulta = Script.GerarUpdate(Me)
+        Return Comando.Obtenha(Of Empresas)(consulta)
+
+    End Function
+
+    Public Function Delete() As (EmpresaDb As Empresas, RetornoDb As RetornoDb)
+
+        Dim consulta = Script.GerarDelete(Me)
+        Return Comando.Obtenha(Of Empresas)(consulta)
+
     End Function
 
 
 End Class
+
+
+

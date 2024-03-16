@@ -10,7 +10,7 @@ Public Module WebApiConfig
         config.Routes.MapHttpRoute(
             name:="DefaultApi",
             routeTemplate:="api/{controller}/{id}",
-            defaults:=New With {.id = RouteParameter.Optional}
+            defaults:= New With {.id = RouteParameter.Optional}
         )
 
         ' Força retornar um Json em não um XML

@@ -4,42 +4,59 @@ Namespace Controllers
     Public Class EmpresasController
         Inherits ApiController
 
+        '<HttpGet>
+        Public Function GetEmpresas(id As Integer) As Object
 
-        <HttpGet>
-        Public Function VerTodas() As List(Of DesafioS4EDb.Empresas)
+            Dim Consulta = EmpresaModel.Ver(id)
 
-            Dim Empresas = DesafioS4EDb.Empresas.ReadEmpresas()
+            If Consulta.Retorno.Sucesso = True Then
+                Return Consulta.Empresa
+            Else
+                Return Consulta.Retorno.Mensagem
+            End If
 
-            Return Empresas
+
+
+        End Function
+
+        '<HttpGet>
+        Public Function GetEmpresas() As List(Of EmpresaModel)
+
+            Dim Consulta = EmpresaModel.VerTodos()
+
+            Return Consulta.ListaEmpresas
 
         End Function
 
 
-        <HttpGet>
-        Public Function Ver(ByVal id As Integer) As DesafioS4EDb.Empresas
+        '<HttpPost>
+        Public Function PostEmpresas(empresa As EmpresaModel) As EmpresaModel
 
-            Dim Empresa = DesafioS4EDb.Empresas.Selecionar(id)
-            Return Empresa
+            Dim Consulta = empresa.Salvar()
+
+            Return Consulta.Empresa
 
         End Function
 
 
-        <HttpPost>
-        Public Sub PostValue(<FromBody()> ByVal value As String)
+        '<HttpPut>
+        Public Function PutEmpresas(empresa As EmpresaModel) As EmpresaModel
 
-        End Sub
+            Dim Consulta = empresa.Salvar()
 
+            Return Consulta.Empresa
 
-        <HttpPut>
-        Public Sub PutValue(ByVal id As Integer, <FromBody()> ByVal value As String)
-
-        End Sub
+        End Function
 
 
-        <HttpDelete>
-        Public Sub DeleteValue(ByVal id As Integer)
+        '<HttpDelete>
+        Public Function DeleteEmpresas(empresa As EmpresaModel) As EmpresaModel
 
-        End Sub
+            Dim Consulta = empresa.Salvar()
+
+            Return Consulta.Empresa
+
+        End Function
 
     End Class
 End Namespace
