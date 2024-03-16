@@ -59,6 +59,7 @@
         '    Return Me
         'End If
 
+
         Dim empresaDb = ConverterParaBanco(Me)
 
         If empresaDb.Id = 0 Then
