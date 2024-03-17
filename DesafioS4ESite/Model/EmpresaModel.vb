@@ -104,8 +104,8 @@ Public Class EmpresaModel
         Dim empresaDb = ConverterParaBanco(Me)
 
         Dim ConsultaDb = empresaDb.Update()
-        Return ConverterParaModelo(ConsultaDb.EmpresaDb, ConsultaDb.RetornoDb)
 
+        Return ConverterParaModelo(ConsultaDb.EmpresaDb, ConsultaDb.RetornoDb)
 
     End Function
 
@@ -149,7 +149,7 @@ Public Class EmpresaModel
 
     End Function
 
-    Private Function ValidarCadastro() As RetornoModel
+    Public Function ValidarCadastro() As RetornoModel
 
         If Me.Id > 0 Then
             Return New RetornoModel(False, "O Id da Empresa é gerado automaticamente em novos cadastros, por favor informar o valor 0 (zero)!")
@@ -180,16 +180,16 @@ Public Class EmpresaModel
             Return New RetornoModel(False, "O Nome deve conter no máximo 200 caracteres!")
         End If
 
-        If Me.ListaAssociados IsNot Nothing Then
-
-
+        Dim ValidacaoAssociadosDaEmpresa = Me.ValidarListaDeAssociadosNoCadastro()
+        If ValidacaoAssociadosDaEmpresa.Sucesso = False Then
+            Return ValidacaoAssociadosDaEmpresa
         End If
 
         Return New RetornoModel(True, "Operação realizada com Sucesso!")
 
     End Function
 
-    Private Function ValidarAtualizar() As RetornoModel
+    Public Function ValidarAtualizar() As RetornoModel
 
         If Me.Id = 0 Then
             Return New RetornoModel(False, "O Id da Empresa deve ser informado!")
@@ -220,18 +220,16 @@ Public Class EmpresaModel
             Return New RetornoModel(False, "O Nome deve conter no máximo 200 caracteres!")
         End If
 
-
-
-        If Me.ListaAssociados IsNot Nothing Then
-
-
+        Dim ValidacaoAssociadosDaEmpresa = Me.ValidarListaDeAssociadosNaAtualizacao()
+        If ValidacaoAssociadosDaEmpresa.Sucesso = False Then
+            Return ValidacaoAssociadosDaEmpresa
         End If
 
         Return New RetornoModel(True, "Operação realizada com Sucesso!")
 
     End Function
 
-    Private Function ValidarExcluir() As RetornoModel
+    Public Function ValidarExcluir() As RetornoModel
 
         If Me.Id = 0 Then
             Return New RetornoModel(False, "O Id da Empresa deve ser informado!")
@@ -241,6 +239,89 @@ Public Class EmpresaModel
 
     End Function
 
+
+
+    Private Function ValidarListaDeAssociadosNoCadastro() As RetornoModel
+
+        If Me.ListaAssociados IsNot Nothing Then
+
+            For Each Relacao In Me.ListaAssociados
+
+                If Relacao.Acao = EnumAcao.Incluir Then
+
+                    Dim Associado = New AssociadoModel(Relacao.Id, Relacao.Nome, Relacao.Cpf, Relacao.DataNascimento)
+
+                    Dim ValidacaoAssociado = Associado.ValidarCadastro()
+
+                    If ValidacaoAssociado.Sucesso = False Then
+
+                        ValidacaoAssociado.Mensagem += $" Detalhes do Associado Id {Associado.Id}, CPF {Associado.Cpf} e Nome {Associado.Nome}."
+
+                        Return ValidacaoAssociado
+
+                    End If
+
+                Else
+
+                    Return New RetornoModel(False, "Na inclusão de Emrpesas só é possível [Adicionar] novos Associados!")
+
+                End If
+
+            Next
+
+        End If
+
+        Return New RetornoModel(True, "Operação realizada com Sucesso!")
+
+    End Function
+
+    Private Function ValidarListaDeAssociadosNaAtualizacao() As RetornoModel
+
+        If Me.ListaAssociados IsNot Nothing Then
+
+            For Each Relacao In Me.ListaAssociados
+
+                If Relacao.Acao = EnumAcao.Atualizar Then
+
+                    Dim Associado = New AssociadoModel(Relacao.Id, Relacao.Nome, Relacao.Cpf, Relacao.DataNascimento)
+
+                    Dim ValidacaoAssociado = Associado.ValidarAtualizar()
+
+                    If ValidacaoAssociado.Sucesso = False Then
+
+                        ValidacaoAssociado.Mensagem += $" Detalhes do Associado Id {Associado.Id}, CPF {Associado.Cpf} e Nome {Associado.Nome}."
+
+                        Return ValidacaoAssociado
+
+                    End If
+
+                ElseIf Relacao.Acao = EnumAcao.Excluir Then
+
+                    Dim Associado = New AssociadoModel(Relacao.Id, Relacao.Nome, Relacao.Cpf, Relacao.DataNascimento)
+
+                    Dim ValidacaoAssociado = Associado.ValidarExcluir()
+
+                    If ValidacaoAssociado.Sucesso = False Then
+
+                        ValidacaoAssociado.Mensagem += $" Detalhes do Associado Id {Associado.Id}, CPF {Associado.Cpf} e Nome {Associado.Nome}."
+
+                        Return ValidacaoAssociado
+
+                    End If
+
+                Else
+
+                    Return New RetornoModel(False, "Na alteração de Empresas só é possível [Adicionar] ou [Remover] Associados!")
+
+                End If
+
+            Next
+
+        End If
+
+        Return New RetornoModel(True, "Operação realizada com Sucesso!")
+
+    End Function
 
 
 End Class

@@ -16,6 +16,7 @@ Namespace Controllers
 
         End Function
 
+        'Ajustar esse ponto: As Object
         Public Function GetEmpresa(id As Integer)
 
             Dim Consulta = EmpresaModel.Ver(id)
