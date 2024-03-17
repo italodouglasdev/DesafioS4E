@@ -15,7 +15,7 @@ Public Class AssociadoModel
     Property Nome As String
     Property Cpf As String
     Property DataNascimento As DateTime
-    Property ListaEmpresas As List(Of RelacaoAssociadoEmpresaModel)
+    Property ListaEmpresas As List(Of RelacaoEmpresaAssociadoModel)
 
 
 
@@ -87,8 +87,6 @@ Public Class AssociadoModel
         End If
 
         Dim AssociadoDb = ConverterParaBanco(Me)
-
-        Dim EmpresasAssociadosDb = Empre
 
         Dim ConsultaDb = AssociadoDb.Insert()
 

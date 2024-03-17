@@ -23,6 +23,7 @@ Public Class Associados
     Public Shared Function [Select](Id As Integer) As (AssociadoDb As Associados, RetornoDb As RetornoDb)
 
         Dim consulta = Script.GerarSelectPorId(New Associados, Id)
+
         Return Comando.Obtenha(Of Associados)(consulta)
 
     End Function
@@ -42,6 +43,7 @@ Public Class Associados
         Dim Where = GerarClausulaWherePorCPFNomeDataNascimento(FiltroCPF, FiltroNome, FiltroDataNascimentoInicio, FiltroDataNascimentoFim)
 
         Dim consulta = Script.GerarSelectAll(New Associados(), Where)
+
         Return Comando.ObtenhaLista(Of Associados)(consulta)
 
     End Function
@@ -49,6 +51,7 @@ Public Class Associados
     Public Function Insert() As (AssociadoDb As Associados, RetornoDb As RetornoDb)
 
         Dim consulta = Script.GerarInsert(Me)
+
         Return Comando.Obtenha(Of Associados)(consulta)
 
     End Function
@@ -56,6 +59,7 @@ Public Class Associados
     Public Function Update() As (AssociadoDb As Associados, RetornoDb As RetornoDb)
 
         Dim consulta = Script.GerarUpdate(Me)
+
         Return Comando.Obtenha(Of Associados)(consulta)
 
     End Function
@@ -63,6 +67,7 @@ Public Class Associados
     Public Function Delete() As (AssociadoDb As Associados, RetornoDb As RetornoDb)
 
         Dim consulta = Script.GerarDelete(Me)
+
         Return Comando.Obtenha(Of Associados)(consulta)
 
     End Function

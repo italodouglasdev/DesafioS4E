@@ -263,7 +263,6 @@
     </Compile>
     <Compile Include="Helpers\ValidadorHelper.vb" />
     <Compile Include="Model\EmpresaAssociadoModel.vb" />
-    <Compile Include="Model\RelacaoAssociadoEmpresaModel.vb" />
     <Compile Include="Model\AssociadoModel.vb" />
     <Compile Include="Model\EmpresaModel.vb" />
     <Compile Include="Model\RelacaoEmpresaAssociadoModel.vb" />
