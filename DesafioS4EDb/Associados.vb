@@ -1,4 +1,5 @@
 ﻿
+Imports System.Text
 Imports DesafioS4EDb.SQL
 
 Public Class Associados
@@ -26,9 +27,21 @@ Public Class Associados
 
     End Function
 
-    Public Shared Function SelectAll() As (ListaAssociadosDb As List(Of Associados), RetornoDb As RetornoDb)
+    Public Shared Function [Select](cpf As String) As (AssociadoDb As Associados, RetornoDb As RetornoDb)
 
-        Dim consulta = Script.GerarSelectAll(New Associados())
+        Dim Where = GerarClausulaWherePorCPFNomeDataNascimento(cpf)
+
+        Dim consulta = Script.GerarSelectAll(New Associados(), Where)
+
+        Return Comando.Obtenha(Of Associados)(consulta)
+
+    End Function
+
+    Public Shared Function SelectAll(Optional FiltroCPF As String = "", Optional FiltroNome As String = "", Optional FiltroDataNascimentoInicio As Date = Nothing, Optional FiltroDataNascimentoFim As Date = Nothing) As (ListaAssociadosDb As List(Of Associados), RetornoDb As RetornoDb)
+
+        Dim Where = GerarClausulaWherePorCPFNomeDataNascimento(FiltroCPF, FiltroNome, FiltroDataNascimentoInicio, FiltroDataNascimentoFim)
+
+        Dim consulta = Script.GerarSelectAll(New Associados(), Where)
         Return Comando.ObtenhaLista(Of Associados)(consulta)
 
     End Function
@@ -51,6 +64,63 @@ Public Class Associados
 
         Dim consulta = Script.GerarDelete(Me)
         Return Comando.Obtenha(Of Associados)(consulta)
+
+    End Function
+
+
+
+    Private Shared Function GerarClausulaWherePorCPFNomeDataNascimento(Optional FiltroCPF As String = "", Optional FiltroNome As String = "", Optional FiltroDataNascimentoInicio As Date = Nothing, Optional FiltroDataNascimentoFim As Date = Nothing) As String
+
+        Dim Where = New StringBuilder()
+
+        If String.IsNullOrEmpty(FiltroCPF) = False Then
+
+            FiltroCPF.Replace("'", "´")
+
+            If Where.Length = 0 Then
+                Where.Append($" WHERE ")
+            End If
+
+            Where.Append($"[Cpf] Like '%{FiltroCPF}%' ")
+
+        End If
+
+        If String.IsNullOrEmpty(FiltroNome) = False Then
+
+            FiltroNome.Replace("'", "´")
+
+            If Where.Length = 0 Then
+                Where.Append($" WHERE ")
+            Else
+                Where.Append($"AND ")
+            End If
+
+            Where.Append($"UPPER([Nome]) Like '%{FiltroNome.ToUpper()}%' ")
+        End If
+
+        If FiltroDataNascimentoInicio <> Nothing Then
+
+            If Where.Length = 0 Then
+                Where.Append($" WHERE ")
+            Else
+                Where.Append($"AND ")
+            End If
+
+            Where.Append($"[DataNascimento] >= '{Util.FormatDataTime_yyyyMMddHHmm(FiltroDataNascimentoInicio)}' ")
+        End If
+
+        If FiltroDataNascimentoFim <> Nothing Then
+
+            If Where.Length = 0 Then
+                Where.Append($" WHERE ")
+            Else
+                Where.Append($"AND ")
+            End If
+
+            Where.Append($"[DataNascimento] <= '{Util.FormatDataTime_yyyyMMddHHmm(FiltroDataNascimentoFim)}' ")
+        End If
+
+        Return Where.ToString()
 
     End Function
 

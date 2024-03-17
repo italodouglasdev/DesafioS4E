@@ -118,11 +118,11 @@ Namespace SQL
 
         Private Shared Function TratarMensagemExcecao(mensagem As String)
 
-            If mensagem.Contains("FK_EmpresasAssociados_Empresas") Then
-                Return "Não foi possível realizar a exclusão da Empresa, pois ela possui vínculo com um ou mais Associados!"
+            If mensagem.Contains("FK_EmpresasEmpresaAssociados_Empresas") Then
+                Return "Não foi possível realizar a exclusão da Empresa, pois ela possui vínculo com um ou mais EmpresaAssociados!"
             End If
 
-            If mensagem.Contains("FK_EmpresasAssociados_Associados") Then
+            If mensagem.Contains("FK_EmpresasEmpresaAssociados_EmpresaAssociados") Then
                 Return "Não foi possível realizar a exclusão do Assiciado, pois ela possui vínculo com uma ou mais Empresas!"
             End If
 

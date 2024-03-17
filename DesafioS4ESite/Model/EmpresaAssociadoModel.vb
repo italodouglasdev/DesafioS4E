@@ -14,7 +14,7 @@ Public Class AssociadoModel
     Property Id As Integer
     Property Nome As String
     Property Cpf As String
-    Property DataNascimento As DateTime
+    Property DataNascimento As Date
     Property ListaEmpresas As List(Of RelacaoAssociadoEmpresaModel)
 
 
@@ -30,6 +30,7 @@ Public Class AssociadoModel
     Private Shared Function ConverterParaBanco(model As AssociadoModel) As DesafioS4EDb.Associados
         Return New DesafioS4EDb.Associados(model.Id, model.Nome, model.Cpf, model.DataNascimento)
     End Function
+
 
 
 
@@ -112,14 +113,11 @@ Public Class AssociadoModel
 
     End Function
 
-
     Public Function Excluir() As (Associado As AssociadoModel, Retorno As RetornoModel)
 
-        Dim ResultadoValidacao = ValidarExcluir()
-
-        If ResultadoValidacao.Sucesso = False Then
-            Return (Me, ResultadoValidacao)
-        End If
+        'If Not Me.ValidarExcluir() Then
+        '    Return Me
+        'End If
 
         Dim AssociadoDb = ConverterParaBanco(Me)
 
@@ -158,24 +156,20 @@ Public Class AssociadoModel
             Return New RetornoModel(False, "O Id do Associado é gerado automaticamente em novos cadastros, por favor informar o valor 0 (zero)!")
         End If
 
-        If Me.Cpf.Length <> 11 Then
-            Return New RetornoModel(False, "O CPF deve conter 11 caracteres!")
-        End If
-
-        If String.IsNullOrEmpty(Me.Cpf) Or Me.Cpf.Length = 0 Then
+        If String.IsNullOrEmpty(Me.Cpf) OrElse Me.Cpf.Length = 0 Then
             Return New RetornoModel(False, "O CPF deve ser informado!")
         End If
 
-        If ValidadorHelper.ValidarCPF(Me.Cpf) = False Then
-            Return New RetornoModel(False, "O CPF informado é inválido!")
+        If Me.Cpf.Length <> 11 Then
+            Return New RetornoModel(False, "O CPF deve conter no exatamente 11 caracteres!")
         End If
 
-        Dim ConsultaAssociado = AssociadoModel.Ver(Me.Cpf)
-        If ConsultaAssociado.Retorno.Sucesso = True Then
-            Return New RetornoModel(False, "O CPF informado já possui um cadastro!")
+        Dim ConsultaAssociadoValidacao = AssociadoModel.Ver(Me.Cpf)
+        If ConsultaAssociadoValidacao.Retorno.Sucesso = True Then
+            Return New RetornoModel(False, "Já existe um Associado com o CPF informado!")
         End If
 
-        If String.IsNullOrEmpty(Me.Nome) Or Me.Nome.Length = 0 Then
+        If String.IsNullOrEmpty(Me.Nome) OrElse Me.Nome.Length = 0 Then
             Return New RetornoModel(False, "O Nome deve ser informado!")
         End If
 
@@ -183,8 +177,30 @@ Public Class AssociadoModel
             Return New RetornoModel(False, "O Nome deve conter no máximo 200 caracteres!")
         End If
 
+        If ValidadorHelper.ValidarCPF(Me.Cpf) = False Then
+            Return New RetornoModel(False, "O CPF informado é inválido!")
+        End If
+
         If Me.ListaEmpresas IsNot Nothing Then
 
+            For Each relacaoAssociadoEmpresa In Me.ListaEmpresas
+
+                If relacaoAssociadoEmpresa.Acao = EnumAcao.Incluir Then
+
+                    Dim novaEmpresa = New EmpresaModel(relacaoAssociadoEmpresa.Id, relacaoAssociadoEmpresa.Nome, relacaoAssociadoEmpresa.Cnpj)
+
+                    Dim validacaoEmpresa = novaEmpresa.ValidarCadastro()
+
+                    If validacaoEmpresa.Sucesso = False Then
+                        validacaoEmpresa.Mensagem += $" Detalhes: Empresa Id [{novaEmpresa.Id}], CNPJ [{novaEmpresa.Cnpj}], Nome [{novaEmpresa.Nome}]."
+                        Return validacaoEmpresa
+                    End If
+
+                Else
+                    Return New RetornoModel(False, "No cadastro de Associados só é possível realizar a inclusão de novas Empresas, ajuste Acao para 1.")
+                End If
+
+            Next
 
         End If
 
@@ -195,27 +211,23 @@ Public Class AssociadoModel
     Private Function ValidarAtualizar() As RetornoModel
 
         If Me.Id = 0 Then
-            Return New RetornoModel(False, "O Id da Associado deve ser informado!")
+            Return New RetornoModel(False, "O Id do Associado deve ser informado!")
         End If
 
-        If Me.Cpf.Length <> 11 Then
-            Return New RetornoModel(False, "O CPF deve conter 11 caracteres!")
-        End If
-
-        If String.IsNullOrEmpty(Me.Cpf) Or Me.Cpf.Length = 0 Then
+        If String.IsNullOrEmpty(Me.Cpf) OrElse Me.Cpf.Length = 0 Then
             Return New RetornoModel(False, "O CPF deve ser informado!")
         End If
 
-        If ValidadorHelper.ValidarCPF(Me.Cpf) = False Then
-            Return New RetornoModel(False, "O CPF informado é inválido!")
+        If Me.Cpf.Length <> 11 Then
+            Return New RetornoModel(False, "O CPF deve conter no exatamente 11 caracteres!")
         End If
 
-        Dim ConsultaAssociado = AssociadoModel.Ver(Me.Cpf)
-        If ConsultaAssociado.Retorno.Sucesso = True And ConsultaAssociado.Associado.Id <> Me.Id Then
-            Return New RetornoModel(False, "O CPF informado já possui um cadastro!")
+        Dim ConsultaAssociadoValidacao = AssociadoModel.Ver(Me.Cpf)
+        If ConsultaAssociadoValidacao.Retorno.Sucesso = True And ConsultaAssociadoValidacao.Associado.Id <> Me.Id Then
+            Return New RetornoModel(False, "Já existe um Associado com o CPF informado!")
         End If
 
-        If String.IsNullOrEmpty(Me.Nome) Or Me.Nome.Length = 0 Then
+        If String.IsNullOrEmpty(Me.Nome) OrElse Me.Nome.Length = 0 Then
             Return New RetornoModel(False, "O Nome deve ser informado!")
         End If
 
@@ -223,26 +235,35 @@ Public Class AssociadoModel
             Return New RetornoModel(False, "O Nome deve conter no máximo 200 caracteres!")
         End If
 
-        If Me.ListaEmpresas IsNot Nothing Then
-
-
+        If ValidadorHelper.ValidarCPF(Me.Cpf) = False Then
+            Return New RetornoModel(False, "O CPF informado é inválido!")
         End If
-
-
 
         If Me.ListaEmpresas IsNot Nothing Then
 
+            For Each relacaoAssociadoEmpresa In Me.ListaEmpresas
 
-        End If
+                If relacaoAssociadoEmpresa.Acao = EnumAcao.Atualizar Then
 
-        Return New RetornoModel(True, "Operação realizada com Sucesso!")
+                    Dim novaEmpresa = New EmpresaModel(relacaoAssociadoEmpresa.Id, relacaoAssociadoEmpresa.Nome, relacaoAssociadoEmpresa.Cnpj)
 
-    End Function
+                    Dim validacaoEmpresa = novaEmpresa.ValidarAtualizar()
 
-    Private Function ValidarExcluir() As RetornoModel
+                    If validacaoEmpresa.Sucesso = False Then
+                        validacaoEmpresa.Mensagem += $" Detalhes: Empresa Id [{novaEmpresa.Id}], CNPJ [{novaEmpresa.Cnpj}], Nome [{novaEmpresa.Nome}]."
+                        Return validacaoEmpresa
+                    End If
 
-        If Me.Id = 0 Then
-            Return New RetornoModel(False, "O Id da Associado deve ser informado!")
+
+                ElseIf relacaoAssociadoEmpresa.Acao = EnumAcao.Excluir Then
+
+
+                Else
+                    Return New RetornoModel(False, "No cadastro de Associados só é possível realizar a inclusão de novas Empresas, ajuste Acao para 1.")
+                End If
+
+            Next
+
         End If
 
         Return New RetornoModel(True, "Operação realizada com Sucesso!")

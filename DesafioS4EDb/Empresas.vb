@@ -24,6 +24,15 @@ Public Class Empresas
 
     End Function
 
+    Public Shared Function [Select](cnpj As String) As (EmpresaDb As Empresas, RetornoDb As RetornoDb)
+
+        Dim Where = GerarClausulaWherePorNomeEOuCNPJ(cnpj)
+        Dim consulta = Script.GerarSelectAll(New Empresas(), Where)
+
+        Return Comando.Obtenha(Of Empresas)(consulta)
+
+    End Function
+
     Public Shared Function SelectAll(Optional FiltroCNPJ As String = "", Optional FiltroNome As String = "") As (ListaEmpresasDb As List(Of Empresas), RetornoDb As RetornoDb)
 
         Dim Where = GerarClausulaWherePorNomeEOuCNPJ(FiltroCNPJ, FiltroNome)
@@ -58,7 +67,7 @@ Public Class Empresas
 
 
 
-    Private Shared Function GerarClausulaWherePorNomeEOuCNPJ(FiltroCNPJ As String, FiltroNome As String) As String
+    Private Shared Function GerarClausulaWherePorNomeEOuCNPJ(Optional FiltroCNPJ As String = "", Optional FiltroNome As String = "") As String
         Dim Where = New StringBuilder()
 
         If String.IsNullOrEmpty(FiltroNome) = False Then

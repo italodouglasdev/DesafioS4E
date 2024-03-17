@@ -44,6 +44,19 @@ Public Class EmpresaModel
 
     End Function
 
+    Public Shared Function Ver(cnpj As String) As (Empresa As EmpresaModel, Retorno As RetornoModel)
+
+        Dim ConsultaDb = DesafioS4EDb.Empresas.Select(cnpj)
+
+        Dim ResultadoValidacao = ValidarVer(ConsultaDb.EmpresaDb.Id)
+        If ResultadoValidacao.Sucesso = False Then
+            Return (ConverterParaModelo(ConsultaDb.EmpresaDb), ResultadoValidacao)
+        End If
+
+        Return ConverterParaModelo(ConsultaDb.EmpresaDb, ConsultaDb.RetornoDb)
+
+    End Function
+
     Public Shared Function VerTodos(Optional FiltroCNPJ As String = "", Optional FiltroNome As String = "") As (ListaEmpresas As List(Of EmpresaModel), Retorno As RetornoModel)
 
         Dim ConsultaDb = DesafioS4EDb.Empresas.SelectAll(FiltroCNPJ, FiltroNome)
@@ -100,9 +113,11 @@ Public Class EmpresaModel
 
     Public Function Excluir() As (Empresa As EmpresaModel, Retorno As RetornoModel)
 
-        'If Not Me.ValidarExcluir() Then
-        '    Return Me
-        'End If
+        Dim ResultadoValidacao = ValidarExcluir()
+
+        If ResultadoValidacao.Sucesso = False Then
+            Return (Me, ResultadoValidacao)
+        End If
 
         Dim empresaDb = ConverterParaBanco(Me)
 
@@ -141,16 +156,29 @@ Public Class EmpresaModel
             Return New RetornoModel(False, "O Id da Empresa é gerado automaticamente em novos cadastros, por favor informar o valor 0 (zero)!")
         End If
 
-        If String.IsNullOrEmpty(Me.Nome) OrElse Me.Nome.Length = 0 Then
+        If Me.Cnpj.Length <> 14 Then
+            Return New RetornoModel(False, "O CNPJ deve conter 14 caracteres!")
+        End If
+
+        If String.IsNullOrEmpty(Me.Cnpj) Or Me.Cnpj.Length = 0 Then
+            Return New RetornoModel(False, "O CNPJ deve ser informado!")
+        End If
+
+        If ValidadorHelper.ValidarCNPJ(Me.Cnpj) = False Then
+            Return New RetornoModel(False, "O CNPJ informado é inválido!")
+        End If
+
+        Dim ConsultaEmpresa = EmpresaModel.Ver(Me.Cnpj)
+        If ConsultaEmpresa.Retorno.Sucesso = True Then
+            Return New RetornoModel(False, "O CNPJ informado já possui um cadastro!")
+        End If
+
+        If String.IsNullOrEmpty(Me.Nome) Or Me.Nome.Length = 0 Then
             Return New RetornoModel(False, "O Nome deve ser informado!")
         End If
 
         If Me.Nome.Length > 200 Then
             Return New RetornoModel(False, "O Nome deve conter no máximo 200 caracteres!")
-        End If
-
-        If ValidadorHelper.ValidarCNPJ(Me.Cnpj) = False Then
-            Return New RetornoModel(False, "O CNPJ informado é inválido!")
         End If
 
         If Me.ListaAssociados IsNot Nothing Then
@@ -168,7 +196,24 @@ Public Class EmpresaModel
             Return New RetornoModel(False, "O Id da Empresa deve ser informado!")
         End If
 
-        If String.IsNullOrEmpty(Me.Nome) OrElse Me.Nome.Length = 0 Then
+        If Me.Cnpj.Length <> 14 Then
+            Return New RetornoModel(False, "O CNPJ deve conter 14 caracteres!")
+        End If
+
+        If String.IsNullOrEmpty(Me.Cnpj) Or Me.Cnpj.Length = 0 Then
+            Return New RetornoModel(False, "O CNPJ deve ser informado!")
+        End If
+
+        If ValidadorHelper.ValidarCNPJ(Me.Cnpj) = False Then
+            Return New RetornoModel(False, "O CNPJ informado é inválido!")
+        End If
+
+        Dim ConsultaEmpresa = EmpresaModel.Ver(Me.Cnpj)
+        If ConsultaEmpresa.Retorno.Sucesso = True And ConsultaEmpresa.Empresa.Id <> Me.Id Then
+            Return New RetornoModel(False, "O CNPJ informado já possui um cadastro!")
+        End If
+
+        If String.IsNullOrEmpty(Me.Nome) Or Me.Nome.Length = 0 Then
             Return New RetornoModel(False, "O Nome deve ser informado!")
         End If
 
@@ -176,9 +221,7 @@ Public Class EmpresaModel
             Return New RetornoModel(False, "O Nome deve conter no máximo 200 caracteres!")
         End If
 
-        If ValidadorHelper.ValidarCNPJ(Me.Cnpj) = False Then
-            Return New RetornoModel(False, "O CNPJ informado é inválido!")
-        End If
+
 
         If Me.ListaAssociados IsNot Nothing Then
 
@@ -188,6 +231,17 @@ Public Class EmpresaModel
         Return New RetornoModel(True, "Operação realizada com Sucesso!")
 
     End Function
+
+    Private Function ValidarExcluir() As RetornoModel
+
+        If Me.Id = 0 Then
+            Return New RetornoModel(False, "O Id da Empresa deve ser informado!")
+        End If
+
+        Return New RetornoModel(True, "Operação realizada com Sucesso!")
+
+    End Function
+
 
 
 End Class

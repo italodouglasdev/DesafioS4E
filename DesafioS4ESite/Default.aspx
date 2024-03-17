@@ -20,18 +20,18 @@
                 </p>
             </section>
             <section class="col-md-4" aria-labelledby="librariesTitle">
-                <h2 id="librariesTitle">Associados</h2>
+                <h2 id="librariesTitle">EmpresaAssociados</h2>
                 <p>
-                    Clique para ter acesso ao cadastro de Associados, nele é possível realizar consultas, inclusões e alterações.
+                    Clique para ter acesso ao cadastro de EmpresaAssociados, nele é possível realizar consultas, inclusões e alterações.
                 </p>
                 <p>
-                    <a class="btn btn-primary" href="/Associados">Abrir Cadastro</a>
+                    <a class="btn btn-primary" href="/EmpresaAssociados">Abrir Cadastro</a>
                 </p>
             </section>
             <section class="col-md-4" aria-labelledby="hostingTitle">
                 <h2 id="hostingTitle">API</h2>
                 <p>
-                    Clique para ter acesso ao cadastro de Empresas e Associados via API, nele é possível realizar consultas, inclusões e alterações.
+                    Clique para ter acesso ao cadastro de Empresas e EmpresaAssociados via API, nele é possível realizar consultas, inclusões e alterações.
                 </p>
                 <p>
                     <a class="btn btn-primary" href="/Swagger">Abrir Swagger</a>
