@@ -249,16 +249,9 @@ Public Class EmpresaModel
 
                 If Relacao.Acao = EnumAcao.Incluir Then
 
-                    Dim Associado = New AssociadoModel(Relacao.Id, Relacao.Nome, Relacao.Cpf, Relacao.DataNascimento)
-
-                    Dim ValidacaoAssociado = Associado.ValidarCadastro()
-
-                    If ValidacaoAssociado.Sucesso = False Then
-
-                        ValidacaoAssociado.Mensagem += $" Detalhes do Associado Id {Associado.Id}, CPF {Associado.Cpf} e Nome {Associado.Nome}."
-
-                        Return ValidacaoAssociado
-
+                    Dim ConsultaAssociado = AssociadoModel.Ver(Relacao.Id)
+                    If ConsultaAssociado.Retorno.Sucesso = False Then
+                        Return ConsultaAssociado.Retorno
                     End If
 
                 Else
@@ -281,32 +274,11 @@ Public Class EmpresaModel
 
             For Each Relacao In Me.ListaAssociados
 
-                If Relacao.Acao = EnumAcao.Atualizar Then
+                If Relacao.Acao = EnumAcao.Atualizar Or Relacao.Acao = EnumAcao.Excluir Then
 
-                    Dim Associado = New AssociadoModel(Relacao.Id, Relacao.Nome, Relacao.Cpf, Relacao.DataNascimento)
-
-                    Dim ValidacaoAssociado = Associado.ValidarAtualizar()
-
-                    If ValidacaoAssociado.Sucesso = False Then
-
-                        ValidacaoAssociado.Mensagem += $" Detalhes do Associado Id {Associado.Id}, CPF {Associado.Cpf} e Nome {Associado.Nome}."
-
-                        Return ValidacaoAssociado
-
-                    End If
-
-                ElseIf Relacao.Acao = EnumAcao.Excluir Then
-
-                    Dim Associado = New AssociadoModel(Relacao.Id, Relacao.Nome, Relacao.Cpf, Relacao.DataNascimento)
-
-                    Dim ValidacaoAssociado = Associado.ValidarExcluir()
-
-                    If ValidacaoAssociado.Sucesso = False Then
-
-                        ValidacaoAssociado.Mensagem += $" Detalhes do Associado Id {Associado.Id}, CPF {Associado.Cpf} e Nome {Associado.Nome}."
-
-                        Return ValidacaoAssociado
-
+                    Dim ConsultaAssociado = AssociadoModel.Ver(Relacao.Id)
+                    If ConsultaAssociado.Retorno.Sucesso = False Then
+                        Return ConsultaAssociado.Retorno
                     End If
 
                 Else

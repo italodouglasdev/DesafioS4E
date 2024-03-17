@@ -88,6 +88,8 @@ Public Class AssociadoModel
 
         Dim AssociadoDb = ConverterParaBanco(Me)
 
+        Dim EmpresasAssociadosDb = Empre
+
         Dim ConsultaDb = AssociadoDb.Insert()
 
         Return ConverterParaModelo(ConsultaDb.AssociadoDb, ConsultaDb.RetornoDb)
@@ -251,16 +253,9 @@ Public Class AssociadoModel
 
                 If Relacao.Acao = EnumAcao.Incluir Then
 
-                    Dim Empresa = New EmpresaModel(Relacao.Id, Relacao.Nome, Relacao.Cnpj)
-
-                    Dim ValidacaoEmpresa = Empresa.ValidarCadastro()
-
-                    If ValidacaoEmpresa.Sucesso = False Then
-
-                        ValidacaoEmpresa.Mensagem += $" Detalhes da Empresa Id {Empresa.Id}, CNPJ {Empresa.Cnpj} e Nome {Empresa.Nome}."
-
-                        Return ValidacaoEmpresa
-
+                    Dim ConsultaEmpresa = EmpresaModel.Ver(Relacao.Id)
+                    If ConsultaEmpresa.Retorno.Sucesso = False Then
+                        Return ConsultaEmpresa.Retorno
                     End If
 
                 Else
@@ -283,32 +278,11 @@ Public Class AssociadoModel
 
             For Each Relacao In Me.ListaEmpresas
 
-                If Relacao.Acao = EnumAcao.Atualizar Then
+                If Relacao.Acao = EnumAcao.Atualizar Or Relacao.Acao = EnumAcao.Excluir Then
 
-                    Dim Empresa = New EmpresaModel(Relacao.Id, Relacao.Nome, Relacao.Cnpj)
-
-                    Dim ValidacaoEmpresa = Empresa.ValidarAtualizar()
-
-                    If ValidacaoEmpresa.Sucesso = False Then
-
-                        ValidacaoEmpresa.Mensagem += $" Detalhes da Empresa Id {Empresa.Id}, CNPJ {Empresa.Cnpj} e Nome {Empresa.Nome}."
-
-                        Return ValidacaoEmpresa
-
-                    End If
-
-                ElseIf Relacao.Acao = EnumAcao.Excluir Then
-
-                    Dim Empresa = New EmpresaModel(Relacao.Id, Relacao.Nome, Relacao.Cnpj)
-
-                    Dim ValidacaoEmpresa = Empresa.ValidarExcluir()
-
-                    If ValidacaoEmpresa.Sucesso = False Then
-
-                        ValidacaoEmpresa.Mensagem += $" Detalhes da Empresa Id {Empresa.Id}, CNPJ {Empresa.Cnpj} e Nome {Empresa.Nome}."
-
-                        Return ValidacaoEmpresa
-
+                    Dim ConsultaEmpresa = EmpresaModel.Ver(Relacao.Id)
+                    If ConsultaEmpresa.Retorno.Sucesso = False Then
+                        Return ConsultaEmpresa.Retorno
                     End If
 
                 Else
