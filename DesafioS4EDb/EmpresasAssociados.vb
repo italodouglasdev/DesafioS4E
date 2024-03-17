@@ -1,5 +1,6 @@
 ﻿
 Imports System.Text
+Imports DesafioS4EDb.Enumeradores
 Imports DesafioS4EDb.SQL
 
 Public Class EmpresasAssociados
@@ -7,13 +8,17 @@ Public Class EmpresasAssociados
     Public Sub New()
     End Sub
 
-    Public Sub New(IdEmpresa As Integer, IdAssociado As Integer)
-        Me.IdEmpresa = IdEmpresa
-        Me.IdAssociado = IdAssociado
+    Public Sub New(idEmpresa As Integer, idAssociado As Integer, instrucao As EnumInstrucaoDb)
+        Me.IdEmpresa = idEmpresa
+        Me.IdAssociado = idAssociado
+        Me.Instrucao = instrucao
     End Sub
 
-    Property IdEmpresa As String
-    Property IdAssociado As String
+    Property IdEmpresa As Integer
+    Property IdAssociado As Integer
+
+
+    Property Instrucao As EnumInstrucaoDb
 
 
     Public Shared Function [Select](IdEmpresa As Integer, IdAssociado As Integer) As (EmpresaAssociadoDb As EmpresasAssociados, RetornoDb As RetornoDb)
@@ -44,13 +49,6 @@ Public Class EmpresasAssociados
 
     End Function
 
-    'Public Function Update() As (EmpresaAssociadoDb As EmpresasAssociados, RetornoDb As RetornoDb)
-
-    '    Dim consulta = Script.GerarUpdate(Me)
-    '    Return Comando.Obtenha(Of EmpresasAssociados)(consulta)
-
-    'End Function
-
     Public Function Delete() As (EmpresaAssociadoDb As EmpresasAssociados, RetornoDb As RetornoDb)
 
         Dim consulta = Script.GerarDelete(Me)
@@ -60,6 +58,31 @@ Public Class EmpresasAssociados
     End Function
 
 
+    Public Shared Function ObtenhaListaDeConsultas(ListaEmpresasAssociadosDb As List(Of EmpresasAssociados)) As StringBuilder
+
+        Dim scripts = New StringBuilder()
+
+        If ListaEmpresasAssociadosDb IsNot Nothing Then
+
+            For Each empresaAssociadoDb In ListaEmpresasAssociadosDb
+
+                If empresaAssociadoDb.Instrucao = EnumInstrucaoDb.Incluir Then
+
+                    scripts.AppendLine(Script.GerarInsert(empresaAssociadoDb, False))
+
+                ElseIf empresaAssociadoDb.Instrucao = EnumInstrucaoDb.Excluir Then
+
+                    scripts.AppendLine(Script.GerarDelete(empresaAssociadoDb, $"WHERE [IdEmpresa] = {empresaAssociadoDb.IdEmpresa} AND [IdAssociado] = {empresaAssociadoDb.IdAssociado}"))
+
+                End If
+
+            Next
+
+        End If
+
+        Return scripts
+
+    End Function
 
 
     Private Shared Function GerarClausulaWhereIdEmpresaIdAssociado(Optional IdEmpresa As Integer = 0, Optional IdAssociado As Integer = 0) As String

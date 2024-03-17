@@ -1,29 +1,55 @@
-﻿
+﻿Imports DesafioS4ESite.Enumeradores
+
 Public Class EmpresaAssociadoModel
 
     Public Sub New()
     End Sub
 
-    Public Sub New(IdEmpresa As Integer, IdAssociado As Integer)
-        Me.IdEmpresa = IdEmpresa
-        Me.IdAssociado = IdAssociado
+    Public Sub New(idEmpresa As String, idAssociado As String, instrucao As EnumInstrucao)
+        Me.IdEmpresa = idEmpresa
+        Me.IdAssociado = idAssociado
+        Me.Instrucao = instrucao
     End Sub
+
 
     Property IdEmpresa As String
     Property IdAssociado As String
-
-
+    Property Instrucao As EnumInstrucao
 
     Private Shared Function ConverterParaModelo(EmpresaAssociadoDb As DesafioS4EDb.EmpresasAssociados) As EmpresaAssociadoModel
-        Return New EmpresaAssociadoModel(EmpresaAssociadoDb.IdEmpresa, EmpresaAssociadoDb.IdAssociado)
+        Return New EmpresaAssociadoModel(EmpresaAssociadoDb.IdEmpresa, EmpresaAssociadoDb.IdAssociado, EmpresaAssociadoDb.Instrucao)
     End Function
 
     Private Shared Function ConverterParaModelo(EmpresaAssociadoDb As DesafioS4EDb.EmpresasAssociados, retornoDb As DesafioS4EDb.SQL.RetornoDb) As (EmpresaAssociado As EmpresaAssociadoModel, Retorno As RetornoModel)
-        Return (New EmpresaAssociadoModel(EmpresaAssociadoDb.IdEmpresa, EmpresaAssociadoDb.IdAssociado), New RetornoModel(retornoDb.Sucesso, retornoDb.Mensagem))
+        Return (New EmpresaAssociadoModel(EmpresaAssociadoDb.IdEmpresa, EmpresaAssociadoDb.IdAssociado, EmpresaAssociadoDb.Instrucao), New RetornoModel(retornoDb.Sucesso, retornoDb.Mensagem))
     End Function
 
+    Public Shared Function ConverterParaListaBanco(TipoRelacao As EnumTipoRelacao, idPrincipal As Integer, ListaRelacaoEmpresasAssociados As List(Of RelacaoEmpresaAssociadoModel)) As List(Of DesafioS4EDb.EmpresasAssociados)
+
+        Dim ListaEmpresasAssociadosDb = New List(Of DesafioS4EDb.EmpresasAssociados)
+
+        If TipoRelacao = EnumTipoRelacao.EmpresasDoAssociado Then
+
+            For Each relacao In ListaRelacaoEmpresasAssociados
+                ListaEmpresasAssociadosDb.Add(New DesafioS4EDb.EmpresasAssociados(relacao.Id, idPrincipal, relacao.Instrucao))
+            Next
+
+        ElseIf TipoRelacao = EnumTipoRelacao.AssociadosDaEmpresa Then
+
+            For Each relacao In ListaRelacaoEmpresasAssociados
+                ListaEmpresasAssociadosDb.Add(New DesafioS4EDb.EmpresasAssociados(idPrincipal, relacao.Id, relacao.Instrucao))
+            Next
+
+        End If
+
+        Return ListaEmpresasAssociadosDb
+
+    End Function
+
+
+
     Public Shared Function ConverterParaBanco(model As EmpresaAssociadoModel) As DesafioS4EDb.EmpresasAssociados
-        Return New DesafioS4EDb.EmpresasAssociados(model.IdEmpresa, model.IdAssociado)
+        Return New DesafioS4EDb.EmpresasAssociados(model.IdEmpresa, model.IdAssociado, model.Instrucao)
     End Function
 
 
@@ -81,7 +107,6 @@ Public Class EmpresaAssociadoModel
         Return New RetornoModel(True, "Operação realizada com Sucesso!")
 
     End Function
-
 
 
 End Class

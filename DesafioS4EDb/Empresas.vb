@@ -43,23 +43,34 @@ Public Class Empresas
 
     End Function
 
+
     Public Function Insert() As (EmpresaDb As Empresas, RetornoDb As RetornoDb)
 
         Dim consulta = Script.GerarInsert(Me)
+
         Return Comando.Obtenha(Of Empresas)(consulta)
 
     End Function
 
-    Public Function Update() As (EmpresaDb As Empresas, RetornoDb As RetornoDb)
+    Public Function Update(ListaEmpresasAssociadosDb As List(Of EmpresasAssociados)) As (EmpresaDb As Empresas, RetornoDb As RetornoDb)
 
-        Dim consulta = Script.GerarUpdate(Me)
+        Dim consultaEmpresasAssociados = EmpresasAssociados.ObtenhaListaDeConsultas(ListaEmpresasAssociadosDb)
+
+        consultaEmpresasAssociados.AppendLine(Script.GerarUpdate(Me))
+
+        Dim consulta = Script.GerarTransaction(consultaEmpresasAssociados)
+
         Return Comando.Obtenha(Of Empresas)(consulta)
 
     End Function
 
-    Public Function Delete() As (EmpresaDb As Empresas, RetornoDb As RetornoDb)
+    Public Function Delete(ListaEmpresasAssociadosDb As List(Of EmpresasAssociados)) As (EmpresaDb As Empresas, RetornoDb As RetornoDb)
 
-        Dim consulta = Script.GerarDelete(Me)
+        Dim consultaEmpresasAssociados = EmpresasAssociados.ObtenhaListaDeConsultas(ListaEmpresasAssociadosDb)
+
+        consultaEmpresasAssociados.AppendLine(Script.GerarDelete(Me))
+
+        Dim consulta = Script.GerarTransaction(consultaEmpresasAssociados)
 
         Return Comando.Obtenha(Of Empresas)(consulta)
 
@@ -96,7 +107,6 @@ Public Class Empresas
 
         Return Where.ToString()
     End Function
-
 
 
 End Class

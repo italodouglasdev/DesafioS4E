@@ -70,6 +70,7 @@
     <Compile Include="EmpresasAssociados.vb" />
     <Compile Include="Associados.vb" />
     <Compile Include="Empresas.vb" />
+    <Compile Include="Enumeradores\EnumInstrucaoDb.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

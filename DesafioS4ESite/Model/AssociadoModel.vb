@@ -1,4 +1,6 @@
 ﻿
+Imports DesafioS4ESite.Enumeradores
+
 Public Class AssociadoModel
 
     Public Sub New()
@@ -249,7 +251,7 @@ Public Class AssociadoModel
 
             For Each Relacao In Me.ListaEmpresas
 
-                If Relacao.Acao = EnumAcao.Incluir Then
+                If Relacao.Instrucao = EnumInstrucao.Incluir Then
 
                     Dim ConsultaEmpresa = EmpresaModel.Ver(Relacao.Id)
                     If ConsultaEmpresa.Retorno.Sucesso = False Then
@@ -276,7 +278,7 @@ Public Class AssociadoModel
 
             For Each Relacao In Me.ListaEmpresas
 
-                If Relacao.Acao = EnumAcao.Atualizar Or Relacao.Acao = EnumAcao.Excluir Then
+                If Relacao.Instrucao = EnumInstrucao.Incluir Or Relacao.Instrucao = EnumInstrucao.Excluir Then
 
                     Dim ConsultaEmpresa = EmpresaModel.Ver(Relacao.Id)
                     If ConsultaEmpresa.Retorno.Sucesso = False Then

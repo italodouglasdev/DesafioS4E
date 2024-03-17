@@ -1,4 +1,5 @@
-﻿Imports System.Reflection
+﻿Imports System.Data.SqlTypes
+Imports System.Reflection
 Imports System.Security
 Imports System.Text
 
@@ -16,7 +17,7 @@ Namespace SQL
         End Function
 
         ''' <summary>
-        ''' Obtém a lista de nomes de colunas com base no Onjeto informado
+        ''' Obtém a lista de nomes de colunas com base no Objeto informado
         ''' </summary>
         ''' <param name="_Objeto">Objeto que será usado como base para obter os nomes das colunas da tabela do banco de dados</param>
         ''' <param name="AdicionarColunaId">Caso true, adiciona também a Coluna Id aos nomes das colunas</param>
@@ -26,11 +27,12 @@ Namespace SQL
 
             Dim nomeColuna = ObtenhaNomeTabela(_Objeto)
 
-            For Each Propriedade In _Objeto.GetType().GetProperties()
+            For Each Propriedade In ObtenhaPropriedadesDoObjeto(_Objeto)
+
                 If (Propriedade.Name = "Id" AndAlso AdicionarColunaId = True) OrElse (Propriedade.Name <> "Id") Then
                     nomeColunas.Append($"[{nomeColuna}].[{Propriedade.Name}]")
 
-                    If Not Propriedade.Equals(_Objeto.GetType().GetProperties().Last()) Then
+                    If Not Propriedade.Equals(ObtenhaPropriedadesDoObjeto(_Objeto).Last()) Then
                         nomeColunas.Append($", ")
                     End If
                 End If
@@ -40,17 +42,17 @@ Namespace SQL
         End Function
 
         ''' <summary>
-        ''' Obtém a lista de nomes de colunas para o OUTPUT com base no Onjeto informado
+        ''' Obtém a lista de nomes de colunas para o OUTPUT com base no Objeto informado
         ''' </summary>
         ''' <param name="_Objeto">Objeto que será usado como base para obter os nomes das colunas da tabela do banco de dados</param>
         ''' <returns>Nomes das Colunas em formato de texto</returns>
         Private Shared Function ObtenhaNomesColunasOutput(ByVal _Objeto As Object) As String
             Dim nomeColunas As New StringBuilder()
 
-            For Each Propriedade In _Objeto.GetType().GetProperties()
+            For Each Propriedade In ObtenhaPropriedadesDoObjeto(_Objeto)
                 nomeColunas.Append($"Inserted.[{Propriedade.Name}]")
 
-                If Not Propriedade.Equals(_Objeto.GetType().GetProperties().Last()) Then
+                If Not Propriedade.Equals(ObtenhaPropriedadesDoObjeto(_Objeto).Last()) Then
                     nomeColunas.Append($", ")
                 End If
             Next
@@ -66,7 +68,8 @@ Namespace SQL
         Private Shared Function ObtenhaNomesColunasValues(ByVal _Objeto As Object) As String
             Dim nomeColunas As New StringBuilder()
 
-            For Each Propriedade In _Objeto.GetType().GetProperties()
+
+            For Each Propriedade In ObtenhaPropriedadesDoObjeto(_Objeto)
                 Dim Tipo = Propriedade.PropertyType.Name
 
                 If Propriedade.Name <> "Id" Then
@@ -86,7 +89,7 @@ Namespace SQL
                         nomeColunas.Append($"'{valor}'")
                     End If
 
-                    If Not Propriedade.Equals(_Objeto.GetType().GetProperties().Last()) Then
+                    If Not Propriedade.Equals(ObtenhaPropriedadesDoObjeto(_Objeto).Last()) Then
                         nomeColunas.Append($", ")
                     End If
                 End If
@@ -103,7 +106,7 @@ Namespace SQL
         Private Shared Function ObtenhaNomesColunasUpdate(ByVal _Objeto As Object) As String
             Dim nomeColunas As New StringBuilder()
 
-            For Each Propriedade In _Objeto.GetType().GetProperties()
+            For Each Propriedade In ObtenhaPropriedadesDoObjeto(_Objeto)
                 Dim Tipo = Propriedade.PropertyType.Name
 
                 If Propriedade.Name <> "Id" Then
@@ -123,7 +126,7 @@ Namespace SQL
                         nomeColunas.Append($"[{Propriedade.Name}] = '{valor}'")
                     End If
 
-                    If Not Propriedade.Equals(_Objeto.GetType().GetProperties().Last()) Then
+                    If Not Propriedade.Equals(ObtenhaPropriedadesDoObjeto(_Objeto).Last()) Then
                         nomeColunas.Append($", ")
                     End If
                 End If
@@ -156,7 +159,7 @@ Namespace SQL
         Private Shared Function ObtenhaValorDoId(ByVal _Objeto As Object) As Integer
             Dim valor = 0
 
-            For Each Propriedade In _Objeto.GetType().GetProperties()
+            For Each Propriedade In ObtenhaPropriedadesDoObjeto(_Objeto)
                 If Propriedade.Name = "Id" Then
                     Integer.TryParse(ObtenhaValorDaPropriedade(_Objeto, Propriedade), valor)
                     Return valor
@@ -206,17 +209,20 @@ Namespace SQL
         ''' </summary>
         ''' <param name="_Objeto">Objeto que será usado como base para gerar o script desejado </param>
         ''' <returns>Retorna um texto no formato: INSERT INTO [Tabela] ([Coluna1] ... [Coluna(n)]) OUTPUT (Inserted.[Coluna1] ... Inserted.[Coluna(n)]) VALUES ('Valor1' ... 'Valor(n)')</returns>
-        Friend Shared Function GerarInsert(ByVal _Objeto As Object) As String
-            Return $"INSERT INTO {ObtenhaNomeTabela(_Objeto)} ({ObtenhaNomesColunas(_Objeto)}) OUTPUT {ObtenhaNomesColunasOutput(_Objeto)} VALUES ({ObtenhaNomesColunasValues(_Objeto)});"
-        End Function
+        Friend Shared Function GerarInsert(ByVal _Objeto As Object, Optional GerarOutPut As Boolean = True) As String
 
-        ''' <summary>
-        ''' Gera comando Insert genérico para qualquer tabela
-        ''' </summary>
-        ''' <param name="_Objeto">Objeto que será usado como base para gerar o script desejado </param>
-        ''' <returns>Retorna um texto no formato: INSERT INTO [Tabela] ([Coluna1] ... [Coluna(n)]) OUTPUT (Inserted.[Coluna1] ... Inserted.[Coluna(n)]) VALUES ('Valor1' ... 'Valor(n)')</returns>
-        Friend Shared Function GerarInsertSemValues(ByVal _Objeto As Object) As String
-            Return $"INSERT INTO {ObtenhaNomeTabela(_Objeto)} ({ObtenhaNomesColunas(_Objeto)}) OUTPUT {ObtenhaNomesColunasOutput(_Objeto)} "
+            Dim Script = New StringBuilder()
+
+            Script.Append($"INSERT INTO {ObtenhaNomeTabela(_Objeto)} ({ObtenhaNomesColunas(_Objeto)})")
+
+            If GerarOutPut = True Then
+                Script.Append($"OUTPUT {ObtenhaNomesColunasOutput(_Objeto)}")
+            End If
+
+            Script.Append($" VALUES ({ObtenhaNomesColunasValues(_Objeto)});")
+
+            Return Script.ToString()
+
         End Function
 
         ''' <summary>
@@ -224,10 +230,20 @@ Namespace SQL
         ''' </summary>
         ''' <param name="_Objeto">Objeto que será usado como base para gerar o script desejado </param>
         ''' <returns>Retorna um texto no formato: UPDATE [Tabela] SET ([Coluna1] = 'Valor1', ... [Coluna(n)] = 'Valor(n)') WHERE [Id] = 0 </returns>
-        Friend Shared Function GerarUpdate(ByVal _Objeto As Object) As String
+        Friend Shared Function GerarUpdate(ByVal _Objeto As Object, Optional GerarOutPut As Boolean = True) As String
+
             Dim Id = ObtenhaValorDoId(_Objeto)
 
-            Return $"UPDATE {ObtenhaNomeTabela(_Objeto)} SET {ObtenhaNomesColunasUpdate(_Objeto)} WHERE [Id] = '{Id}'; {GerarSelectPorId(_Objeto, Id)}"
+            Dim Script = New StringBuilder()
+
+            Script.Append($"UPDATE {ObtenhaNomeTabela(_Objeto)} SET {ObtenhaNomesColunasUpdate(_Objeto)} WHERE [Id] = '{Id}';")
+
+            If GerarOutPut = True Then
+                Script.Append(GerarSelectPorId(_Objeto, Id))
+            End If
+
+            Return Script.ToString()
+
         End Function
 
         ''' <summary>
@@ -235,13 +251,51 @@ Namespace SQL
         ''' </summary>
         ''' <param name="_Objeto">Objeto que será usado como base para gerar o script desejado </param>
         ''' <returns>Retorna um texto no formato: DELETE FROM [Tabela] WHERE [Id] = 0 </returns>
-        Friend Shared Function GerarDelete(ByVal _Objeto As Object) As String
-            Dim Id = ObtenhaValorDoId(_Objeto)
+        Friend Shared Function GerarDelete(ByVal _Objeto As Object, Optional Where As String = "") As String
 
-            Return $"DELETE FROM {ObtenhaNomeTabela(_Objeto)} WHERE [Id] = '{ObtenhaValorDoId(_Objeto)}'; {GerarSelectPorId(_Objeto, Id)}"
+            Dim Script = New StringBuilder()
+
+            If String.IsNullOrEmpty(Where) Then
+                Dim Id = ObtenhaValorDoId(_Objeto)
+                Where = $"WHERE [Id] = '{ObtenhaValorDoId(_Objeto)}"
+            End If
+
+            Script.Append($"DELETE FROM {ObtenhaNomeTabela(_Objeto)} {Where};")
+
+            Return Script.ToString()
+
         End Function
 
-    End Class
 
+
+        Friend Shared Function GerarTransaction(listaDeScripts As StringBuilder) As String
+
+            Dim sqlTransaction = New StringBuilder()
+
+            sqlTransaction.AppendLine("BEGIN TRANSACTION;")
+
+            sqlTransaction.AppendLine(listaDeScripts.ToString())
+
+            sqlTransaction.AppendLine("IF @@ERROR = 0")
+            sqlTransaction.AppendLine("    COMMIT;")
+            sqlTransaction.AppendLine("ELSE")
+            sqlTransaction.AppendLine("    ROLLBACK;")
+
+            Return sqlTransaction.ToString()
+
+        End Function
+
+        Private Shared Function ObtenhaPropriedadesDoObjeto(_Objeto As Object) As List(Of PropertyInfo)
+
+            Dim PropriedadesDoObjeto = _Objeto.GetType().GetProperties().ToList()
+
+            PropriedadesDoObjeto.RemoveAll(Function(x) x.PropertyType.Name = "EnumInstrucaoDb")
+
+            Return PropriedadesDoObjeto
+
+        End Function
+
+
+    End Class
 
 End Namespace
