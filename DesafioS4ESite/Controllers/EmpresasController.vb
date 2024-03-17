@@ -16,7 +16,7 @@ Namespace Controllers
 
         End Function
 
-        Public Function GetEmpresa(id As Integer) As Object
+        Public Function GetEmpresa(id As Integer)
 
             Dim Consulta = EmpresaModel.Ver(id)
 

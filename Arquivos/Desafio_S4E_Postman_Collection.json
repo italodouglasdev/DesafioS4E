@@ -1,0 +1,951 @@
+{
+	"info": {
+		"_postman_id": "1d96d0db-3de6-4f70-8a91-26a18c455119",
+		"name": "Desafio S4E API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "23620695"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "Associados",
+					"item": [
+						{
+							"name": "GetAssociados",
+							"item": [
+								{
+									"name": "Associados Get Associados",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Associados/GetAssociados?FiltroCPF=<string>&FiltroNome=<string>&FiltroDataNascimentoInicio=<dateTime>&FiltroDataNascimentoFim=<dateTime>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Associados",
+												"GetAssociados"
+											],
+											"query": [
+												{
+													"key": "FiltroCPF",
+													"value": "<string>"
+												},
+												{
+													"key": "FiltroNome",
+													"value": "<string>"
+												},
+												{
+													"key": "FiltroDataNascimentoInicio",
+													"value": "<dateTime>"
+												},
+												{
+													"key": "FiltroDataNascimentoFim",
+													"value": "<dateTime>"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Associados/GetAssociados?FiltroCPF=<string>&FiltroNome=<string>&FiltroDataNascimentoInicio=<dateTime>&FiltroDataNascimentoFim=<dateTime>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Associados",
+														"GetAssociados"
+													],
+													"query": [
+														{
+															"key": "FiltroCPF",
+															"value": "<string>"
+														},
+														{
+															"key": "FiltroNome",
+															"value": "<string>"
+														},
+														{
+															"key": "FiltroDataNascimentoInicio",
+															"value": "<dateTime>"
+														},
+														{
+															"key": "FiltroDataNascimentoFim",
+															"value": "<dateTime>"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "GetAssociado",
+							"item": [
+								{
+									"name": "Associados Get Associado",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Associados/GetAssociado?id=<integer>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Associados",
+												"GetAssociado"
+											],
+											"query": [
+												{
+													"key": "id",
+													"value": "<integer>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Associados/GetAssociado?id=<integer>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Associados",
+														"GetAssociado"
+													],
+													"query": [
+														{
+															"key": "id",
+															"value": "<integer>",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "PostAssociado",
+							"item": [
+								{
+									"name": "Associados Post Associado",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/x-www-form-urlencoded"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "Id",
+													"value": "<integer>"
+												},
+												{
+													"key": "Nome",
+													"value": "<string>"
+												},
+												{
+													"key": "Cpf",
+													"value": "<string>"
+												},
+												{
+													"key": "DataNascimento",
+													"value": "<dateTime>"
+												},
+												{
+													"key": "ListaEmpresas",
+													"value": "[object Object]"
+												},
+												{
+													"key": "ListaEmpresas",
+													"value": "[object Object]"
+												}
+											]
+										},
+										"url": "{{baseUrl}}/api/Associados/PostAssociado"
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/x-www-form-urlencoded"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "Id",
+															"value": "<integer>"
+														},
+														{
+															"key": "Nome",
+															"value": "<string>"
+														},
+														{
+															"key": "Cpf",
+															"value": "<string>"
+														},
+														{
+															"key": "DataNascimento",
+															"value": "<dateTime>"
+														},
+														{
+															"key": "ListaEmpresas",
+															"value": "[object Object]"
+														},
+														{
+															"key": "ListaEmpresas",
+															"value": "[object Object]"
+														}
+													]
+												},
+												"url": "{{baseUrl}}/api/Associados/PostAssociado"
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "PutAssociado",
+							"item": [
+								{
+									"name": "Associados Put Associado",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/x-www-form-urlencoded"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "Id",
+													"value": "<integer>"
+												},
+												{
+													"key": "Nome",
+													"value": "<string>"
+												},
+												{
+													"key": "Cpf",
+													"value": "<string>"
+												},
+												{
+													"key": "DataNascimento",
+													"value": "<dateTime>"
+												},
+												{
+													"key": "ListaEmpresas",
+													"value": "[object Object]"
+												},
+												{
+													"key": "ListaEmpresas",
+													"value": "[object Object]"
+												}
+											]
+										},
+										"url": "{{baseUrl}}/api/Associados/PutAssociado"
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/x-www-form-urlencoded"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "Id",
+															"value": "<integer>"
+														},
+														{
+															"key": "Nome",
+															"value": "<string>"
+														},
+														{
+															"key": "Cpf",
+															"value": "<string>"
+														},
+														{
+															"key": "DataNascimento",
+															"value": "<dateTime>"
+														},
+														{
+															"key": "ListaEmpresas",
+															"value": "[object Object]"
+														},
+														{
+															"key": "ListaEmpresas",
+															"value": "[object Object]"
+														}
+													]
+												},
+												"url": "{{baseUrl}}/api/Associados/PutAssociado"
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "DeleteAssociado",
+							"item": [
+								{
+									"name": "Associados Delete Associado",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Associados/DeleteAssociado?id=<integer>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Associados",
+												"DeleteAssociado"
+											],
+											"query": [
+												{
+													"key": "id",
+													"value": "<integer>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Associados/DeleteAssociado?id=<integer>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Associados",
+														"DeleteAssociado"
+													],
+													"query": [
+														{
+															"key": "id",
+															"value": "<integer>",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Empresas",
+					"item": [
+						{
+							"name": "GetEmpresas",
+							"item": [
+								{
+									"name": "Empresas Get Empresas",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Empresas/GetEmpresas?FiltroCNPJ=<string>&FiltroNome=<string>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Empresas",
+												"GetEmpresas"
+											],
+											"query": [
+												{
+													"key": "FiltroCNPJ",
+													"value": "<string>"
+												},
+												{
+													"key": "FiltroNome",
+													"value": "<string>"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Empresas/GetEmpresas?FiltroCNPJ=<string>&FiltroNome=<string>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Empresas",
+														"GetEmpresas"
+													],
+													"query": [
+														{
+															"key": "FiltroCNPJ",
+															"value": "<string>"
+														},
+														{
+															"key": "FiltroNome",
+															"value": "<string>"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "GetEmpresa",
+							"item": [
+								{
+									"name": "Empresas Get Empresa",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Empresas/GetEmpresa?id=<integer>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Empresas",
+												"GetEmpresa"
+											],
+											"query": [
+												{
+													"key": "id",
+													"value": "<integer>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Empresas/GetEmpresa?id=<integer>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Empresas",
+														"GetEmpresa"
+													],
+													"query": [
+														{
+															"key": "id",
+															"value": "<integer>",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "PostEmpresa",
+							"item": [
+								{
+									"name": "Empresas Post Empresa",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/x-www-form-urlencoded"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "Id",
+													"value": "<integer>"
+												},
+												{
+													"key": "Nome",
+													"value": "<string>"
+												},
+												{
+													"key": "Cnpj",
+													"value": "<string>"
+												},
+												{
+													"key": "ListaAssociados",
+													"value": "[object Object]"
+												},
+												{
+													"key": "ListaAssociados",
+													"value": "[object Object]"
+												}
+											]
+										},
+										"url": "{{baseUrl}}/api/Empresas/PostEmpresa"
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/x-www-form-urlencoded"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "Id",
+															"value": "<integer>"
+														},
+														{
+															"key": "Nome",
+															"value": "<string>"
+														},
+														{
+															"key": "Cnpj",
+															"value": "<string>"
+														},
+														{
+															"key": "ListaAssociados",
+															"value": "[object Object]"
+														},
+														{
+															"key": "ListaAssociados",
+															"value": "[object Object]"
+														}
+													]
+												},
+												"url": "{{baseUrl}}/api/Empresas/PostEmpresa"
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "PutEmpresa",
+							"item": [
+								{
+									"name": "Empresas Put Empresa",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/x-www-form-urlencoded"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "Id",
+													"value": "<integer>"
+												},
+												{
+													"key": "Nome",
+													"value": "<string>"
+												},
+												{
+													"key": "Cnpj",
+													"value": "<string>"
+												},
+												{
+													"key": "ListaAssociados",
+													"value": "[object Object]"
+												},
+												{
+													"key": "ListaAssociados",
+													"value": "[object Object]"
+												}
+											]
+										},
+										"url": "{{baseUrl}}/api/Empresas/PutEmpresa"
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/x-www-form-urlencoded"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "Id",
+															"value": "<integer>"
+														},
+														{
+															"key": "Nome",
+															"value": "<string>"
+														},
+														{
+															"key": "Cnpj",
+															"value": "<string>"
+														},
+														{
+															"key": "ListaAssociados",
+															"value": "[object Object]"
+														},
+														{
+															"key": "ListaAssociados",
+															"value": "[object Object]"
+														}
+													]
+												},
+												"url": "{{baseUrl}}/api/Empresas/PutEmpresa"
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "DeleteEmpresa",
+							"item": [
+								{
+									"name": "Empresas Delete Empresa",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/Empresas/DeleteEmpresa?id=<integer>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"Empresas",
+												"DeleteEmpresa"
+											],
+											"query": [
+												{
+													"key": "id",
+													"value": "<integer>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/Empresas/DeleteEmpresa?id=<integer>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"Empresas",
+														"DeleteEmpresa"
+													],
+													"query": [
+														{
+															"key": "id",
+															"value": "<integer>",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{}"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://localhost:44334"
+		}
+	]
+}

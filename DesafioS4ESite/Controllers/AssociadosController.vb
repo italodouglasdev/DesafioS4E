@@ -4,6 +4,7 @@ Namespace Controllers
     Public Class AssociadosController
         Inherits ApiController
 
+
         Public Function GetAssociados(Optional FiltroCPF As String = "", Optional FiltroNome As String = "", Optional FiltroDataNascimentoInicio As Date = Nothing, Optional FiltroDataNascimentoFim As Date = Nothing) As Object
 
             Dim Consulta = AssociadoModel.VerTodos(FiltroCPF, FiltroNome, FiltroDataNascimentoInicio, FiltroDataNascimentoFim)
