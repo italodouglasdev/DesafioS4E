@@ -126,6 +126,14 @@ Namespace SQL
                 Return "Não foi possível realizar a exclusão do Assiciado, pois ela possui vínculo com uma ou mais Empresas!"
             End If
 
+            If mensagem.Contains("UK_Empresas_Cnpj") Then
+                Return "O CNPJ informado já possui um cadastro!"
+
+            End If
+            If mensagem.Contains("UK_Associados_Cpf") Then
+                Return "O CPF informado já possui um cadastro!"
+            End If
+
             Return mensagem
 
         End Function

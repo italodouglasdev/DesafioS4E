@@ -85,7 +85,6 @@ Public Class EmpresaModel
             Return (Me, ResultadoValidacao)
         End If
 
-
         Dim empresaDb = ConverterParaBanco(Me)
 
         Dim ConsultaDb = empresaDb.Insert()
