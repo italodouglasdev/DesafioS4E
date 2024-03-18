@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1d96d0db-3de6-4f70-8a91-26a18c455119",
+		"_postman_id": "b83f872d-2580-4e84-8fcb-27ce6ba28b34",
 		"name": "Desafio S4E API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "23620695"
@@ -26,7 +26,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{baseUrl}}/api/Associados/GetAssociados?FiltroCPF=<string>&FiltroNome=<string>&FiltroDataNascimentoInicio=<dateTime>&FiltroDataNascimentoFim=<dateTime>",
+											"raw": "{{baseUrl}}/api/Associados/GetAssociados?filtroCPF=<string>&filtroNome=<string>&filtroDataNascimentoInicio=<dateTime>&filtroDataNascimentoFim=<dateTime>",
 											"host": [
 												"{{baseUrl}}"
 											],
@@ -37,19 +37,19 @@
 											],
 											"query": [
 												{
-													"key": "FiltroCPF",
+													"key": "filtroCPF",
 													"value": "<string>"
 												},
 												{
-													"key": "FiltroNome",
+													"key": "filtroNome",
 													"value": "<string>"
 												},
 												{
-													"key": "FiltroDataNascimentoInicio",
+													"key": "filtroDataNascimentoInicio",
 													"value": "<dateTime>"
 												},
 												{
-													"key": "FiltroDataNascimentoFim",
+													"key": "filtroDataNascimentoFim",
 													"value": "<dateTime>"
 												}
 											]
@@ -67,7 +67,7 @@
 													}
 												],
 												"url": {
-													"raw": "{{baseUrl}}/api/Associados/GetAssociados?FiltroCPF=<string>&FiltroNome=<string>&FiltroDataNascimentoInicio=<dateTime>&FiltroDataNascimentoFim=<dateTime>",
+													"raw": "{{baseUrl}}/api/Associados/GetAssociados?filtroCPF=<string>&filtroNome=<string>&filtroDataNascimentoInicio=<dateTime>&filtroDataNascimentoFim=<dateTime>",
 													"host": [
 														"{{baseUrl}}"
 													],
@@ -78,19 +78,19 @@
 													],
 													"query": [
 														{
-															"key": "FiltroCPF",
+															"key": "filtroCPF",
 															"value": "<string>"
 														},
 														{
-															"key": "FiltroNome",
+															"key": "filtroNome",
 															"value": "<string>"
 														},
 														{
-															"key": "FiltroDataNascimentoInicio",
+															"key": "filtroDataNascimentoInicio",
 															"value": "<dateTime>"
 														},
 														{
-															"key": "FiltroDataNascimentoFim",
+															"key": "filtroDataNascimentoFim",
 															"value": "<dateTime>"
 														}
 													]
@@ -507,7 +507,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{baseUrl}}/api/Empresas/GetEmpresas?FiltroCNPJ=<string>&FiltroNome=<string>",
+											"raw": "{{baseUrl}}/api/Empresas/GetEmpresas?filtroCNPJ=<string>&filtroNome=<string>",
 											"host": [
 												"{{baseUrl}}"
 											],
@@ -518,11 +518,11 @@
 											],
 											"query": [
 												{
-													"key": "FiltroCNPJ",
+													"key": "filtroCNPJ",
 													"value": "<string>"
 												},
 												{
-													"key": "FiltroNome",
+													"key": "filtroNome",
 													"value": "<string>"
 												}
 											]
@@ -540,7 +540,7 @@
 													}
 												],
 												"url": {
-													"raw": "{{baseUrl}}/api/Empresas/GetEmpresas?FiltroCNPJ=<string>&FiltroNome=<string>",
+													"raw": "{{baseUrl}}/api/Empresas/GetEmpresas?filtroCNPJ=<string>&filtroNome=<string>",
 													"host": [
 														"{{baseUrl}}"
 													],
@@ -551,11 +551,11 @@
 													],
 													"query": [
 														{
-															"key": "FiltroCNPJ",
+															"key": "filtroCNPJ",
 															"value": "<string>"
 														},
 														{
-															"key": "FiltroNome",
+															"key": "filtroNome",
 															"value": "<string>"
 														}
 													]
