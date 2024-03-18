@@ -9,6 +9,11 @@ Namespace SQL
         Public Sub New()
         End Sub
 
+        ''' <summary>
+        ''' Instacia um novo objeto
+        ''' </summary>
+        ''' <param name="_SQLSucesso"></param>
+        ''' <param name="_SQLMensagem"></param>
         Public Sub New(ByVal _SQLSucesso As Boolean, ByVal _SQLMensagem As String)
             Sucesso = _SQLSucesso
             Mensagem = _SQLMensagem
@@ -18,7 +23,7 @@ Namespace SQL
         ''' <summary>
         ''' Propriedade responsável por armazenar o Status da Consulta SQL
         ''' </summary>
-        ''' <returns>[True] Executado com Sucesso | [Falas] Erro na Execução</returns>
+        ''' <returns>[True] Executado com Sucesso | [False] Erro na Execução</returns>
         Public Property Sucesso As Boolean
 
         ''' <summary>

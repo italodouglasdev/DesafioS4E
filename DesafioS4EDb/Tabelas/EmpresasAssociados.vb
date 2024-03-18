@@ -22,19 +22,34 @@ Public Class EmpresasAssociados
         Me.Instrucao = instrucao
     End Sub
 
+    ''' <summary>
+    ''' Id da Empresa
+    ''' </summary>
+    ''' <returns></returns>
     Property IdEmpresa As Integer
+
+    ''' <summary>
+    ''' Id do Associado
+    ''' </summary>
+    ''' <returns></returns>
     Property IdAssociado As Integer
 
-    'Essa propriedade não faz parte da tabela, posteriormente ela é desconsiderada no momento de gerar os Scripts
+    ''' <summary>
+    ''' Essa propriedade não faz parte da tabela, posteriormente ela é desconsiderada no momento de gerar os Scripts
+    ''' </summary>
+    ''' <returns></returns>
     Property Instrucao As EnumInstrucaoDb
+
+
+
 
 
     ''' <summary>
     ''' Obtém um objeto do tipo EmpresasAssociados pelo Id da Empresa e Id do Associado
     ''' </summary>
     ''' <param name="IdEmpresa">Id da Empresa</param>
-    '''  <param name="IdAssociado">Id do Associado</param>
-    ''' <returns>Retorna uma tupla com o objeto e o retorno da Consulta SQL</returns>
+    ''' <param name="IdAssociado">Id do Associado</param>
+    ''' <returns>Tupla (EmpresaAssociadoDb As EmpresasAssociados, RetornoDb As RetornoDb)</returns>
     Public Shared Function [Select](idEmpresa As Integer, idAssociado As Integer) As (EmpresaAssociadoDb As EmpresasAssociados, RetornoDb As RetornoDb)
 
         Dim where = GerarClausulaWhereIdEmpresaIdAssociado(idEmpresa, idAssociado)
@@ -50,7 +65,7 @@ Public Class EmpresasAssociados
     ''' </summary>
     ''' <param name="IdEmpresa">Id da Empresa (Opcional)</param>
     ''' <param name="IdAssociado">Id do Associado (Opcional)</param>
-    ''' <returns>Retorna uma tupla com uma lista de objetos e o retorno da Consulta SQL</returns>
+    ''' <returns>Tupla (ListaEmpresaAssociadosDb As List(Of EmpresasAssociados), RetornoDb As RetornoDb)</returns>
     Public Shared Function SelectAll(Optional idEmpresa As Integer = 0, Optional idAssociado As Integer = 0) As (ListaEmpresaAssociadosDb As List(Of EmpresasAssociados), RetornoDb As RetornoDb)
 
         Dim Where = GerarClausulaWhereIdEmpresaIdAssociado(idEmpresa, idAssociado)
@@ -60,6 +75,8 @@ Public Class EmpresasAssociados
         Return Comando.ObtenhaLista(Of EmpresasAssociados)(consulta)
 
     End Function
+
+
 
     ''' <summary>
     ''' Obtém consultas SQL de acordo com o tipo de Instrução
@@ -78,7 +95,7 @@ Public Class EmpresasAssociados
 
                     scripts.AppendLine(Script.GerarInsert(empresaAssociadoDb, False))
 
-                ElseIf empresaAssociadoDb.Instrucao = EnumInstrucaoDb.Excluir Then
+                ElseIf empresaAssociadoDb.Instrucao = EnumInstrucaoDb.Remover Then
 
                     scripts.AppendLine(Script.GerarDelete(empresaAssociadoDb, $"WHERE [IdEmpresa] = {empresaAssociadoDb.IdEmpresa} AND [IdAssociado] = {empresaAssociadoDb.IdAssociado}"))
 

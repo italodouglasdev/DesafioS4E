@@ -14,6 +14,8 @@ Public Class EmpresaAssociadoModel
 
     Property IdEmpresa As String
     Property IdAssociado As String
+
+
     Property Instrucao As EnumInstrucao
 
     Private Shared Function ConverterParaModelo(EmpresaAssociadoDb As DesafioS4EDb.EmpresasAssociados) As EmpresaAssociadoModel

@@ -55,7 +55,7 @@ Public Class Associados
     ''' Obtém um objeto do tipo Associado pelo Id do Associado
     ''' </summary>
     ''' <param name="id">Id do Associado</param>
-    ''' <returns>Retorna uma tupla com o objeto e o retorno da Consulta SQL</returns>
+    ''' <returns>Tupla (AssociadoDb As Associados, RetornoDb As RetornoDb)</returns>
     Public Shared Function [Select](id As Integer) As (AssociadoDb As Associados, RetornoDb As RetornoDb)
 
         Dim consulta = Script.GerarSelectPorId(New Associados, id)
@@ -68,7 +68,7 @@ Public Class Associados
     ''' Obtém um objeto do tipo Associado pelo CPF do Associado
     ''' </summary>
     ''' <param name="cpf">CPF do Associado</param>
-    ''' <returns>Retorna uma tupla com o objeto e o retorno da Consulta SQL</returns>
+    ''' <returns>Tupla (AssociadoDb As Associados, RetornoDb As RetornoDb)</returns>
     Public Shared Function [Select](cpf As String) As (AssociadoDb As Associados, RetornoDb As RetornoDb)
 
         Dim where = GerarClausulaWherePorCPFNomeDataNascimento(cpf)
@@ -86,7 +86,7 @@ Public Class Associados
     ''' <param name="FiltroNome">Filtro de Nome (Opcional)</param>
     ''' <param name="FiltroDataNascimentoInicio">Filtro de Data de Nascimento Incício (Opcional)</param>
     ''' <param name="FiltroDataNascimentoFim">Filtro de Data de Nascimento Fim (Opcional)</param>
-    ''' <returns>Retorna uma tupla com uma lista de objetos e o retorno da Consulta SQL</returns>
+    ''' <returns>Tupla (ListaAssociadosDb As List(Of Associados), RetornoDb As RetornoDb)</returns>
     Public Shared Function SelectAll(Optional filtroCPF As String = "", Optional filtroNome As String = "", Optional filtroDataNascimentoInicio As Date = Nothing, Optional filtroDataNascimentoFim As Date = Nothing) As (ListaAssociadosDb As List(Of Associados), RetornoDb As RetornoDb)
 
         Dim where = GerarClausulaWherePorCPFNomeDataNascimento(filtroCPF, filtroNome, filtroDataNascimentoInicio, filtroDataNascimentoFim)
@@ -100,7 +100,7 @@ Public Class Associados
     ''' <summary>
     ''' Realiza o Insert no banco de dados do objeto instanciado
     ''' </summary>
-    ''' <returns>Retorna uma tupla com o objeto e o retorno da Consulta SQL</returns>
+    ''' <returns>Tupla (AssociadoDb As Associados, RetornoDb As RetornoDb)</returns>
     Public Function Insert() As (AssociadoDb As Associados, RetornoDb As RetornoDb)
 
         Dim consulta = Script.GerarInsert(Me)
@@ -113,7 +113,7 @@ Public Class Associados
     ''' Realiza o Update no banco de dados do objeto instanciado
     ''' </summary>
     ''' <param name="ListaEmpresasAssociadosDb">Lista de Empresas Associados</param>
-    ''' <returns>Retorna uma tupla com o objeto e o retorno da Consulta SQL</returns>
+    ''' <returns>Tupla (AssociadoDb As Associados, RetornoDb As RetornoDb)</returns>
     Public Function Update(listaEmpresasAssociadosDb As List(Of EmpresasAssociados)) As (AssociadoDb As Associados, RetornoDb As RetornoDb)
 
         Dim consultaEmpresasAssociados = EmpresasAssociados.ObtenhaListaDeConsultas(listaEmpresasAssociadosDb)
@@ -130,7 +130,7 @@ Public Class Associados
     ''' Realiza o Delete no banco de dados do objeto instanciado
     ''' </summary>
     ''' <param name="ListaEmpresasAssociadosDb">Lista de Empresas Associados</param>
-    ''' <returns>Retorna uma tupla com o objeto e o retorno da Consulta SQL</returns>
+    ''' <returns>Tupla (AssociadoDb As Associados, RetornoDb As RetornoDb)</returns>
     Public Function Delete(listaEmpresasAssociadosDb As List(Of EmpresasAssociados)) As (AssociadoDb As Associados, RetornoDb As RetornoDb)
 
         Dim consultaEmpresasAssociados = EmpresasAssociados.ObtenhaListaDeConsultas(listaEmpresasAssociadosDb)
@@ -142,6 +142,8 @@ Public Class Associados
         Return Comando.Obtenha(Of Associados)(consulta)
 
     End Function
+
+
 
     ''' <summary>
     ''' Gerar a cláusula WHERE com base nos parâmetros informados

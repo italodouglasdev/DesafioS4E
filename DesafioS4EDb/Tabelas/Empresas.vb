@@ -30,7 +30,7 @@ Public Class Empresas
     ''' Obtém um objeto do tipo Empresa pelo Id da Empresa
     ''' </summary>
     ''' <param name="id">Id da Empresa</param>
-    ''' <returns>Retorna uma tupla com o objeto e o retorno da Consulta SQL</returns>
+    ''' <returns>Tupla (EmpresaDb As Empresas, RetornoDb As RetornoDb)</returns>
     Public Shared Function [Select](id As Integer) As (EmpresaDb As Empresas, RetornoDb As RetornoDb)
 
         Dim consulta = Script.GerarSelectPorId(New Empresas, id)
@@ -43,7 +43,7 @@ Public Class Empresas
     ''' Obtém um objeto do tipo Empresa pelo CNPJ da Empresa
     ''' </summary>
     ''' <param name="cnpj">CNPJ da Empresa</param>
-    ''' <returns>Retorna uma tupla com o objeto e o retorno da Consulta SQL</returns>
+    ''' <returns>Tupla (EmpresaDb As Empresas, RetornoDb As RetornoDb)</returns>
     Public Shared Function [Select](cnpj As String) As (EmpresaDb As Empresas, RetornoDb As RetornoDb)
 
         Dim where = GerarClausulaWherePorNomeEOuCNPJ(cnpj)
@@ -59,7 +59,7 @@ Public Class Empresas
     ''' </summary>
     ''' <param name="FiltroCNPJ">Filtro de CNPJ (Opcional)</param>
     ''' <param name="FiltroNome">Filtro de Nome (Opcional)</param>
-    ''' <returns>Retorna uma tupla com uma lista de objetos e o retorno da Consulta SQL</returns>
+    ''' <returns>Tupla (ListaEmpresasDb As List(Of Empresas), RetornoDb As RetornoDb)</returns>
     Public Shared Function SelectAll(Optional filtroCNPJ As String = "", Optional filtroNome As String = "") As (ListaEmpresasDb As List(Of Empresas), RetornoDb As RetornoDb)
 
         Dim where = GerarClausulaWherePorNomeEOuCNPJ(filtroCNPJ, filtroNome)
@@ -73,7 +73,7 @@ Public Class Empresas
     ''' <summary>
     ''' Realiza o Insert no banco de dados do objeto instanciado
     ''' </summary>
-    ''' <returns>Retorna uma tupla com o objeto e o retorno da Consulta SQL</returns>
+    ''' <returns>Tupla (EmpresaDb As Empresas, RetornoDb As RetornoDb)</returns>
     Public Function Insert() As (EmpresaDb As Empresas, RetornoDb As RetornoDb)
 
         Dim consulta = Script.GerarInsert(Me)
@@ -86,7 +86,7 @@ Public Class Empresas
     ''' Realiza o Update no banco de dados do objeto instanciado
     ''' </summary>
     ''' <param name="ListaEmpresasAssociadosDb">Lista de EmpresasAssociados</param>
-    ''' <returns>Retorna uma tupla com o objeto e o retorno da Consulta SQL</returns>
+    ''' <returns>Tupla (EmpresaDb As Empresas, RetornoDb As RetornoDb)</returns>
     Public Function Update(listaEmpresasAssociadosDb As List(Of EmpresasAssociados)) As (EmpresaDb As Empresas, RetornoDb As RetornoDb)
 
         Dim consultaEmpresasAssociados = EmpresasAssociados.ObtenhaListaDeConsultas(listaEmpresasAssociadosDb)
@@ -103,7 +103,7 @@ Public Class Empresas
     ''' Realiza o Delete no banco de dados do objeto instanciado
     ''' </summary>
     ''' <param name="ListaEmpresasAssociadosDb">Lista de EmpresasAssociados</param>
-    ''' <returns>Retorna uma tupla com o objeto e o retorno da Consulta SQL</returns>
+    ''' <returns>Tupla (EmpresaDb As Empresas, RetornoDb As RetornoDb)</returns>
     Public Function Delete(listaEmpresasAssociadosDb As List(Of EmpresasAssociados)) As (EmpresaDb As Empresas, RetornoDb As RetornoDb)
 
         Dim consultaEmpresasAssociados = EmpresasAssociados.ObtenhaListaDeConsultas(listaEmpresasAssociadosDb)
