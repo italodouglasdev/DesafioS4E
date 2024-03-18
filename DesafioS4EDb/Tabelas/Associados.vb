@@ -182,7 +182,7 @@ Public Class Associados
             Where.Append($"UPPER([Nome]) Like '%{filtroNome.ToUpper()}%' ")
         End If
 
-        If filtroDataNascimentoInicio <> Nothing Then
+        If filtroDataNascimentoInicio <> Nothing And filtroDataNascimentoInicio <> New DateTime(1, 1, 1) Then
 
             If Where.Length = 0 Then
                 Where.Append($" WHERE ")
@@ -193,7 +193,7 @@ Public Class Associados
             Where.Append($"[DataNascimento] >= '{Helpers.FormatacaoHelper.FormatarDataTime_yyyyMMddHHmm(filtroDataNascimentoInicio)}' ")
         End If
 
-        If filtroDataNascimentoFim <> Nothing Then
+        If filtroDataNascimentoFim <> Nothing And filtroDataNascimentoInicio <> New DateTime(1, 1, 1) Then
 
             If Where.Length = 0 Then
                 Where.Append($" WHERE ")

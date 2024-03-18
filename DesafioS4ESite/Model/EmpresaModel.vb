@@ -201,7 +201,7 @@ Public Class EmpresaModel
 
         Dim model = ConverterParaModelo(consultaDb.EmpresaDb, consultaDb.RetornoDb)
 
-        model.Empresa.ListaAssociados = RelacaoEmpresaAssociadoModel.VerTodos(consultaDb.EmpresaDb.Id, EnumTipoRelacao.EmpresasDoAssociado)
+        model.Empresa.ListaAssociados = RelacaoEmpresaAssociadoModel.VerTodos(consultaDb.EmpresaDb.Id, EnumTipoRelacao.AssociadosDaEmpresa)
 
         Return model
 

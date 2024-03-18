@@ -104,7 +104,7 @@ Public Class AssociadoModel
 
         Dim model = ConverterParaModelo(consultaDb.AssociadoDb, consultaDb.RetornoDb)
 
-        model.Associado.ListaEmpresas = RelacaoEmpresaAssociadoModel.VerTodos(consultaDb.AssociadoDb.Id, EnumTipoRelacao.AssociadosDaEmpresa)
+        model.Associado.ListaEmpresas = RelacaoEmpresaAssociadoModel.VerTodos(consultaDb.AssociadoDb.Id, EnumTipoRelacao.EmpresasDoAssociado)
 
         Return model
 
@@ -126,7 +126,7 @@ Public Class AssociadoModel
 
         Dim model = ConverterParaModelo(consultaDb.AssociadoDb, consultaDb.RetornoDb)
 
-        model.Associado.ListaEmpresas = RelacaoEmpresaAssociadoModel.VerTodos(consultaDb.AssociadoDb.Id, EnumTipoRelacao.AssociadosDaEmpresa)
+        model.Associado.ListaEmpresas = RelacaoEmpresaAssociadoModel.VerTodos(consultaDb.AssociadoDb.Id, EnumTipoRelacao.EmpresasDoAssociado)
 
         Return model
 
@@ -155,7 +155,7 @@ Public Class AssociadoModel
 
             Dim associado = ConverterParaModelo(associadoDb)
 
-            associado.ListaEmpresas = RelacaoEmpresaAssociadoModel.VerTodos(associadoDb.Id, EnumTipoRelacao.AssociadosDaEmpresa)
+            associado.ListaEmpresas = RelacaoEmpresaAssociadoModel.VerTodos(associadoDb.Id, EnumTipoRelacao.EmpresasDoAssociado)
 
             listaAssociadosModel.Add(associado)
         Next
@@ -180,14 +180,14 @@ Public Class AssociadoModel
 
         Dim consultaDb = associadoDb.Insert()
 
-        If consultaDb.RetornoDb.Sucesso And consultaDb.AssociadoDb.Id > 0 And Me.ListaEmpresas.Any = True Then
-            Dim listaEmpresasAssociadosDb = EmpresaAssociadoModel.ConverterParaListaBanco(EnumTipoRelacao.AssociadosDaEmpresa, consultaDb.AssociadoDb.Id, Me.ListaEmpresas)
+        If consultaDb.RetornoDb.Sucesso And consultaDb.AssociadoDb.Id > 0 And Me.ListaEmpresas IsNot Nothing Then
+            Dim listaEmpresasAssociadosDb = EmpresaAssociadoModel.ConverterParaListaBanco(EnumTipoRelacao.EmpresasDoAssociado, consultaDb.AssociadoDb.Id, Me.ListaEmpresas)
             consultaDb = consultaDb.AssociadoDb.Update(listaEmpresasAssociadosDb)
         End If
 
         Dim model = ConverterParaModelo(consultaDb.AssociadoDb, consultaDb.RetornoDb)
 
-        model.Associado.ListaEmpresas = RelacaoEmpresaAssociadoModel.VerTodos(consultaDb.AssociadoDb.Id, EnumTipoRelacao.AssociadosDaEmpresa)
+        model.Associado.ListaEmpresas = RelacaoEmpresaAssociadoModel.VerTodos(consultaDb.AssociadoDb.Id, EnumTipoRelacao.EmpresasDoAssociado)
 
         Return model
 
@@ -207,13 +207,13 @@ Public Class AssociadoModel
 
         Dim associadoDb = ConverterParaBanco(Me)
 
-        Dim listaEmpresasAssociadosDb = EmpresaAssociadoModel.ConverterParaListaBanco(EnumTipoRelacao.AssociadosDaEmpresa, Me.Id, Me.ListaEmpresas)
+        Dim listaEmpresasAssociadosDb = EmpresaAssociadoModel.ConverterParaListaBanco(EnumTipoRelacao.EmpresasDoAssociado, Me.Id, Me.ListaEmpresas)
 
         Dim consultaDb = associadoDb.Update(listaEmpresasAssociadosDb)
 
         Dim model = ConverterParaModelo(consultaDb.AssociadoDb, consultaDb.RetornoDb)
 
-        model.Associado.ListaEmpresas = RelacaoEmpresaAssociadoModel.VerTodos(consultaDb.AssociadoDb.Id, EnumTipoRelacao.AssociadosDaEmpresa)
+        model.Associado.ListaEmpresas = RelacaoEmpresaAssociadoModel.VerTodos(consultaDb.AssociadoDb.Id, EnumTipoRelacao.EmpresasDoAssociado)
 
         Return model
 
@@ -397,7 +397,7 @@ Public Class AssociadoModel
                         Return ConsultaAssociado.Retorno
                     End If
 
-                    Dim ConsultaEmpresaAssociado = EmpresaAssociadoModel.Ver(Me.Id, relacaoEmpresaAssociado.Id)
+                    Dim ConsultaEmpresaAssociado = EmpresaAssociadoModel.Ver(relacaoEmpresaAssociado.Id, Me.Id)
                     If ConsultaEmpresaAssociado.Retorno.Sucesso = True Then
                         ConsultaEmpresaAssociado.Retorno.Sucesso = False
                         ConsultaEmpresaAssociado.Retorno.Mensagem = $"Já existe uma relação entro a Empresa e o Associado informados! | Detalhes do Associado: Id {relacaoEmpresaAssociado.Id}"
@@ -430,13 +430,13 @@ Public Class AssociadoModel
 
                 If relacaoEmpresaAssociado.Instrucao = EnumInstrucao.Incluir Then
 
-                    Dim ConsultaAssociado = AssociadoModel.Ver(relacaoEmpresaAssociado.Id)
+                    Dim ConsultaAssociado = EmpresaModel.Ver(relacaoEmpresaAssociado.Id)
                     If ConsultaAssociado.Retorno.Sucesso = False Then
                         ConsultaAssociado.Retorno.Mensagem += $" | Detalhes da Empresa: Id {relacaoEmpresaAssociado.Id}"
                         Return ConsultaAssociado.Retorno
                     End If
 
-                    Dim ConsultaEmpresaAssociado = EmpresaAssociadoModel.Ver(Me.Id, relacaoEmpresaAssociado.Id)
+                    Dim ConsultaEmpresaAssociado = EmpresaAssociadoModel.Ver(relacaoEmpresaAssociado.Id, Me.Id)
                     If ConsultaEmpresaAssociado.Retorno.Sucesso = True Then
                         ConsultaEmpresaAssociado.Retorno.Sucesso = False
                         ConsultaEmpresaAssociado.Retorno.Mensagem = $"Já existe uma relação entro a Empresa e o Associado informados! | Detalhes do Associado: Id {relacaoEmpresaAssociado.Id}"
@@ -445,13 +445,13 @@ Public Class AssociadoModel
 
                 ElseIf relacaoEmpresaAssociado.Instrucao = EnumInstrucao.Remover Then
 
-                    Dim ConsultaAssociado = AssociadoModel.Ver(relacaoEmpresaAssociado.Id)
+                    Dim ConsultaAssociado = EmpresaModel.Ver(relacaoEmpresaAssociado.Id)
                     If ConsultaAssociado.Retorno.Sucesso = False Then
                         ConsultaAssociado.Retorno.Mensagem += $" | Detalhes da Empresa: Id {relacaoEmpresaAssociado.Id}"
                         Return ConsultaAssociado.Retorno
                     End If
 
-                    Dim ConsultaEmpresaAssociado = EmpresaAssociadoModel.Ver(Me.Id, relacaoEmpresaAssociado.Id)
+                    Dim ConsultaEmpresaAssociado = EmpresaAssociadoModel.Ver(relacaoEmpresaAssociado.Id, Me.Id)
                     If ConsultaEmpresaAssociado.Retorno.Sucesso = False Then
                         ConsultaEmpresaAssociado.Retorno.Mensagem += $" | Detalhes da Empresa: Id {relacaoEmpresaAssociado.Id}"
                         Return ConsultaEmpresaAssociado.Retorno

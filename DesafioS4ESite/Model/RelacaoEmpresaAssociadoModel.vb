@@ -48,18 +48,18 @@ Public Class RelacaoEmpresaAssociadoModel
 
         If tipoRelacao = EnumTipoRelacao.EmpresasDoAssociado Then
 
-            Dim consultaDb = DesafioS4EDb.EmpresasAssociados.SelectAll(id, 0)
-
-            For Each empresaAssociadoDb In consultaDb.ListaEmpresaAssociadosDb
-                listaRelacoesEmpresasAssociados.Add(New RelacaoEmpresaAssociadoModel(empresaAssociadoDb.IdAssociado, EnumInstrucao.Consultar))
-            Next
-
-        ElseIf tipoRelacao = EnumTipoRelacao.AssociadosDaEmpresa Then
-
             Dim consultaDb = DesafioS4EDb.EmpresasAssociados.SelectAll(0, id)
 
             For Each empresaAssociadoDb In consultaDb.ListaEmpresaAssociadosDb
                 listaRelacoesEmpresasAssociados.Add(New RelacaoEmpresaAssociadoModel(empresaAssociadoDb.IdEmpresa, EnumInstrucao.Consultar))
+            Next
+
+        ElseIf tipoRelacao = EnumTipoRelacao.AssociadosDaEmpresa Then
+
+            Dim consultaDb = DesafioS4EDb.EmpresasAssociados.SelectAll(id, 0)
+
+            For Each empresaAssociadoDb In consultaDb.ListaEmpresaAssociadosDb
+                listaRelacoesEmpresasAssociados.Add(New RelacaoEmpresaAssociadoModel(empresaAssociadoDb.IdAssociado, EnumInstrucao.Consultar))
             Next
 
         End If

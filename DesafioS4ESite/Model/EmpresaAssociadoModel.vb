@@ -104,6 +104,7 @@ Public Class EmpresaAssociadoModel
         Dim consultaDb = DesafioS4EDb.EmpresasAssociados.Select(idEmpresa, idAssociado)
 
         Dim resultadoValidacao = ValidarVer(consultaDb.EmpresaAssociadoDb.IdEmpresa, consultaDb.EmpresaAssociadoDb.IdAssociado)
+
         If resultadoValidacao.Sucesso = False Then
             Return (ConverterParaModelo(consultaDb.EmpresaAssociadoDb), resultadoValidacao)
         End If

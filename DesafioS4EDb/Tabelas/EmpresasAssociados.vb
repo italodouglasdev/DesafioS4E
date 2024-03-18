@@ -76,8 +76,6 @@ Public Class EmpresasAssociados
 
     End Function
 
-
-
     ''' <summary>
     ''' Obtém consultas SQL de acordo com o tipo de Instrução
     ''' </summary>

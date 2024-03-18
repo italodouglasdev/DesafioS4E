@@ -68,6 +68,51 @@ Partial Public Class CadastroAssociado
     Protected WithEvents txtDataNascimento As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
+    '''Controle ListaEmpresasDoAssociadoItens.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents ListaEmpresasDoAssociadoItens As Global.System.Web.UI.HtmlControls.HtmlGenericControl
+
+    '''<summary>
+    '''Controle txtBuscarCPF.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtBuscarCPF As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtBuscarNome.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtBuscarNome As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtBuscarDataNascimentoInicio.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtBuscarDataNascimentoInicio As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
+    '''Controle txtBuscarDataNascimentoFim.
+    '''</summary>
+    '''<remarks>
+    '''Campo gerado automaticamente.
+    '''Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+    '''</remarks>
+    Protected WithEvents txtBuscarDataNascimentoFim As Global.System.Web.UI.WebControls.TextBox
+
+    '''<summary>
     '''Controle ListaAssociadosItens.
     '''</summary>
     '''<remarks>

@@ -36,18 +36,78 @@
                         </div>
 
                         <div class="row mt-3">
+                            <div class="accordion accordion-flush" id="accordionEmpresaAssociados">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#flush-EmpresaAssociados" aria-expanded="false" aria-controls="flush-EmpresaAssociados">
+                                            Associados da Empresa
+                                        </button>
+                                    </h2>
+
+                                    <div id="flush-EmpresaAssociados" class="accordion-collapse collapse" data-bs-parent="#accordionEmpresaAssociados">
+
+                                        <div>
+                                            <table class="table" id="ListaAssociadosDaEmpresas">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Id</th>
+                                                        <th scope="col">CPF</th>
+                                                        <th scope="col">Nome</th>
+                                                        <th scope="col">Nascimento</th>
+                                                        <th scope="col"></th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody runat="server" id="ListaAssociadosDaEmpresasItens">
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
                             <div class="col-12">
                                 <asp:Button runat="server" OnClick="LimparFormulario" Text="Nova" CssClass="btn btn-success" />
                                 <asp:Button runat="server" OnClick="ExcluirEmpresa" Text="Excluir" CssClass="btn btn-danger" />
                                 <asp:Button runat="server" OnClick="SalvarEmpresa" Text="Salvar" CssClass="btn btn-primary" />
                             </div>
                         </div>
+
                     </div>
                 </div>
 
                 <div class="card mt-5">
                     <h5 class="card-header">Lista de Empresas</h5>
                     <div class="card-body">
+
+                        <div>
+                            <div class="row">
+
+                                <div class="col-4">
+                                    <asp:Label runat="server" AssociatedControlID="txtBuscarCNPJ" CssClass=" col-form-label">CNPJ</asp:Label>
+                                    <asp:TextBox runat="server" ID="txtBuscarCNPJ" CssClass="form-control" MaxLength="14" />
+                                </div>
+                                <div class="col-6">
+                                    <asp:Label runat="server" AssociatedControlID="txtBuscarNome" CssClass="col-form-label">Nome</asp:Label>
+                                    <asp:TextBox runat="server" ID="txtBuscarNome" CssClass="form-control" MaxLength="200" />
+                                </div>
+
+                            </div>
+
+                            <div class="row mt-3 mb-5">
+                                <div class="col-12">
+                                    <asp:Button runat="server" OnClick="AtualizarTabelaEmpresas" Text="Buscar" CssClass="btn btn-primary btn-block" />
+                                </div>
+                            </div>
+
+                            <hr />
+
+                        </div>
 
 
                         <table class="table" id="ListaEmpresas">
@@ -62,6 +122,7 @@
 
                             <tbody runat="server" id="ListaEmpresasItens">
                             </tbody>
+
                         </table>
 
                     </div>

@@ -5,7 +5,8 @@
     <main>
         <section class="row mb-5" aria-labelledby="aspnetTitle">
             <h1 id="aspnetTitle">Desafio S4E</h1>
-            <p class="lead">Projeto desenvolvido em WebForms, utilizando VB.Net como lingauagem e Banco de Dados em SQL Server. Também foi integrado ao projeto o Swagger para facilitar a utilização da API, inclusive toda sua documentação.</p>             
+            <p class="lead">Projeto desenvolvido em WebForms, utilizando VB.Net como linguagem e Banco de Dados em SQL Server.</p>
+            <p class="lead">Também foi integrado ao projeto o Swagger para facilitar a utilização da API.</p>
             <p><a href="https://github.com/italodouglasdev/DesafioS4E" target="_blank" class="btn btn-dark btn-md">Repositório GitHub &raquo;</a></p>
         </section>
 
@@ -16,7 +17,7 @@
                     Clique para ter acesso ao cadastro de Empresas, nele é possível realizar consultas, inclusões e alterações.
                 </p>
                 <p>
-                    <a class="btn btn-primary" href="/CadastroEmpresa">Abrir Cadastro</a>
+                    <a class="btn btn-primary" href="/CadastroEmpresa" target="_blank">Abrir Cadastro</a>
                 </p>
             </section>
             <section class="col-md-4" aria-labelledby="menuAssociados">
@@ -25,7 +26,7 @@
                     Clique para ter acesso ao cadastro de Associados, nele é possível realizar consultas, inclusões e alterações.
                 </p>
                 <p>
-                    <a class="btn btn-primary" href="/CadastroAssociado">Abrir Cadastro</a>
+                    <a class="btn btn-primary" href="/CadastroAssociado" target="_blank">Abrir Cadastro</a>
                 </p>
             </section>
             <section class="col-md-4" aria-labelledby="menuAPI">

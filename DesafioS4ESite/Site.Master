@@ -66,14 +66,7 @@
         </div>
     </form>
     <asp:PlaceHolder runat="server">
-
-       <%-- <hr />
-
-        <div class="text-center">
-            <p>&copy; <%: DateTime.Now.Year %> - Italo Douglas Vasconcelos de Alencar</p>
-        </div>--%>
-
-
+        <%: Scripts.Render("~/Scripts/bootstrap.js") %>
     </asp:PlaceHolder>
 </body>
 </html>

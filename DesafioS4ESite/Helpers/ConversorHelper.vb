@@ -19,4 +19,26 @@ Public Class ConversorHelper
         End Try
     End Function
 
+    Public Shared Function ConverterStringParaDateTime(ByVal data As String) As DateTime
+
+        Dim dataValida As New DateTime
+
+        Try
+            If String.IsNullOrEmpty(data) Then
+                Return New DateTime(1, 1, 1)
+            End If
+
+            If Not String.IsNullOrEmpty(data) Then
+                Date.TryParse(data, dataValida)
+            End If
+
+            Return dataValida.ToString("yyyy-MM-dd")
+
+        Catch ex As Exception
+
+            Return New DateTime(1, 1, 1)
+        End Try
+
+    End Function
+
 End Class
