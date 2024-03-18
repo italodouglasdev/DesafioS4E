@@ -34,7 +34,7 @@
                     Clique para ter acesso ao cadastro de Empresas e Associados via API, nele é possível realizar consultas, inclusões e alterações.
                 </p>
                 <p>
-                    <a class="btn btn-primary" href="/Swagger">Abrir Swagger</a>
+                    <a class="btn btn-primary" href="/Swagger" target="_blank">Abrir Swagger</a>
                 </p>
             </section>
         </div>
