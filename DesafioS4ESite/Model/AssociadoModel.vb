@@ -1,7 +1,7 @@
 ﻿Imports DesafioS4ESite.Enumeradores
 
 ''' <summary>
-''' Classe responsável pelo Negócio da tabela Associados
+''' Classe responsável pelo gerenciamento dos Associados e suas Empresas
 ''' </summary>
 Public Class AssociadoModel
 
@@ -9,7 +9,7 @@ Public Class AssociadoModel
     End Sub
 
     ''' <summary>
-    ''' Instancia um novo objeto da classe AssiciadosModel
+    ''' Instancia um novo objeto
     ''' </summary>
     ''' <param name="id">Id do Associado</param>
     ''' <param name="nome">Nome do Associado</param>
@@ -60,7 +60,7 @@ Public Class AssociadoModel
     ''' Realiza a conversão do objeto Associado da camada de banco de dados para um objeto da camada de negócio
     ''' </summary>
     ''' <param name="AssociadoDb">Objeto Associado do CRUD</param>
-    ''' <returns>Empresa</returns>
+    ''' <returns>AssociadoModel</returns>
     Private Shared Function ConverterParaModelo(associadoDb As DesafioS4EDb.Associados) As AssociadoModel
         Return New AssociadoModel(associadoDb.Id, associadoDb.Nome, associadoDb.Cpf, associadoDb.DataNascimento)
     End Function
@@ -70,7 +70,7 @@ Public Class AssociadoModel
     ''' </summary>
     ''' <param name="AssociadoDb">Objeto Associado do CRUD</param>
     ''' <param name="RetornoDb">Objeto com o retorno da excução da consulta no banco de dados</param>
-    ''' <returns></returns>
+    ''' <returns>AssociadoModel</returns>
     Private Shared Function ConverterParaModelo(associadoDb As DesafioS4EDb.Associados, retornoDb As DesafioS4EDb.SQL.RetornoDb) As (Associado As AssociadoModel, Retorno As RetornoModel)
         Return (New AssociadoModel(associadoDb.Id, associadoDb.Nome, associadoDb.Cpf, associadoDb.DataNascimento), New RetornoModel(retornoDb.Sucesso, retornoDb.Mensagem))
     End Function
@@ -79,7 +79,7 @@ Public Class AssociadoModel
     ''' Realiza a conversão do objeto Associado da camada de negócio para um objeto da camada de banco de dados
     ''' </summary>
     ''' <param name="Model">Objeto Associado do Negócio</param>
-    ''' <returns></returns>
+    ''' <returns>DesafioS4EDb.Associados</returns>
     Private Shared Function ConverterParaBanco(model As AssociadoModel) As DesafioS4EDb.Associados
         Return New DesafioS4EDb.Associados(model.Id, model.Nome, model.Cpf, model.DataNascimento)
     End Function
@@ -386,13 +386,22 @@ Public Class AssociadoModel
 
         If Me.ListaEmpresas IsNot Nothing Then
 
+
             For Each relacaoEmpresaAssociado In Me.ListaEmpresas
 
                 If relacaoEmpresaAssociado.Instrucao = EnumInstrucao.Incluir Then
 
-                    Dim consultaEmpresa = EmpresaModel.Ver(relacaoEmpresaAssociado.Id)
-                    If consultaEmpresa.Retorno.Sucesso = False Then
-                        Return consultaEmpresa.Retorno
+                    Dim ConsultaAssociado = AssociadoModel.Ver(relacaoEmpresaAssociado.Id)
+                    If ConsultaAssociado.Retorno.Sucesso = False Then
+                        ConsultaAssociado.Retorno.Mensagem += $" | Detalhes da Empresa: Id {relacaoEmpresaAssociado.Id}"
+                        Return ConsultaAssociado.Retorno
+                    End If
+
+                    Dim ConsultaEmpresaAssociado = EmpresaAssociadoModel.Ver(Me.Id, relacaoEmpresaAssociado.Id)
+                    If ConsultaEmpresaAssociado.Retorno.Sucesso = True Then
+                        ConsultaEmpresaAssociado.Retorno.Sucesso = False
+                        ConsultaEmpresaAssociado.Retorno.Mensagem = $"Já existe uma relação entro a Empresa e o Associado informados! | Detalhes do Associado: Id {relacaoEmpresaAssociado.Id}"
+                        Return ConsultaEmpresaAssociado.Retorno
                     End If
 
                 Else
@@ -419,16 +428,38 @@ Public Class AssociadoModel
 
             For Each relacaoEmpresaAssociado In Me.ListaEmpresas
 
-                If relacaoEmpresaAssociado.Instrucao = EnumInstrucao.Incluir Or relacaoEmpresaAssociado.Instrucao = EnumInstrucao.Remover Then
+                If relacaoEmpresaAssociado.Instrucao = EnumInstrucao.Incluir Then
 
-                    Dim consultaEmpresa = EmpresaModel.Ver(relacaoEmpresaAssociado.Id)
-                    If consultaEmpresa.Retorno.Sucesso = False Then
-                        Return consultaEmpresa.Retorno
+                    Dim ConsultaAssociado = AssociadoModel.Ver(relacaoEmpresaAssociado.Id)
+                    If ConsultaAssociado.Retorno.Sucesso = False Then
+                        ConsultaAssociado.Retorno.Mensagem += $" | Detalhes da Empresa: Id {relacaoEmpresaAssociado.Id}"
+                        Return ConsultaAssociado.Retorno
+                    End If
+
+                    Dim ConsultaEmpresaAssociado = EmpresaAssociadoModel.Ver(Me.Id, relacaoEmpresaAssociado.Id)
+                    If ConsultaEmpresaAssociado.Retorno.Sucesso = True Then
+                        ConsultaEmpresaAssociado.Retorno.Sucesso = False
+                        ConsultaEmpresaAssociado.Retorno.Mensagem = $"Já existe uma relação entro a Empresa e o Associado informados! | Detalhes do Associado: Id {relacaoEmpresaAssociado.Id}"
+                        Return ConsultaEmpresaAssociado.Retorno
+                    End If
+
+                ElseIf relacaoEmpresaAssociado.Instrucao = EnumInstrucao.Remover Then
+
+                    Dim ConsultaAssociado = AssociadoModel.Ver(relacaoEmpresaAssociado.Id)
+                    If ConsultaAssociado.Retorno.Sucesso = False Then
+                        ConsultaAssociado.Retorno.Mensagem += $" | Detalhes da Empresa: Id {relacaoEmpresaAssociado.Id}"
+                        Return ConsultaAssociado.Retorno
+                    End If
+
+                    Dim ConsultaEmpresaAssociado = EmpresaAssociadoModel.Ver(Me.Id, relacaoEmpresaAssociado.Id)
+                    If ConsultaEmpresaAssociado.Retorno.Sucesso = False Then
+                        ConsultaEmpresaAssociado.Retorno.Mensagem += $" | Detalhes da Empresa: Id {relacaoEmpresaAssociado.Id}"
+                        Return ConsultaEmpresaAssociado.Retorno
                     End If
 
                 Else
 
-                    Return New RetornoModel(False, "Na alteração de Associados só é possível [Adicionar] ou [Remover] Empresas!")
+                    Return New RetornoModel(False, "Na alteração de Associados só é possível [Adicionar] ou [Remover] Associados!")
 
                 End If
 

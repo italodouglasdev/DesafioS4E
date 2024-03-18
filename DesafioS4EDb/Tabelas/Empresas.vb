@@ -21,9 +21,25 @@ Public Class Empresas
         Me.Cnpj = cnpj
     End Sub
 
+    ''' <summary>
+    ''' Id do Associado
+    ''' </summary>
+    ''' <returns></returns>
     Property Id As Integer
+
+    ''' <summary>
+    ''' Nome do Associado
+    ''' </summary>
+    ''' <returns></returns>
     Property Nome As String
+
+    ''' <summary>
+    ''' CNPJ do Associado
+    ''' </summary>
+    ''' <returns></returns>
     Property Cnpj As String
+
+
 
 
     ''' <summary>

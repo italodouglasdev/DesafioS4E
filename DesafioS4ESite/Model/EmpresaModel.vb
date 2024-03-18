@@ -1,166 +1,241 @@
 ﻿Imports DesafioS4EDb.SQL
 Imports DesafioS4ESite.Enumeradores
 
-
+''' <summary>
+''' Classe responsável pelo gerenciamento das Empresas e seus Associados
+''' </summary>
 Public Class EmpresaModel
 
     Public Sub New()
     End Sub
 
+    ''' <summary>
+    ''' Instancia um novo objeto
+    ''' </summary>
+    ''' <param name="id">Id da Empresa</param>
+    ''' <param name="nome">Nome da Empresa</param>
+    ''' <param name="cnpj">CNPJ da Empresa</param>
     Public Sub New(id As Integer, nome As String, cnpj As String)
         Me.Id = id
         Me.Nome = nome
         Me.Cnpj = cnpj
     End Sub
 
+    ''' <summary>
+    ''' Id do Associado
+    ''' </summary>
+    ''' <returns></returns>
     Property Id As Integer
+
+    ''' <summary>
+    ''' Nome do Associado
+    ''' </summary>
+    ''' <returns></returns>
     Property Nome As String
+
+    ''' <summary>
+    ''' CNPJ do Associado
+    ''' </summary>
+    ''' <returns></returns>
     Property Cnpj As String
+
+    ''' <summary>
+    ''' Lista de Associados relacionadas a Empresa 
+    ''' </summary>
+    ''' <returns></returns>
     Property ListaAssociados As List(Of RelacaoEmpresaAssociadoModel)
 
 
+
+    ''' <summary>
+    ''' Realiza a conversão do objeto Empresa da camada de banco de dados para um objeto da camada de negócio
+    ''' </summary>
+    ''' <param name="EmpresaDb">Objeto Empresa do CRUD</param>
+    ''' <returns>EmpresaModel</returns>
     Private Shared Function ConverterParaModelo(empresaDb As DesafioS4EDb.Empresas) As EmpresaModel
         Return New EmpresaModel(empresaDb.Id, empresaDb.Nome, empresaDb.Cnpj)
     End Function
 
+    ''' <summary>
+    ''' Realiza a conversão do objeto Empresa da camada de banco de dados para um objeto da camada de negócio, com retorno do banco da consulta SQL
+    ''' </summary>
+    ''' <param name="empresaDb">Objeto Empresa do CRUD</param>
+    ''' <param name="RetornoDb">Objeto com o retorno da excução da consulta no banco de dados</param>
+    ''' <returns>EmpresaModel</returns>
     Private Shared Function ConverterParaModelo(empresaDb As DesafioS4EDb.Empresas, retornoDb As DesafioS4EDb.SQL.RetornoDb) As (Empresa As EmpresaModel, Retorno As RetornoModel)
         Return (New EmpresaModel(empresaDb.Id, empresaDb.Nome, empresaDb.Cnpj), New RetornoModel(retornoDb.Sucesso, retornoDb.Mensagem))
     End Function
 
+    ''' <summary>
+    ''' Realiza a conversão do objeto Empresa da camada de negócio para um objeto da camada de banco de dados
+    ''' </summary>
+    ''' <param name="Model">Objeto Empresa do Negócio</param>
+    ''' <returns>DesafioS4EDb.Empresas</returns>
     Private Shared Function ConverterParaBanco(model As EmpresaModel) As DesafioS4EDb.Empresas
         Return New DesafioS4EDb.Empresas(model.Id, model.Nome, model.Cnpj)
     End Function
 
 
+
+    ''' <summary>
+    ''' Obtém uma Empresa pelo Id
+    ''' </summary>
+    ''' <param name="id">Id da Empresa</param>
+    ''' <returns>Tupla (Empresa As EmpresaModel, Retorno As RetornoModel)</returns>
     Public Shared Function Ver(id As Integer) As (Empresa As EmpresaModel, Retorno As RetornoModel)
 
-        Dim ConsultaDb = DesafioS4EDb.Empresas.Select(id)
+        Dim consultaDb = DesafioS4EDb.Empresas.Select(id)
 
-        Dim ResultadoValidacao = ValidarVer(ConsultaDb.EmpresaDb.Id)
-        If ResultadoValidacao.Sucesso = False Then
-            Return (ConverterParaModelo(ConsultaDb.EmpresaDb), ResultadoValidacao)
+        Dim resultadoValidacao = ValidarVer(consultaDb.EmpresaDb.Id)
+        If resultadoValidacao.Sucesso = False Then
+            Return (ConverterParaModelo(consultaDb.EmpresaDb), resultadoValidacao)
         End If
 
-        Dim Model = ConverterParaModelo(ConsultaDb.EmpresaDb, ConsultaDb.RetornoDb)
+        Dim model = ConverterParaModelo(consultaDb.EmpresaDb, consultaDb.RetornoDb)
 
-        Model.Empresa.ListaAssociados = RelacaoEmpresaAssociadoModel.VerTodos(ConsultaDb.EmpresaDb.Id, EnumTipoRelacao.EmpresasDoAssociado)
+        model.Empresa.ListaAssociados = RelacaoEmpresaAssociadoModel.VerTodos(consultaDb.EmpresaDb.Id, EnumTipoRelacao.AssociadosDaEmpresa)
 
-        Return Model
+        Return model
 
     End Function
 
-
+    ''' <summary>
+    ''' Obtém uma Empresa pelo CNPJ
+    ''' </summary>
+    ''' <param name="cnpj">CNPJ da Empresa</param>
+    ''' <returns>Tupla (Empresa As EmpresaModel, Retorno As RetornoModel)</returns>
     Public Shared Function Ver(cnpj As String) As (Empresa As EmpresaModel, Retorno As RetornoModel)
 
-        Dim ConsultaDb = DesafioS4EDb.Empresas.Select(cnpj)
+        Dim consultaDb = DesafioS4EDb.Empresas.Select(cnpj)
 
-        Dim ResultadoValidacao = ValidarVer(ConsultaDb.EmpresaDb.Id)
-        If ResultadoValidacao.Sucesso = False Then
-            Return (ConverterParaModelo(ConsultaDb.EmpresaDb), ResultadoValidacao)
+        Dim resultadoValidacao = ValidarVer(consultaDb.EmpresaDb.Id)
+        If resultadoValidacao.Sucesso = False Then
+            Return (ConverterParaModelo(consultaDb.EmpresaDb), resultadoValidacao)
         End If
 
-        Dim Model = ConverterParaModelo(ConsultaDb.EmpresaDb, ConsultaDb.RetornoDb)
+        Dim model = ConverterParaModelo(consultaDb.EmpresaDb, consultaDb.RetornoDb)
 
-        Model.Empresa.ListaAssociados = RelacaoEmpresaAssociadoModel.VerTodos(ConsultaDb.EmpresaDb.Id, EnumTipoRelacao.EmpresasDoAssociado)
+        model.Empresa.ListaAssociados = RelacaoEmpresaAssociadoModel.VerTodos(consultaDb.EmpresaDb.Id, EnumTipoRelacao.AssociadosDaEmpresa)
 
-        Return Model
+        Return model
 
     End Function
 
+    ''' <summary>
+    ''' Obtém uma lista de Empresas
+    ''' </summary>
+    ''' <param name="FiltroCNPJ">Filtro de CNPJ (Opcional)</param>
+    ''' <param name="FiltroNome">Filtro de Nome (Opcional)</param>
+    ''' <returns>Tupla (ListaEmpresas As List(Of EmpresaModel), Retorno As RetornoModel)</returns>
     Public Shared Function VerTodos(Optional FiltroCNPJ As String = "", Optional FiltroNome As String = "") As (ListaEmpresas As List(Of EmpresaModel), Retorno As RetornoModel)
 
-        Dim ConsultaDb = DesafioS4EDb.Empresas.SelectAll(FiltroCNPJ, FiltroNome)
+        Dim consultaDb = DesafioS4EDb.Empresas.SelectAll(FiltroCNPJ, FiltroNome)
 
         Dim listaEmpresasModel = New List(Of EmpresaModel)
 
-        Dim ResultadoValidacao = ValidarTodos(ConsultaDb.ListaEmpresasDb.Count())
-        If ResultadoValidacao.Sucesso = False Then
-            Return (listaEmpresasModel, ResultadoValidacao)
+        Dim resultadoValidacao = ValidarTodos(consultaDb.ListaEmpresasDb.Count())
+        If resultadoValidacao.Sucesso = False Then
+            Return (listaEmpresasModel, resultadoValidacao)
         End If
 
-        For Each empresaDb In ConsultaDb.ListaEmpresasDb
+        For Each empresaDb In consultaDb.ListaEmpresasDb
 
-            Dim Empresa = ConverterParaModelo(empresaDb)
+            Dim empresa = ConverterParaModelo(empresaDb)
 
-            Empresa.ListaAssociados = RelacaoEmpresaAssociadoModel.VerTodos(empresaDb.Id, EnumTipoRelacao.EmpresasDoAssociado)
+            empresa.ListaAssociados = RelacaoEmpresaAssociadoModel.VerTodos(empresaDb.Id, EnumTipoRelacao.AssociadosDaEmpresa)
 
-            listaEmpresasModel.Add(Empresa)
+            listaEmpresasModel.Add(empresa)
 
         Next
 
-        Return (listaEmpresasModel, New RetornoModel(ConsultaDb.RetornoDb.Sucesso, ConsultaDb.RetornoDb.Mensagem))
+        Return (listaEmpresasModel, New RetornoModel(consultaDb.RetornoDb.Sucesso, consultaDb.RetornoDb.Mensagem))
 
     End Function
 
+    ''' <summary>
+    ''' Cadastra uma nova Empresa
+    ''' </summary>
+    ''' <returns>Tupla (Empresa As EmpresaModel, Retorno As RetornoModel)</returns>
     Public Function Cadastrar() As (Empresa As EmpresaModel, Retorno As RetornoModel)
 
-        Dim ResultadoValidacao = ValidarCadastro()
+        Dim resultadoValidacao = ValidarCadastro()
 
-        If ResultadoValidacao.Sucesso = False Then
-            Return (Me, ResultadoValidacao)
+        If resultadoValidacao.Sucesso = False Then
+            Return (Me, resultadoValidacao)
         End If
 
         Dim empresaDb = ConverterParaBanco(Me)
 
-        Dim ConsultaDb = empresaDb.Insert()
+        Dim consultaDb = empresaDb.Insert()
 
-        If ConsultaDb.RetornoDb.Sucesso And ConsultaDb.EmpresaDb.Id > 0 And Me.ListaAssociados.Any = True Then
-            Dim listaEmpresasAssociadosDb = EmpresaAssociadoModel.ConverterParaListaBanco(EnumTipoRelacao.AssociadosDaEmpresa, ConsultaDb.EmpresaDb.Id, Me.ListaAssociados)
-            ConsultaDb = ConsultaDb.EmpresaDb.Update(listaEmpresasAssociadosDb)
+        If consultaDb.RetornoDb.Sucesso And consultaDb.EmpresaDb.Id > 0 And Me.ListaAssociados.Any = True Then
+            Dim listaEmpresasAssociadosDb = EmpresaAssociadoModel.ConverterParaListaBanco(EnumTipoRelacao.AssociadosDaEmpresa, consultaDb.EmpresaDb.Id, Me.ListaAssociados)
+            consultaDb = consultaDb.EmpresaDb.Update(listaEmpresasAssociadosDb)
         End If
 
-        Dim Model = ConverterParaModelo(ConsultaDb.EmpresaDb, ConsultaDb.RetornoDb)
+        Dim model = ConverterParaModelo(consultaDb.EmpresaDb, consultaDb.RetornoDb)
 
-        Model.Empresa.ListaAssociados = RelacaoEmpresaAssociadoModel.VerTodos(ConsultaDb.EmpresaDb.Id, EnumTipoRelacao.EmpresasDoAssociado)
+        model.Empresa.ListaAssociados = RelacaoEmpresaAssociadoModel.VerTodos(consultaDb.EmpresaDb.Id, EnumTipoRelacao.AssociadosDaEmpresa)
 
-        Return Model
+        Return model
 
     End Function
 
+    ''' <summary>
+    ''' Atualiza uma Empresa
+    ''' </summary>
+    ''' <returns>Tupla (Empresa As EmpresaModel, Retorno As RetornoModel)</returns>
     Public Function Atualizar() As (Empresa As EmpresaModel, Retorno As RetornoModel)
 
-        Dim ResultadoValidacao = ValidarAtualizar()
+        Dim resultadoValidacao = ValidarAtualizar()
 
-        If ResultadoValidacao.Sucesso = False Then
-            Return (Me, ResultadoValidacao)
+        If resultadoValidacao.Sucesso = False Then
+            Return (Me, resultadoValidacao)
         End If
 
         Dim empresaDb = ConverterParaBanco(Me)
 
         Dim listaEmpresasAssociadosDb = EmpresaAssociadoModel.ConverterParaListaBanco(EnumTipoRelacao.AssociadosDaEmpresa, Me.Id, Me.ListaAssociados)
 
-        Dim ConsultaDb = empresaDb.Update(listaEmpresasAssociadosDb)
+        Dim consultaDb = empresaDb.Update(listaEmpresasAssociadosDb)
 
-        Dim Model = ConverterParaModelo(ConsultaDb.EmpresaDb, ConsultaDb.RetornoDb)
+        Dim model = ConverterParaModelo(consultaDb.EmpresaDb, consultaDb.RetornoDb)
 
-        Model.Empresa.ListaAssociados = RelacaoEmpresaAssociadoModel.VerTodos(ConsultaDb.EmpresaDb.Id, EnumTipoRelacao.EmpresasDoAssociado)
+        model.Empresa.ListaAssociados = RelacaoEmpresaAssociadoModel.VerTodos(consultaDb.EmpresaDb.Id, EnumTipoRelacao.EmpresasDoAssociado)
 
-        Return Model
+        Return model
 
     End Function
 
-
+    ''' <summary>
+    ''' Exclui uma Empresa
+    ''' </summary>
+    ''' <returns>Tupla (Empresa As EmpresaModel, Retorno As RetornoModel)</returns>
     Public Function Excluir() As (Empresa As EmpresaModel, Retorno As RetornoModel)
 
-        Dim ResultadoValidacao = ValidarExcluir()
+        Dim resultadoValidacao = ValidarExcluir()
 
-        If ResultadoValidacao.Sucesso = False Then
-            Return (Me, ResultadoValidacao)
+        If resultadoValidacao.Sucesso = False Then
+            Return (Me, resultadoValidacao)
         End If
 
         Dim empresaDb = ConverterParaBanco(Me)
 
-        Dim ConsultaEmpresasAssociadosDb = DesafioS4EDb.EmpresasAssociados.SelectAll(Me.Id, 0)
+        Dim consultaEmpresasAssociadosDb = DesafioS4EDb.EmpresasAssociados.SelectAll(Me.Id, 0)
 
-        Dim ConsultaDb = empresaDb.Delete(ConsultaEmpresasAssociadosDb.ListaEmpresaAssociadosDb)
+        Dim consultaDb = empresaDb.Delete(consultaEmpresasAssociadosDb.ListaEmpresaAssociadosDb)
 
-        Return ConverterParaModelo(ConsultaDb.EmpresaDb, ConsultaDb.RetornoDb)
+        Return ConverterParaModelo(consultaDb.EmpresaDb, consultaDb.RetornoDb)
 
     End Function
 
 
 
-
+    ''' <summary>
+    ''' Realiza a validação da Empresa ao ver
+    ''' </summary>
+    ''' <param name="Id">Id da Empresa</param>
+    ''' <returns>RetornoModel</returns>
     Private Shared Function ValidarVer(Id As String) As RetornoModel
 
         If Id = 0 Then
@@ -171,9 +246,14 @@ Public Class EmpresaModel
 
     End Function
 
-    Private Shared Function ValidarTodos(QuantidadeRegistros As Integer) As RetornoModel
+    ''' <summary>
+    ''' Realiza a validação da Empresa ao ver todos
+    ''' </summary>
+    ''' <param name="QuantidadeRegistros">Quantidade de registros na lista</param>
+    ''' <returns>RetornoModel</returns>
+    Private Shared Function ValidarTodos(quantidadeRegistros As Integer) As RetornoModel
 
-        If QuantidadeRegistros = 0 Then
+        If quantidadeRegistros = 0 Then
             Return New RetornoModel(False, $"Não foi possível localizar as Empresas!")
         End If
 
@@ -181,6 +261,10 @@ Public Class EmpresaModel
 
     End Function
 
+    ''' <summary>
+    ''' Realiza a validação da Empresa ao Cadastrar
+    ''' </summary>
+    ''' <returns>RetornoModel</returns>
     Public Function ValidarCadastro() As RetornoModel
 
         If Me.Id > 0 Then
@@ -199,7 +283,7 @@ Public Class EmpresaModel
             Return New RetornoModel(False, "O CNPJ informado é inválido!")
         End If
 
-        Dim ConsultaEmpresa = EmpresaModel.Ver(Me.Cnpj)
+        Dim consultaEmpresa = EmpresaModel.Ver(Me.Cnpj)
         If ConsultaEmpresa.Retorno.Sucesso = True Then
             Return New RetornoModel(False, "O CNPJ informado já possui um cadastro!")
         End If
@@ -212,7 +296,7 @@ Public Class EmpresaModel
             Return New RetornoModel(False, "O Nome deve conter no máximo 200 caracteres!")
         End If
 
-        Dim ValidacaoAssociadosDaEmpresa = Me.ValidarListaDeAssociadosNoCadastro()
+        Dim validacaoAssociadosDaEmpresa = Me.ValidarListaDeAssociadosNoCadastro()
         If ValidacaoAssociadosDaEmpresa.Sucesso = False Then
             Return ValidacaoAssociadosDaEmpresa
         End If
@@ -221,6 +305,10 @@ Public Class EmpresaModel
 
     End Function
 
+    ''' <summary>
+    ''' Realiza a validação da Empresa ao Atualizar
+    ''' </summary>
+    ''' <returns>RetornoModel</returns>
     Public Function ValidarAtualizar() As RetornoModel
 
         If Me.Id = 0 Then
@@ -239,7 +327,7 @@ Public Class EmpresaModel
             Return New RetornoModel(False, "O CNPJ informado é inválido!")
         End If
 
-        Dim ConsultaEmpresa = EmpresaModel.Ver(Me.Cnpj)
+        Dim consultaEmpresa = EmpresaModel.Ver(Me.Cnpj)
         If ConsultaEmpresa.Retorno.Sucesso = True And ConsultaEmpresa.Empresa.Id <> Me.Id Then
             Return New RetornoModel(False, "O CNPJ informado já possui um cadastro!")
         End If
@@ -252,7 +340,7 @@ Public Class EmpresaModel
             Return New RetornoModel(False, "O Nome deve conter no máximo 200 caracteres!")
         End If
 
-        Dim ValidacaoAssociadosDaEmpresa = Me.ValidarListaDeAssociadosNaAtualizacao()
+        Dim validacaoAssociadosDaEmpresa = Me.ValidarListaDeAssociadosNaAtualizacao()
         If ValidacaoAssociadosDaEmpresa.Sucesso = False Then
             Return ValidacaoAssociadosDaEmpresa
         End If
@@ -261,6 +349,10 @@ Public Class EmpresaModel
 
     End Function
 
+    ''' <summary>
+    ''' Realiza a validação da Empresa ao Excluir
+    ''' </summary>
+    ''' <returns>RetornoModel</returns>
     Public Function ValidarExcluir() As RetornoModel
 
         If Me.Id = 0 Then
@@ -271,26 +363,28 @@ Public Class EmpresaModel
 
     End Function
 
-
-
+    ''' <summary>
+    ''' Realiza a validação lista de Associados relacionadas com a Empresa ao Cadastrar
+    ''' </summary>
+    ''' <returns>RetornoModel</returns>
     Private Function ValidarListaDeAssociadosNoCadastro() As RetornoModel
 
         If Me.ListaAssociados IsNot Nothing Then
 
-            For Each Relacao In Me.ListaAssociados
+            For Each relacaoEmpresaAssociado In Me.ListaAssociados
 
-                If Relacao.Instrucao = EnumInstrucao.Incluir Then
+                If relacaoEmpresaAssociado.Instrucao = EnumInstrucao.Incluir Then
 
-                    Dim ConsultaAssociado = AssociadoModel.Ver(Relacao.Id)
+                    Dim ConsultaAssociado = AssociadoModel.Ver(relacaoEmpresaAssociado.Id)
                     If ConsultaAssociado.Retorno.Sucesso = False Then
-                        ConsultaAssociado.Retorno.Mensagem += $" | Detalhes do Associado: Id {Relacao.Id}"
+                        ConsultaAssociado.Retorno.Mensagem += $" | Detalhes do Associado: Id {relacaoEmpresaAssociado.Id}"
                         Return ConsultaAssociado.Retorno
                     End If
 
-                    Dim ConsultaEmpresaAssociado = EmpresaAssociadoModel.Ver(Me.Id, Relacao.Id)
+                    Dim ConsultaEmpresaAssociado = EmpresaAssociadoModel.Ver(Me.Id, relacaoEmpresaAssociado.Id)
                     If ConsultaEmpresaAssociado.Retorno.Sucesso = True Then
                         ConsultaEmpresaAssociado.Retorno.Sucesso = False
-                        ConsultaEmpresaAssociado.Retorno.Mensagem = $"Já existe uma relação entro a Empresa e o Associado informados! | Detalhes do Associado: Id {Relacao.Id}"
+                        ConsultaEmpresaAssociado.Retorno.Mensagem = $"Já existe uma relação entro a Empresa e o Associado informados! | Detalhes do Associado: Id {relacaoEmpresaAssociado.Id}"
                         Return ConsultaEmpresaAssociado.Retorno
                     End If
 
@@ -308,38 +402,42 @@ Public Class EmpresaModel
 
     End Function
 
+    ''' <summary>
+    ''' Realiza a validação lista de Associados relacionadas com a Empresa ao Atualizar
+    ''' </summary>
+    ''' <returns>RetornoModel</returns>
     Private Function ValidarListaDeAssociadosNaAtualizacao() As RetornoModel
 
         If Me.ListaAssociados IsNot Nothing Then
 
-            For Each Relacao In Me.ListaAssociados
+            For Each relacaoEmpresaAssociado In Me.ListaAssociados
 
-                If Relacao.Instrucao = EnumInstrucao.Incluir Then
+                If relacaoEmpresaAssociado.Instrucao = EnumInstrucao.Incluir Then
 
-                    Dim ConsultaAssociado = AssociadoModel.Ver(Relacao.Id)
+                    Dim ConsultaAssociado = AssociadoModel.Ver(relacaoEmpresaAssociado.Id)
                     If ConsultaAssociado.Retorno.Sucesso = False Then
-                        ConsultaAssociado.Retorno.Mensagem += $" | Detalhes do Associado: Id {Relacao.Id}"
+                        ConsultaAssociado.Retorno.Mensagem += $" | Detalhes do Associado: Id {relacaoEmpresaAssociado.Id}"
                         Return ConsultaAssociado.Retorno
                     End If
 
-                    Dim ConsultaEmpresaAssociado = EmpresaAssociadoModel.Ver(Me.Id, Relacao.Id)
+                    Dim ConsultaEmpresaAssociado = EmpresaAssociadoModel.Ver(Me.Id, relacaoEmpresaAssociado.Id)
                     If ConsultaEmpresaAssociado.Retorno.Sucesso = True Then
                         ConsultaEmpresaAssociado.Retorno.Sucesso = False
-                        ConsultaEmpresaAssociado.Retorno.Mensagem = $"Já existe uma relação entro a Empresa e o Associado informados! | Detalhes do Associado: Id {Relacao.Id}"
+                        ConsultaEmpresaAssociado.Retorno.Mensagem = $"Já existe uma relação entro a Empresa e o Associado informados! | Detalhes do Associado: Id {relacaoEmpresaAssociado.Id}"
                         Return ConsultaEmpresaAssociado.Retorno
                     End If
 
-                ElseIf Relacao.Instrucao = EnumInstrucao.Remover Then
+                ElseIf relacaoEmpresaAssociado.Instrucao = EnumInstrucao.Remover Then
 
-                    Dim ConsultaAssociado = AssociadoModel.Ver(Relacao.Id)
+                    Dim ConsultaAssociado = AssociadoModel.Ver(relacaoEmpresaAssociado.Id)
                     If ConsultaAssociado.Retorno.Sucesso = False Then
-                        ConsultaAssociado.Retorno.Mensagem += $" | Detalhes do Associado: Id {Relacao.Id}"
+                        ConsultaAssociado.Retorno.Mensagem += $" | Detalhes do Associado: Id {relacaoEmpresaAssociado.Id}"
                         Return ConsultaAssociado.Retorno
                     End If
 
-                    Dim ConsultaEmpresaAssociado = EmpresaAssociadoModel.Ver(Me.Id, Relacao.Id)
+                    Dim ConsultaEmpresaAssociado = EmpresaAssociadoModel.Ver(Me.Id, relacaoEmpresaAssociado.Id)
                     If ConsultaEmpresaAssociado.Retorno.Sucesso = False Then
-                        ConsultaEmpresaAssociado.Retorno.Mensagem += $" | Detalhes do Associado: Id {Relacao.Id}"
+                        ConsultaEmpresaAssociado.Retorno.Mensagem += $" | Detalhes do Associado: Id {relacaoEmpresaAssociado.Id}"
                         Return ConsultaEmpresaAssociado.Retorno
                     End If
 
