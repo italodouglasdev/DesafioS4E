@@ -10,8 +10,8 @@
         </section>
 
         <div class="row">
-            <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-                <h2 id="gettingStartedTitle">Empresas</h2>
+            <section class="col-md-4" aria-labelledby="menuEmpresas">
+                <h2 id="menuEmpresas">Empresas</h2>
                 <p>
                     Clique para ter acesso ao cadastro de Empresas, nele é possível realizar consultas, inclusões e alterações.
                 </p>
@@ -19,8 +19,8 @@
                     <a class="btn btn-primary" href="/Empresas">Abrir Cadastro</a>
                 </p>
             </section>
-            <section class="col-md-4" aria-labelledby="librariesTitle">
-                <h2 id="librariesTitle">Associados</h2>
+            <section class="col-md-4" aria-labelledby="menuAssociados">
+                <h2 id="menuAssociados">Associados</h2>
                 <p>
                     Clique para ter acesso ao cadastro de Associados, nele é possível realizar consultas, inclusões e alterações.
                 </p>
@@ -28,8 +28,8 @@
                     <a class="btn btn-primary" href="/Associados">Abrir Cadastro</a>
                 </p>
             </section>
-            <section class="col-md-4" aria-labelledby="hostingTitle">
-                <h2 id="hostingTitle">API</h2>
+            <section class="col-md-4" aria-labelledby="menuAPI">
+                <h2 id="menuAPI">API</h2>
                 <p>
                     Clique para ter acesso ao cadastro de Empresas e Associados via API, nele é possível realizar consultas, inclusões e alterações.
                 </p>
