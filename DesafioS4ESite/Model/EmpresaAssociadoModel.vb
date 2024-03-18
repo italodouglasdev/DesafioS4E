@@ -72,18 +72,20 @@ Public Class EmpresaAssociadoModel
 
         Dim listaEmpresasAssociadosDb = New List(Of DesafioS4EDb.EmpresasAssociados)
 
-        If tipoRelacao = EnumTipoRelacao.EmpresasDoAssociado Then
+        If listaRelacaoEmpresasAssociados IsNot Nothing Then
+            If tipoRelacao = EnumTipoRelacao.EmpresasDoAssociado Then
 
-            For Each relacao In listaRelacaoEmpresasAssociados
-                listaEmpresasAssociadosDb.Add(New DesafioS4EDb.EmpresasAssociados(relacao.Id, idPrincipal, relacao.Instrucao))
-            Next
+                For Each relacao In listaRelacaoEmpresasAssociados
+                    listaEmpresasAssociadosDb.Add(New DesafioS4EDb.EmpresasAssociados(relacao.Id, idPrincipal, relacao.Instrucao))
+                Next
 
-        ElseIf tipoRelacao = EnumTipoRelacao.AssociadosDaEmpresa Then
+            ElseIf tipoRelacao = EnumTipoRelacao.AssociadosDaEmpresa Then
 
-            For Each relacao In listaRelacaoEmpresasAssociados
-                listaEmpresasAssociadosDb.Add(New DesafioS4EDb.EmpresasAssociados(idPrincipal, relacao.Id, relacao.Instrucao))
-            Next
+                For Each relacao In listaRelacaoEmpresasAssociados
+                    listaEmpresasAssociadosDb.Add(New DesafioS4EDb.EmpresasAssociados(idPrincipal, relacao.Id, relacao.Instrucao))
+                Next
 
+            End If
         End If
 
         Return listaEmpresasAssociadosDb

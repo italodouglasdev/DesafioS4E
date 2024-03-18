@@ -16,7 +16,7 @@
                     Clique para ter acesso ao cadastro de Empresas, nele é possível realizar consultas, inclusões e alterações.
                 </p>
                 <p>
-                    <a class="btn btn-primary" href="/Empresas">Abrir Cadastro</a>
+                    <a class="btn btn-primary" href="/CadastroEmpresa">Abrir Cadastro</a>
                 </p>
             </section>
             <section class="col-md-4" aria-labelledby="menuAssociados">
@@ -25,7 +25,7 @@
                     Clique para ter acesso ao cadastro de Associados, nele é possível realizar consultas, inclusões e alterações.
                 </p>
                 <p>
-                    <a class="btn btn-primary" href="/Associados">Abrir Cadastro</a>
+                    <a class="btn btn-primary" href="/CadastroAssociado">Abrir Cadastro</a>
                 </p>
             </section>
             <section class="col-md-4" aria-labelledby="menuAPI">

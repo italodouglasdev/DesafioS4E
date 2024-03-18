@@ -149,8 +149,8 @@
     <Import Include="System.Web.UI.HtmlControls" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Empresas.aspx" />
-    <Content Include="Contact.aspx" />
+    <Content Include="CadastroAssociado.aspx" />
+    <Content Include="CadastroEmpresa.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -231,24 +231,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.vb" />
-    <Compile Include="Controllers\AssociadosController.vb" />
-    <Compile Include="Empresas.aspx.designer.vb">
-      <DependentUpon>Empresas.aspx</DependentUpon>
+    <Compile Include="CadastroAssociado.aspx.designer.vb">
+      <DependentUpon>CadastroAssociado.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Empresas.aspx.vb">
-      <DependentUpon>Empresas.aspx</DependentUpon>
+    <Compile Include="CadastroAssociado.aspx.vb">
+      <DependentUpon>CadastroAssociado.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="CadastroEmpresa.aspx.designer.vb">
+      <DependentUpon>CadastroEmpresa.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastroEmpresa.aspx.vb">
+      <DependentUpon>CadastroEmpresa.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Controllers\AssociadosController.vb" />
     <Compile Include="App_Start\BundleConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
     <Compile Include="App_Start\WebApiConfig.vb" />
-    <Compile Include="Contact.aspx.designer.vb">
-      <DependentUpon>Contact.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Contact.aspx.vb">
-      <DependentUpon>Contact.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
     <Compile Include="Controllers\EmpresasController.vb" />
     <Compile Include="Default.aspx.vb">
       <SubType>ASPXCodeBehind</SubType>
@@ -262,6 +262,7 @@
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ConversorHelper.vb" />
     <Compile Include="Helpers\ValidadorHelper.vb" />
     <Compile Include="Model\EmpresaAssociadoModel.vb" />
     <Compile Include="Model\AssociadoModel.vb" />

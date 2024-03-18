@@ -128,7 +128,7 @@ Namespace SQL
             End If
 
             If mensagem.Contains("FK_EmpresasAssociados_Empresas") Then
-                Return "Não foi possível realizar a exclusão da Empresa, pois ela possui vínculo com um ou mais EmpresaAssociados!"
+                Return "Não foi possível realizar a exclusão da Empresa, pois ela possui vínculo com um ou mais Associados!"
             End If
 
             If mensagem.Contains("FK_EmpresasAssociados_Associados") Then

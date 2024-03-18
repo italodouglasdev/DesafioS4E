@@ -168,7 +168,7 @@ Public Class EmpresaModel
 
         Dim consultaDb = empresaDb.Insert()
 
-        If consultaDb.RetornoDb.Sucesso And consultaDb.EmpresaDb.Id > 0 And Me.ListaAssociados.Any = True Then
+        If consultaDb.RetornoDb.Sucesso And consultaDb.EmpresaDb.Id > 0 And Me.ListaAssociados IsNot Nothing Then
             Dim listaEmpresasAssociadosDb = EmpresaAssociadoModel.ConverterParaListaBanco(EnumTipoRelacao.AssociadosDaEmpresa, consultaDb.EmpresaDb.Id, Me.ListaAssociados)
             consultaDb = consultaDb.EmpresaDb.Update(listaEmpresasAssociadosDb)
         End If
@@ -284,7 +284,7 @@ Public Class EmpresaModel
         End If
 
         Dim consultaEmpresa = EmpresaModel.Ver(Me.Cnpj)
-        If ConsultaEmpresa.Retorno.Sucesso = True Then
+        If consultaEmpresa.Retorno.Sucesso = True Then
             Return New RetornoModel(False, "O CNPJ informado já possui um cadastro!")
         End If
 
@@ -297,8 +297,8 @@ Public Class EmpresaModel
         End If
 
         Dim validacaoAssociadosDaEmpresa = Me.ValidarListaDeAssociadosNoCadastro()
-        If ValidacaoAssociadosDaEmpresa.Sucesso = False Then
-            Return ValidacaoAssociadosDaEmpresa
+        If validacaoAssociadosDaEmpresa.Sucesso = False Then
+            Return validacaoAssociadosDaEmpresa
         End If
 
         Return New RetornoModel(True, "Operação realizada com Sucesso!")
@@ -328,7 +328,7 @@ Public Class EmpresaModel
         End If
 
         Dim consultaEmpresa = EmpresaModel.Ver(Me.Cnpj)
-        If ConsultaEmpresa.Retorno.Sucesso = True And ConsultaEmpresa.Empresa.Id <> Me.Id Then
+        If consultaEmpresa.Retorno.Sucesso = True And consultaEmpresa.Empresa.Id <> Me.Id Then
             Return New RetornoModel(False, "O CNPJ informado já possui um cadastro!")
         End If
 
@@ -341,8 +341,8 @@ Public Class EmpresaModel
         End If
 
         Dim validacaoAssociadosDaEmpresa = Me.ValidarListaDeAssociadosNaAtualizacao()
-        If ValidacaoAssociadosDaEmpresa.Sucesso = False Then
-            Return ValidacaoAssociadosDaEmpresa
+        If validacaoAssociadosDaEmpresa.Sucesso = False Then
+            Return validacaoAssociadosDaEmpresa
         End If
 
         Return New RetornoModel(True, "Operação realizada com Sucesso!")
@@ -357,6 +357,11 @@ Public Class EmpresaModel
 
         If Me.Id = 0 Then
             Return New RetornoModel(False, "O Id da Empresa deve ser informado!")
+        End If
+
+        Dim consultaRelacao = EmpresaAssociadoModel.Ver(Me.Id, 0)
+        If consultaRelacao.Retorno.Sucesso = True And consultaRelacao.EmpresaAssociado.IdEmpresa = Me.Id Then
+            Return New RetornoModel(False, "Não foi possível realizar a exclusão da Empresa, pois ela possui vínculo com um ou mais Associados!")
         End If
 
         Return New RetornoModel(True, "Operação realizada com Sucesso!")

@@ -254,7 +254,7 @@ Namespace SQL
 
             If String.IsNullOrEmpty(Where) Then
                 Dim Id = ObtenhaValorDoId(_Objeto)
-                Where = $"WHERE [Id] = '{ObtenhaValorDoId(_Objeto)}"
+                Where = $"WHERE [Id] = '{ObtenhaValorDoId(_Objeto)}'"
             End If
 
             Script.Append($"DELETE FROM {ObtenhaNomeTabela(_Objeto)} {Where};")

@@ -4,7 +4,7 @@
 
 <html lang="pt">
 <head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Desafio S4E</title>
@@ -13,12 +13,13 @@
         <%: Scripts.Render("~/bundles/modernizr") %>
     </asp:PlaceHolder>
 
-    <webopt:bundlereference runat="server" path="~/Content/css" />
+    <webopt:BundleReference runat="server" Path="~/Content/css" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
 </head>
 <body>
     <form runat="server">
+
         <asp:ScriptManager runat="server">
             <Scripts>
                 <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
@@ -40,7 +41,7 @@
 
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
             <div class="container">
-              <%--  <a class="navbar-brand" runat="server" href="~/">Desafio S4E</a>--%>
+                <%--  <a class="navbar-brand" runat="server" href="~/">Desafio S4E</a>--%>
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Alternar a navegação" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -48,8 +49,8 @@
                 <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/">Início</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Empresas">Empresas</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Associados">Associados</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/CadastroEmpresa">Empresas</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/CadastroAssociado">Associados</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Swagger">Swagger</a></li>
                     </ul>
                 </div>
@@ -58,14 +59,21 @@
         <div class="container body-content">
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
-            <hr />
+            <%-- <hr />
             <footer>
                 <p>&copy; <%: DateTime.Now.Year %> - Italo Douglas Vasconcelos de Alencar</p>
-            </footer>
+            </footer>--%>
         </div>
     </form>
     <asp:PlaceHolder runat="server">
-        <%: Scripts.Render("~/Scripts/bootstrap.js") %>
+
+       <%-- <hr />
+
+        <div class="text-center">
+            <p>&copy; <%: DateTime.Now.Year %> - Italo Douglas Vasconcelos de Alencar</p>
+        </div>--%>
+
+
     </asp:PlaceHolder>
 </body>
 </html>

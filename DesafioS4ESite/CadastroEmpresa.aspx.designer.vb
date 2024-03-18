@@ -11,7 +11,7 @@ Option Strict On
 Option Explicit On
 
 
-Partial Public Class Empresas
+Partial Public Class CadastroEmpresa
 
     '''<summary>
     '''Controle ErrorMessage.
@@ -59,20 +59,11 @@ Partial Public Class Empresas
     Protected WithEvents txtNome As Global.System.Web.UI.WebControls.TextBox
 
     '''<summary>
-    '''Controle btnSalvar.
+    '''Controle ListaEmpresasItens.
     '''</summary>
     '''<remarks>
     '''Campo gerado automaticamente.
     '''Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
     '''</remarks>
-    Protected WithEvents btnSalvar As Global.System.Web.UI.WebControls.Button
-
-    '''<summary>
-    '''Controle gvEmpresas.
-    '''</summary>
-    '''<remarks>
-    '''Campo gerado automaticamente.
-    '''Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-    '''</remarks>
-    Protected WithEvents gvEmpresas As Global.System.Web.UI.WebControls.GridView
+    Protected WithEvents ListaEmpresasItens As Global.System.Web.UI.HtmlControls.HtmlGenericControl
 End Class
