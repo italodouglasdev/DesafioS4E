@@ -329,7 +329,7 @@ Public Class EmpresaModel
                         Return ConsultaEmpresaAssociado.Retorno
                     End If
 
-                ElseIf Relacao.Instrucao = EnumInstrucao.Excluir Then
+                ElseIf Relacao.Instrucao = EnumInstrucao.Remover Then
 
                     Dim ConsultaAssociado = AssociadoModel.Ver(Relacao.Id)
                     If ConsultaAssociado.Retorno.Sucesso = False Then

@@ -1,5 +1,14 @@
-﻿Public Class ValidadorHelper
+﻿
+''' <summary>
+''' Classe responsável realizar gerais validações nos dados
+''' </summary>
+Public Class ValidadorHelper
 
+    ''' <summary>
+    ''' Realiza a validação de um CPF
+    ''' </summary>
+    ''' <param name="cpf">CPF</param>
+    ''' <returns>Retorna True ou False</returns>
     Public Shared Function ValidarCPF(cpf As String) As Boolean
         If String.IsNullOrEmpty(cpf) Then
             Return False
@@ -49,6 +58,12 @@
         Return cpf.EndsWith(digito)
     End Function
 
+
+    ''' <summary>
+    ''' Realiza a validação de um CNPJ 
+    ''' </summary>
+    ''' <param name="cnpj">CNPJ</param>
+    ''' <returns>Retorna True ou False</returns>
     Public Shared Function ValidarCNPJ(cnpj As String) As Boolean
         Dim multiplicador1 As Integer() = New Integer(11) {5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2}
         Dim multiplicador2 As Integer() = New Integer(12) {6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2}

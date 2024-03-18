@@ -1,77 +1,121 @@
 ﻿Imports System.Web.Http
 
 Namespace Controllers
+
+    ''' <summary>
+    ''' Cadastro de Associados
+    ''' </summary>
     Public Class AssociadosController
         Inherits ApiController
 
+        ''' <summary>
+        ''' Obtém uma lista de Associados
+        ''' </summary>
+        ''' <param name="FiltroCPF">Filtro de CPF (Opcional)</param>
+        ''' <param name="FiltroNome">Filtro de Nome (Opcional)</param>
+        ''' <param name="FiltroDataNascimentoInicio">Filtro de Data de Nascimento Incício (Opcional)</param>
+        ''' <param name="FiltroDataNascimentoFim">Filtro de Data de Nascimento Fim (Opcional)</param>
+        ''' <returns>Lista de Associados</returns>
+        Public Function GetAssociados(Optional filtroCPF As String = "", Optional filtroNome As String = "", Optional filtroDataNascimentoInicio As Date = Nothing, Optional filtroDataNascimentoFim As Date = Nothing) As Object
 
-        Public Function GetAssociados(Optional FiltroCPF As String = "", Optional FiltroNome As String = "", Optional FiltroDataNascimentoInicio As Date = Nothing, Optional FiltroDataNascimentoFim As Date = Nothing) As Object
+            Dim consulta = AssociadoModel.VerTodos(filtroCPF, filtroNome, filtroDataNascimentoInicio, filtroDataNascimentoFim)
 
-            Dim Consulta = AssociadoModel.VerTodos(FiltroCPF, FiltroNome, FiltroDataNascimentoInicio, FiltroDataNascimentoFim)
-
-            If Consulta.Retorno.Sucesso = True Then
-                Return Consulta.ListaAssociados
+            If consulta.Retorno.Sucesso = True Then
+                Return consulta.ListaAssociados
             Else
-                Return BadRequest(Consulta.Retorno.Mensagem)
+                Return BadRequest(consulta.Retorno.Mensagem)
             End If
 
         End Function
 
+        ''' <summary>
+        ''' Obtém um Associado
+        ''' </summary>
+        ''' <param name="id">Id do Associado</param>
+        ''' <returns>Associado</returns>
         Public Function GetAssociado(id As Integer) As Object
 
-            Dim Consulta = AssociadoModel.Ver(id)
+            Dim consulta = AssociadoModel.Ver(id)
 
-            If Consulta.Retorno.Sucesso = True Then
-                Return Consulta.Associado
+            If consulta.Retorno.Sucesso = True Then
+                Return consulta.Associado
             Else
-                Return BadRequest(Consulta.Retorno.Mensagem)
+                Return BadRequest(consulta.Retorno.Mensagem)
             End If
 
         End Function
 
+        ''' <summary>
+        ''' Cadastra um novo Associado e suas relações com as Empresas
+        ''' </summary>
+        ''' <param name="Associado">Objeto do tipo Associado</param>
+        ''' <returns>Associado</returns>
+        Public Function PostAssociado(associado As AssociadoModel) As Object
 
-        Public Function PostAssociado(Associado As AssociadoModel) As Object
+            If associado Is Nothing Then
+                Return BadRequest("Objeto inválido no body da requisição!")
+            End If
 
-            Dim Consulta = Associado.Cadastrar()
+            Dim consulta = associado.Cadastrar()
 
-            If Consulta.Retorno.Sucesso = True Then
-                Return Consulta.Associado
+            If consulta.Retorno.Sucesso = True Then
+                Return consulta.Associado
             Else
-                Return BadRequest(Consulta.Retorno.Mensagem)
+                Return BadRequest(consulta.Retorno.Mensagem)
             End If
 
         End Function
 
-        Public Function PutAssociado(Associado As AssociadoModel) As Object
+        ''' <summary>
+        ''' Atualiza o cadastro do Associado e suas relações com as Empresas
+        ''' </summary>
+        ''' <param name="Associado">Objeto do tipo Associado</param>
+        ''' <returns>Associado</returns>
+        Public Function PutAssociado(associado As AssociadoModel) As Object
 
-            Dim Consulta = Associado.Atualizar()
+            If associado Is Nothing Then
+                Return BadRequest("Objeto inválido no body da requisição!")
+            End If
 
-            If Consulta.Retorno.Sucesso = True Then
-                Return Consulta.Associado
+            Dim consulta = AssociadoModel.Ver(associado.Id)
+
+            If consulta.Retorno.Sucesso = False Then
+                Return BadRequest(consulta.Retorno.Mensagem)
+            End If
+
+            consulta = consulta.Associado.Atualizar()
+
+            If consulta.Retorno.Sucesso = True Then
+                Return consulta.Associado
             Else
-                Return BadRequest(Consulta.Retorno.Mensagem)
+                Return BadRequest(consulta.Retorno.Mensagem)
             End If
 
         End Function
 
+        ''' <summary>
+        ''' Deleta o cadastro do Associado e suas relações com as Empresas
+        ''' </summary>
+        ''' <param name="id">Id do Associado</param>
+        ''' <returns>Associado</returns>
         Public Function DeleteAssociado(id As Integer) As Object
 
-            Dim Consulta = AssociadoModel.Ver(id)
+            Dim consulta = AssociadoModel.Ver(id)
 
-            If Consulta.Retorno.Sucesso = False Then
-                Return BadRequest(Consulta.Retorno.Mensagem)
+            If consulta.Retorno.Sucesso = False Then
+                Return BadRequest(consulta.Retorno.Mensagem)
             End If
 
+            consulta = consulta.Associado.Excluir()
 
-            Consulta = Consulta.Associado.Excluir()
-
-            If Consulta.Retorno.Sucesso = True Then
-                Return Consulta.Retorno.Mensagem
+            If consulta.Retorno.Sucesso = True Then
+                Return consulta.Retorno.Mensagem
             Else
-                Return BadRequest(Consulta.Retorno.Mensagem)
+                Return BadRequest(consulta.Retorno.Mensagem)
             End If
 
         End Function
 
     End Class
+
 End Namespace

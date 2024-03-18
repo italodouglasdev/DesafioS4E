@@ -1,5 +1,8 @@
 ﻿Imports DesafioS4ESite.Enumeradores
 
+''' <summary>
+''' Classe responsável pelo Negócio da tabela Associados
+''' </summary>
 Public Class AssociadoModel
 
     Public Sub New()
@@ -31,6 +34,9 @@ Public Class AssociadoModel
     Private Shared Function ConverterParaBanco(model As AssociadoModel) As DesafioS4EDb.Associados
         Return New DesafioS4EDb.Associados(model.Id, model.Nome, model.Cpf, model.DataNascimento)
     End Function
+
+
+
 
 
     Public Shared Function Ver(id As Integer) As (Associado As AssociadoModel, Retorno As RetornoModel)
@@ -91,7 +97,6 @@ Public Class AssociadoModel
 
     End Function
 
-
     Public Function Cadastrar() As (Associado As AssociadoModel, Retorno As RetornoModel)
 
         Dim ResultadoValidacao = ValidarCadastro()
@@ -117,7 +122,6 @@ Public Class AssociadoModel
 
     End Function
 
-
     Public Function Atualizar() As (Associado As AssociadoModel, Retorno As RetornoModel)
 
         Dim ResultadoValidacao = ValidarAtualizar()
@@ -139,7 +143,6 @@ Public Class AssociadoModel
         Return Model
 
     End Function
-
 
     Public Function Excluir() As (Associado As AssociadoModel, Retorno As RetornoModel)
 
@@ -272,9 +275,6 @@ Public Class AssociadoModel
 
     End Function
 
-
-
-
     Private Function ValidarListaDeEmpresasNoCadastro() As RetornoModel
 
         If Me.ListaEmpresas IsNot Nothing Then
@@ -308,7 +308,7 @@ Public Class AssociadoModel
 
             For Each Relacao In Me.ListaEmpresas
 
-                If Relacao.Instrucao = EnumInstrucao.Incluir Or Relacao.Instrucao = EnumInstrucao.Excluir Then
+                If Relacao.Instrucao = EnumInstrucao.Incluir Or Relacao.Instrucao = EnumInstrucao.Remover Then
 
                     Dim ConsultaEmpresa = EmpresaModel.Ver(Relacao.Id)
                     If ConsultaEmpresa.Retorno.Sucesso = False Then
@@ -328,5 +328,7 @@ Public Class AssociadoModel
         Return New RetornoModel(True, "Operação realizada com Sucesso!")
 
     End Function
+
+
 
 End Class

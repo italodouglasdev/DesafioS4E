@@ -1,25 +1,39 @@
 ﻿Imports System.Web.Http
 
 Namespace Controllers
+
+    ''' <summary>
+    ''' Cadastro de Empresas
+    ''' </summary>
     Public Class EmpresasController
         Inherits ApiController
 
-        Public Function GetEmpresas(Optional FiltroCNPJ As String = "", Optional FiltroNome As String = "") As Object
+        ''' <summary>
+        ''' Obtém uma lista de Empresas
+        ''' </summary>
+        ''' <param name="FiltroCNPJ">Filtro de CNPJ (Opcional)</param>
+        ''' <param name="FiltroNome">Filtro de Nome (Opcional)</param>
+        ''' <returns>Lista de Empresas</returns>
+        Public Function GetEmpresas(Optional filtroCNPJ As String = "", Optional filtroNome As String = "") As Object
 
-            Dim Consulta = EmpresaModel.VerTodos(FiltroCNPJ, FiltroNome)
+            Dim consulta = EmpresaModel.VerTodos(filtroCNPJ, filtroNome)
 
-            If Consulta.Retorno.Sucesso = True Then
-                Return Consulta.ListaEmpresas
+            If consulta.Retorno.Sucesso = True Then
+                Return consulta.ListaEmpresas
             Else
-                Return BadRequest(Consulta.Retorno.Mensagem)
+                Return BadRequest(consulta.Retorno.Mensagem)
             End If
 
         End Function
 
-        'Ajustar esse ponto: As Object
+        ''' <summary>
+        ''' Obtém uma Empresa
+        ''' </summary>
+        ''' <param name="id">Id da Empresa</param>
+        ''' <returns>Empresa</returns>
         Public Function GetEmpresa(id As Integer)
 
-            Dim Consulta = EmpresaModel.Ver(id)
+            Dim consulta = EmpresaModel.Ver(id)
 
             If Consulta.Retorno.Sucesso = True Then
                 Return Consulta.Empresa
@@ -29,10 +43,18 @@ Namespace Controllers
 
         End Function
 
-
+        ''' <summary>
+        ''' Cadastra uma nova Empresa e suas relações com os Associados
+        ''' </summary>
+        ''' <param name="empresa">Objeto do tipo Empresa</param>
+        ''' <returns>Empresa</returns>
         Public Function PostEmpresa(empresa As EmpresaModel) As Object
 
-            Dim Consulta = empresa.Cadastrar()
+            If empresa Is Nothing Then
+                Return BadRequest("Objeto inválido no body da requisição!")
+            End If
+
+            Dim consulta = empresa.Cadastrar()
 
             If Consulta.Retorno.Sucesso = True Then
                 Return Consulta.Empresa
@@ -42,26 +64,45 @@ Namespace Controllers
 
         End Function
 
+        ''' <summary>
+        ''' Atualiza uma nova Empresa e suas relações com os Associados
+        ''' </summary>
+        ''' <param name="empresa">Objeto do tipo Empresa</param>
+        ''' <returns>Empresa</returns>
         Public Function PutEmpresa(empresa As EmpresaModel) As Object
 
-            Dim Consulta = empresa.Atualizar()
+            If empresa Is Nothing Then
+                Return BadRequest("Objeto inválido no body da requisição!")
+            End If
 
-            If Consulta.Retorno.Sucesso = True Then
-                Return Consulta.Empresa
+            Dim consulta = EmpresaModel.Ver(empresa.Id)
+
+            If consulta.Retorno.Sucesso = False Then
+                Return BadRequest(consulta.Retorno.Mensagem)
+            End If
+
+            consulta = consulta.Empresa.Atualizar()
+
+            If consulta.Retorno.Sucesso = True Then
+                Return consulta.Empresa
             Else
-                Return BadRequest(Consulta.Retorno.Mensagem)
+                Return BadRequest(consulta.Retorno.Mensagem)
             End If
 
         End Function
 
+        ''' <summary>
+        ''' Deleta uma nova Empresa e suas relações com os Associados
+        ''' </summary>
+        ''' <param name="id">Id da Empresa</param>
+        ''' <returns>Empresa</returns>
         Public Function DeleteEmpresa(id As Integer) As Object
 
-            Dim Consulta = EmpresaModel.Ver(id)
+            Dim consulta = EmpresaModel.Ver(id)
 
             If Consulta.Retorno.Sucesso = False Then
                 Return BadRequest(Consulta.Retorno.Mensagem)
             End If
-
 
             Consulta = Consulta.Empresa.Excluir()
 
