@@ -116,7 +116,12 @@ Namespace SQL
         End Function
 
 
-        Private Shared Function TratarMensagemExcecao(mensagem As String)
+        ''' <summary>
+        ''' Realiza o tratamento das mensagens de erro retornadas do banco de dados.
+        ''' </summary>
+        ''' <param name="mensagem">Mensagem de erro que vem do banco de dados</param>
+        ''' <returns>Retorna uma String</returns>
+        Private Shared Function TratarMensagemExcecao(mensagem As String) As String
 
             If mensagem.Contains("PK_EmpresasAssociados") Then
                 Return "Já existe uma relação entro a Empresa e o Associado informados!"

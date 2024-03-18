@@ -1,5 +1,4 @@
-﻿
-Imports DesafioS4ESite.Enumeradores
+﻿Imports DesafioS4ESite.Enumeradores
 
 Public Class AssociadoModel
 
@@ -34,7 +33,6 @@ Public Class AssociadoModel
     End Function
 
 
-
     Public Shared Function Ver(id As Integer) As (Associado As AssociadoModel, Retorno As RetornoModel)
 
         Dim ConsultaDb = DesafioS4EDb.Associados.Select(id)
@@ -44,7 +42,11 @@ Public Class AssociadoModel
             Return (ConverterParaModelo(ConsultaDb.AssociadoDb), ResultadoValidacao)
         End If
 
-        Return ConverterParaModelo(ConsultaDb.AssociadoDb, ConsultaDb.RetornoDb)
+        Dim Model = ConverterParaModelo(ConsultaDb.AssociadoDb, ConsultaDb.RetornoDb)
+
+        Model.Associado.ListaEmpresas = RelacaoEmpresaAssociadoModel.VerTodos(ConsultaDb.AssociadoDb.Id, EnumTipoRelacao.AssociadosDaEmpresa)
+
+        Return Model
 
     End Function
 
@@ -57,7 +59,11 @@ Public Class AssociadoModel
             Return (ConverterParaModelo(ConsultaDb.AssociadoDb), ResultadoValidacao)
         End If
 
-        Return ConverterParaModelo(ConsultaDb.AssociadoDb, ConsultaDb.RetornoDb)
+        Dim Model = ConverterParaModelo(ConsultaDb.AssociadoDb, ConsultaDb.RetornoDb)
+
+        Model.Associado.ListaEmpresas = RelacaoEmpresaAssociadoModel.VerTodos(ConsultaDb.AssociadoDb.Id, EnumTipoRelacao.AssociadosDaEmpresa)
+
+        Return Model
 
     End Function
 
@@ -73,12 +79,18 @@ Public Class AssociadoModel
         End If
 
         For Each AssociadoDb In ConsultaDb.ListaAssociadosDb
-            listaAssociadosModel.Add(ConverterParaModelo(AssociadoDb))
+
+            Dim Associado = ConverterParaModelo(AssociadoDb)
+
+            Associado.ListaEmpresas = RelacaoEmpresaAssociadoModel.VerTodos(AssociadoDb.Id, EnumTipoRelacao.AssociadosDaEmpresa)
+
+            listaAssociadosModel.Add(Associado)
         Next
 
         Return (listaAssociadosModel, New RetornoModel(ConsultaDb.RetornoDb.Sucesso, ConsultaDb.RetornoDb.Mensagem))
 
     End Function
+
 
     Public Function Cadastrar() As (Associado As AssociadoModel, Retorno As RetornoModel)
 
@@ -92,9 +104,19 @@ Public Class AssociadoModel
 
         Dim ConsultaDb = AssociadoDb.Insert()
 
-        Return ConverterParaModelo(ConsultaDb.AssociadoDb, ConsultaDb.RetornoDb)
+        If ConsultaDb.RetornoDb.Sucesso And ConsultaDb.AssociadoDb.Id > 0 And Me.ListaEmpresas.Any = True Then
+            Dim listaEmpresasAssociadosDb = EmpresaAssociadoModel.ConverterParaListaBanco(EnumTipoRelacao.AssociadosDaEmpresa, ConsultaDb.AssociadoDb.Id, Me.ListaEmpresas)
+            ConsultaDb = ConsultaDb.AssociadoDb.Update(listaEmpresasAssociadosDb)
+        End If
+
+        Dim Model = ConverterParaModelo(ConsultaDb.AssociadoDb, ConsultaDb.RetornoDb)
+
+        Model.Associado.ListaEmpresas = RelacaoEmpresaAssociadoModel.VerTodos(ConsultaDb.AssociadoDb.Id, EnumTipoRelacao.AssociadosDaEmpresa)
+
+        Return Model
 
     End Function
+
 
     Public Function Atualizar() As (Associado As AssociadoModel, Retorno As RetornoModel)
 
@@ -106,9 +128,15 @@ Public Class AssociadoModel
 
         Dim AssociadoDb = ConverterParaBanco(Me)
 
-        Dim ConsultaDb = AssociadoDb.Update()
+        Dim listaEmpresasAssociadosDb = EmpresaAssociadoModel.ConverterParaListaBanco(EnumTipoRelacao.AssociadosDaEmpresa, Me.Id, Me.ListaEmpresas)
 
-        Return ConverterParaModelo(ConsultaDb.AssociadoDb, ConsultaDb.RetornoDb)
+        Dim ConsultaDb = AssociadoDb.Update(listaEmpresasAssociadosDb)
+
+        Dim Model = ConverterParaModelo(ConsultaDb.AssociadoDb, ConsultaDb.RetornoDb)
+
+        Model.Associado.ListaEmpresas = RelacaoEmpresaAssociadoModel.VerTodos(ConsultaDb.AssociadoDb.Id, EnumTipoRelacao.AssociadosDaEmpresa)
+
+        Return Model
 
     End Function
 
@@ -123,7 +151,9 @@ Public Class AssociadoModel
 
         Dim AssociadoDb = ConverterParaBanco(Me)
 
-        Dim ConsultaDb = AssociadoDb.Delete()
+        Dim ConsultaEmpresasAssociadosDb = DesafioS4EDb.EmpresasAssociados.SelectAll(0, Me.Id)
+
+        Dim ConsultaDb = AssociadoDb.Delete(ConsultaEmpresasAssociadosDb.ListaEmpresaAssociadosDb)
 
         Return ConverterParaModelo(ConsultaDb.AssociadoDb, ConsultaDb.RetornoDb)
 

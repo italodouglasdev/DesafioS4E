@@ -1,6 +1,4 @@
-﻿Imports System.Data.SqlTypes
-Imports System.Reflection
-Imports System.Security
+﻿Imports System.Reflection
 Imports System.Text
 
 Namespace SQL
@@ -61,7 +59,7 @@ Namespace SQL
         End Function
 
         ''' <summary>
-        ''' Obtém a lista de nomes de colunas para o VALUES com base no Onjeto informado
+        ''' Obtém a lista de nomes de colunas para o VALUES com base no Objeto informado
         ''' </summary>
         ''' <param name="_Objeto">Objeto que será usado como base para obter os nomes das colunas da tabela do banco de dados</param>
         ''' <returns>Nomes das Colunas em formato de texto</returns>
@@ -76,11 +74,11 @@ Namespace SQL
                     Dim valor = ObtenhaValorDaPropriedade(_Objeto, Propriedade)
 
                     If Tipo = "DateTime" Then
-                        valor = Util.FormatDataTime_yyyyMMddHHmm(valor)
+                        valor = Helpers.FormatacaoHelper.FormatarDataTime_yyyyMMddHHmm(valor)
                     ElseIf Tipo = "Decimal" Then
-                        valor = Util.FormatMoney(valor)
+                        valor = Helpers.FormatacaoHelper.FormatarMoney(valor)
                     ElseIf Tipo = "Double" Then
-                        valor = Util.FormatDouble(valor)
+                        valor = Helpers.FormatacaoHelper.FormatarDouble(valor)
                     End If
 
                     If Tipo = "Double" OrElse Tipo = "Decimal" Then
@@ -99,7 +97,7 @@ Namespace SQL
         End Function
 
         ''' <summary>
-        ''' Obtém a lista de nomes de colunas para o UPDATE com base no Onjeto informado
+        ''' Obtém a lista de nomes de colunas para o UPDATE com base no Objeto informado
         ''' </summary>
         ''' <param name="_Objeto">Objeto que será usado como base para obter os nomes das colunas da tabela do banco de dados</param>
         ''' <returns>Nomes das Colunas em formato de texto</returns>
@@ -113,11 +111,11 @@ Namespace SQL
                     Dim valor = ObtenhaValorDaPropriedade(_Objeto, Propriedade)
 
                     If Tipo = "DateTime" Then
-                        valor = Util.FormatDataTime_yyyyMMddHHmm(valor)
+                        valor = Helpers.FormatacaoHelper.FormatarDataTime_yyyyMMddHHmm(valor)
                     ElseIf Tipo = "Decimal" Then
-                        valor = Util.FormatMoney(valor)
+                        valor = Helpers.FormatacaoHelper.FormatarMoney(valor)
                     ElseIf Tipo = "Double" Then
-                        valor = Util.FormatDouble(valor)
+                        valor = Helpers.FormatacaoHelper.FormatarDouble(valor)
                     End If
 
                     If Tipo = "Double" OrElse Tipo = "Decimal" Then
@@ -170,10 +168,6 @@ Namespace SQL
         End Function
 
 
-        ''  Friend Shared Function Obtenha(Of T As New)(Comando As String) As (Objeto As T, Retorno As Retorno)
-        ''Dim objeto As New T()
-        ''
-
         ''' <summary>
         ''' Gera comando Select Por Id genérico para qualquer tabela
         ''' </summary>
@@ -208,6 +202,7 @@ Namespace SQL
         ''' Gera comando Insert genérico para qualquer tabela
         ''' </summary>
         ''' <param name="_Objeto">Objeto que será usado como base para gerar o script desejado </param>
+        ''' <param name="GerarOutPut"> Deve gerar ou não o OUTPUT para que o Obejeto seja retornado ou não</param>
         ''' <returns>Retorna um texto no formato: INSERT INTO [Tabela] ([Coluna1] ... [Coluna(n)]) OUTPUT (Inserted.[Coluna1] ... Inserted.[Coluna(n)]) VALUES ('Valor1' ... 'Valor(n)')</returns>
         Friend Shared Function GerarInsert(ByVal _Objeto As Object, Optional GerarOutPut As Boolean = True) As String
 
@@ -229,6 +224,7 @@ Namespace SQL
         ''' Gera comando Update genérico para qualquer tabela
         ''' </summary>
         ''' <param name="_Objeto">Objeto que será usado como base para gerar o script desejado </param>
+        ''' <param name="GerarOutPut"> Deve gerar ou não o OUTPUT para que o Obejeto seja retornado ou não</param>
         ''' <returns>Retorna um texto no formato: UPDATE [Tabela] SET ([Coluna1] = 'Valor1', ... [Coluna(n)] = 'Valor(n)') WHERE [Id] = 0 </returns>
         Friend Shared Function GerarUpdate(ByVal _Objeto As Object, Optional GerarOutPut As Boolean = True) As String
 
@@ -250,6 +246,7 @@ Namespace SQL
         ''' Gera comando Delete genérico para qualquer tabela
         ''' </summary>
         ''' <param name="_Objeto">Objeto que será usado como base para gerar o script desejado </param>
+        ''' <param name="Where">Cláusula Where para realizar o filtro no Script</param>
         ''' <returns>Retorna um texto no formato: DELETE FROM [Tabela] WHERE [Id] = 0 </returns>
         Friend Shared Function GerarDelete(ByVal _Objeto As Object, Optional Where As String = "") As String
 
@@ -266,8 +263,11 @@ Namespace SQL
 
         End Function
 
-
-
+        ''' <summary>
+        ''' Método responsável por ecapsular os Scripts para que caso haja algum erro na excução, tudo seja desfeito
+        ''' </summary>
+        ''' <param name="listaDeScripts">Lista de scripts para encapsular </param>
+        ''' <returns>Retorna uma string com a Transaction e os scripts encapsulados </returns>
         Friend Shared Function GerarTransaction(listaDeScripts As StringBuilder) As String
 
             Dim sqlTransaction = New StringBuilder()
@@ -285,6 +285,11 @@ Namespace SQL
 
         End Function
 
+        ''' <summary>
+        ''' Obtém a lista de propriedades do objeto informado
+        ''' </summary>
+        ''' <param name="_Objeto">Objeto para obtenção das propriedades</param>
+        ''' <returns>Lista de Propriedades do Objeto</returns>
         Private Shared Function ObtenhaPropriedadesDoObjeto(_Objeto As Object) As List(Of PropertyInfo)
 
             Dim PropriedadesDoObjeto = _Objeto.GetType().GetProperties().ToList()

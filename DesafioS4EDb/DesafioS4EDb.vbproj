@@ -67,10 +67,11 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EmpresasAssociados.vb" />
-    <Compile Include="Associados.vb" />
-    <Compile Include="Empresas.vb" />
+    <Compile Include="Tabelas\EmpresasAssociados.vb" />
+    <Compile Include="Tabelas\Associados.vb" />
+    <Compile Include="Tabelas\Empresas.vb" />
     <Compile Include="Enumeradores\EnumInstrucaoDb.vb" />
+    <Compile Include="Helpers\FormatacaoHelper.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -90,7 +91,6 @@
     <Compile Include="SQL\Configuracao.vb" />
     <Compile Include="SQL\RetornoDb.vb" />
     <Compile Include="SQL\Script.vb" />
-    <Compile Include="SQL\Util.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

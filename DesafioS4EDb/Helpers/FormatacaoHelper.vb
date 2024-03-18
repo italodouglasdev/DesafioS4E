@@ -1,9 +1,10 @@
 ﻿
-Namespace SQL
+Namespace Helpers
 
-    Public Class Util
+    Public Class FormatacaoHelper
 
-        Public Shared Function FormatDataTime_yyyyMMddHHmm(ByVal Valor As String) As String
+
+        Public Shared Function FormatarDataTime_yyyyMMddHHmm(ByVal Valor As String) As String
             Dim ValorConvertido As DateTime
             DateTime.TryParse(Valor, ValorConvertido)
 
@@ -14,7 +15,8 @@ Namespace SQL
             Return ValorConvertido.ToString("yyyy-MM-dd HH:mm:ss")
         End Function
 
-        Public Shared Function FormatMoney(ByVal Valor As String) As String
+
+        Public Shared Function FormatarMoney(ByVal Valor As String) As String
             Dim retorno As String = Valor.ToString()
 
             retorno = retorno.Replace(".", "").Replace(",", ".")
@@ -22,13 +24,18 @@ Namespace SQL
             Return retorno
         End Function
 
-        Public Shared Function FormatDouble(ByVal Valor As String) As String
+
+        Public Shared Function FormatarDouble(ByVal Valor As String) As String
             Dim retorno As String = Valor.ToString()
 
             retorno = retorno.Replace(".", "").Replace(",", ".")
 
             Return retorno
         End Function
+
 
     End Class
+
 End Namespace
+
+
