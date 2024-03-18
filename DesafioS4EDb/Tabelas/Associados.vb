@@ -24,10 +24,31 @@ Public Class Associados
     End Sub
 
 
+    ''' <summary>
+    ''' Id do Associado
+    ''' </summary>
+    ''' <returns></returns>
     Property Id As Integer
+
+    ''' <summary>
+    ''' Nome do Associado
+    ''' </summary>
+    ''' <returns></returns>
     Property Nome As String
+
+    ''' <summary>
+    ''' CPF do Associado
+    ''' </summary>
+    ''' <returns></returns>
     Property Cpf As String
+
+    ''' <summary>
+    ''' Data de Nascimento do Associado
+    ''' </summary>
+    ''' <returns></returns>
     Property DataNascimento As DateTime
+
+
 
 
     ''' <summary>
