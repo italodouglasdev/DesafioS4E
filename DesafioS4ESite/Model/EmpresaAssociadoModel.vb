@@ -113,8 +113,6 @@ Public Class EmpresaAssociadoModel
 
     End Function
 
-
-
     ''' <summary>
     ''' Realiza a validação de relação entre Associados e Empresas ao ver
     ''' </summary>

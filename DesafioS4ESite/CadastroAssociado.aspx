@@ -7,7 +7,7 @@
         <section id="AssociadoForm" class="row formulario-centralizado">
             <div class="col-md-8 col-12">
                 <div class="card">
-                    <h5 class="card-header">Cadastro de Associado</h5>
+                    <h5 class="card-header">Cadastro de Associados</h5>
                     <div class="card-body">
 
                         <asp:PlaceHolder runat="server" ID="ErrorMessage" Visible="false">

@@ -228,7 +228,6 @@
             Dim celulaId As New HtmlTableCell()
             Dim celulaCpf As New HtmlTableCell()
             Dim celulaNome As New HtmlTableCell()
-            Dim celulaDataNacimento As New HtmlTableCell()
             Dim celularBtnIncluirRemover As New HtmlTableCell()
 
             celulaId.InnerText = $"{empresa.Id}"
@@ -252,7 +251,6 @@
             novaLinha.Cells.Add(celulaId)
             novaLinha.Cells.Add(celulaCpf)
             novaLinha.Cells.Add(celulaNome)
-            novaLinha.Cells.Add(celulaDataNacimento)
             novaLinha.Cells.Add(celularBtnIncluirRemover)
 
             ListaEmpresasDoAssociadoItens.Controls.Add(novaLinha)

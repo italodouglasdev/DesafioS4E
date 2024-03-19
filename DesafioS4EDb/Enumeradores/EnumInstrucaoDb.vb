@@ -17,7 +17,7 @@ Namespace Enumeradores
         Incluir = 1
 
         ''' <summary>
-        ''' Atualiza um registro
+        ''' Remove um registro
         ''' </summary>
         Remover = 2
 

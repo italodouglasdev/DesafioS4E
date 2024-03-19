@@ -223,6 +223,8 @@ Public Class EmpresaModel
 
         Dim consultaEmpresasAssociadosDb = DesafioS4EDb.EmpresasAssociados.SelectAll(Me.Id, 0)
 
+        consultaEmpresasAssociadosDb.ListaEmpresaAssociadosDb.ForEach(Sub(x) x.Instrucao = DesafioS4EDb.Enumeradores.EnumInstrucaoDb.Remover)
+
         Dim consultaDb = empresaDb.Delete(consultaEmpresasAssociadosDb.ListaEmpresaAssociadosDb)
 
         Return ConverterParaModelo(consultaDb.EmpresaDb, consultaDb.RetornoDb)
@@ -357,11 +359,6 @@ Public Class EmpresaModel
 
         If Me.Id = 0 Then
             Return New RetornoModel(False, "O Id da Empresa deve ser informado!")
-        End If
-
-        Dim consultaRelacao = EmpresaAssociadoModel.Ver(Me.Id, 0)
-        If consultaRelacao.Retorno.Sucesso = True And consultaRelacao.EmpresaAssociado.IdEmpresa = Me.Id Then
-            Return New RetornoModel(False, "Não foi possível realizar a exclusão da Empresa, pois ela possui vínculo com um ou mais Associados!")
         End If
 
         Return New RetornoModel(True, "Operação realizada com Sucesso!")

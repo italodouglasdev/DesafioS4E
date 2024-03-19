@@ -2,7 +2,8 @@
 
     Friend Class Configuracao
 
-        Friend Const STRING_CONEXAO As String = "Initial Catalog=NOME_BANCO; User ID=NOME_USUARIO; Password=SENHA_USUARIO; Data Source=NOME_SERVIDOR"
+        Friend Const STRING_CONEXAO As String = "Initial Catalog=DesafioS4EDb; User ID=caririfest; Password=Y5hAmR9cJNKmGeY; Data Source=localhost"
+
 
     End Class
 

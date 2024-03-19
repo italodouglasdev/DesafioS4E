@@ -143,8 +143,6 @@ Public Class Associados
 
     End Function
 
-
-
     ''' <summary>
     ''' Gerar a cláusula WHERE com base nos parâmetros informados
     ''' </summary>

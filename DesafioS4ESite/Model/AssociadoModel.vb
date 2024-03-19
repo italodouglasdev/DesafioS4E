@@ -235,6 +235,8 @@ Public Class AssociadoModel
 
         Dim consultaEmpresasAssociadosDb = DesafioS4EDb.EmpresasAssociados.SelectAll(0, Me.Id)
 
+        consultaEmpresasAssociadosDb.ListaEmpresaAssociadosDb.ForEach(Sub(x) x.Instrucao = DesafioS4EDb.Enumeradores.EnumInstrucaoDb.Remover)
+
         Dim consultaDb = associadoDb.Delete(consultaEmpresasAssociadosDb.ListaEmpresaAssociadosDb)
 
         Return ConverterParaModelo(consultaDb.AssociadoDb, consultaDb.RetornoDb)
